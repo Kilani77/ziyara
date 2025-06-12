@@ -368,7 +368,7 @@
                     Step 1: Choose a doctor to start your journey.
                 </p>
             }
-            @if (ViewBag.Flow == "guide")
+            else if (ViewBag.Flow == "guide")
             {
                 <h1 class="display-4 fw-bold mb-3">Find Your Perfect Medical Specialist</h1>
                 <p class="lead text-muted mx-auto" style="max-width: 700px;">
