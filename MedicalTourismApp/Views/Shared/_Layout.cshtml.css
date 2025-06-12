@@ -1,0 +1,52 @@
+﻿/* Hero Section */
+.hero-section {
+    background: url('/images/medical-hero.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section .btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.hero-section .btn-outline-light {
+    border-color: white;
+    color: white;
+}
+
+.hero-section .btn-outline-light:hover {
+    background-color: white;
+    color: #007bff;
+}
+
+/* Services Section */
+.services-section .card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.services-section .card:hover {
+    transform: translateY(-10px);
+}
+
+/* Testimonials Section */
+.carousel-item blockquote {
+    font-size: 1.5rem;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+}
+
+/* Call to Action Section */
+.cta-section {
+    margin-top: -50px; /* Overlap with previous section */
+    padding-top: 100px;
+    padding-bottom: 100px;
+}

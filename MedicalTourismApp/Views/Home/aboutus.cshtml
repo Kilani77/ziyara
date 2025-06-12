@@ -1,0 +1,704 @@
+﻿<body>
+    <div class="container-fluid position-relative p-0">
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <a asp-action ="Index" asp-controller="Home" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link active ">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link active ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+                        <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Apartment"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Apartment/Dashboarder">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link active ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Guide"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Guide/Dashboarder">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link active ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Transportation"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Transportation/Dashboarder">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link active ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "nursing")
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Nurse/Dashboarder">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "physical therapy")
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Phsy/Dashboard">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "Alternative medicine")
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Alt/Dashboard">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link active">About</a>
+                        <a asp-action="Appointments" asp-controller="Home" class="nav-item nav-link">Appointments</a>
+
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+            
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link active">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                     
+                        <a class="nav-item nav-link" href="/Identity/Account/Login">Login</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <a href="/Identity/Account/Register" class="btn btn-primary rounded-pill py-2 px-4 center">Register</a>
+                            </div>
+                        </div>
+
+                    }
+                    <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                        <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                    </a>
+                </div>
+
+
+            </div>
+        </nav>
+    </div>
+    <div class="container-fluid bg-primary py-5 mb-5 hero-headerA">
+        <div class="container py-5">
+            <div class="row justify-content-center py-5">
+                <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">About Us</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">About</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" >
+                    <div class="position-relative h-100" >
+                        <img class="img-fluid position-absolute w-100g h-100g" src="~/Home/img/logoTest5.png" alt="" style="object-fit: cover;height: 100px;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
+                    <h1 class="mb-4">Welcome to <span class="text-primary">Ziyara</span></h1>
+                    <p class="mb-3">
+                        Ziyara is your trusted partner in accessing world-class medical care and unforgettable travel experiences in Jordan.
+                        We connect international patients with top-rated healthcare providers, ensuring a smooth and personalized journey.
+                    </p>
+                    <p class="mb-3">
+                        At MediTour Jordan, we believe that healing should go hand in hand with comfort and discovery.
+                        That’s why we’ve designed our platform to simplify every step of your medical tourism experience.
+                    </p>
+                    <p class="mb-4">
+                        From scheduling medical appointments and arranging accommodations to exploring Jordan’s breathtaking cultural and natural landmarks,
+                        Ziyara offers a complete solution tailored to your health and travel needs.
+                    </p>
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Medical Tourism Sites</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Luxury Hotels</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Tourist Attractions</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Professional Guides</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Certified Doctors</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Rent Car</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+    <!-- Service Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Services</h6>
+                <h1 class="mb-5">Our Services</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item rounded pt-3 h-100">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                            <h5>Therapeutic Tours In Jordan</h5>
+                            <p>Rejuvenate with Jordan's healing wonders—Dead Sea, hot springs, and tranquil desert landscapes await.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item rounded pt-3 h-100">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
+                            <h5>Hotel Reservation</h5>
+                            <p>Indulge in luxury stays across Jordan—boutique hotels, serene Dead Sea resorts, and desert retreats</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item rounded pt-3 h-100">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-user text-primary mb-4"></i>
+                            <h5>Guides</h5>
+                            <p>Explore Jordan with local experts—real stories, hidden places, and unforgettable moments in every journey</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="service-item rounded pt-3 h-100">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-user-md text-primary mb-4"></i>
+                            <h5>Jordan's Elite Medical Professionals</h5>
+                            <p>Access Jordan's world-class healthcare network—from specialist consultations to holistic therapies—combining modern medicine with ancient healing traditions for complete wellness during your stay</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item rounded pt-3 h-100">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-car text-primary mb-4"></i>
+                            <h5> Car Rentals </h5>
+                            <p>Make every trip easy and stress-free with clean, reliable rental cars, GPS navigation, insurance, and 24/7 support—perfect for clinic visits, hotel transfers, and sightseeing.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item rounded pt-3 h-100">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
+                            <h5>Nurses</h5>
+                            <p>Professional nursing care services during your stay in Jordan, ensuring comfort and medical support when needed.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item rounded pt-3 h-100">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-home text-primary mb-4"></i>
+                            <h5>Apartment Rental</h5>
+                            <p>Comfortable and fully-equipped apartments for short or long-term stays, offering a home-like experience in Jordan.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="service-item rounded pt-3 h-100">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-calendar text-primary mb-4"></i>
+                            <h5>Event Management</h5>
+                            <p>Comprehensive event planning services for medical conferences, wellness retreats, or special occasions during your visit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        /* Main Contact Section */
+        .contact-section {
+        padding: 5rem 0;
+        }
+        /* image of about Saif */
+        .h-100g {
+        height: auto !important;
+        }
+        .w-100g {
+        width: auto !important;
+        }
+
+        /* Contact Card */
+        .contact-card {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Form Side */
+        .form-side {
+        background-color: #ffffff;
+        padding: 3rem;
+        }
+
+        /* Info Side */
+        .info-side {
+        background: linear-gradient(158deg, #84ba0b, #4eb681);
+        padding: 3rem;
+        color: white;
+        }
+
+        /* Form Elements */
+        .form-control, .form-select {
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+        border-color: #86B817;
+        box-shadow: #26980f;
+        }
+
+        /* Buttons */
+        .btn-primary {
+        background-color: #86B817;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+        background-color: #26980f;
+        transform: translateY(-2px);
+        }
+
+        /* Contact Info Items */
+        .contact-info-item {
+        margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+        font-size: 1.25rem;
+        margin-right: 1rem;
+        color: white;
+        }
+
+        /* Social Icons */
+        .social-icon {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.1);
+        margin-right: 0.75rem;
+        transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+        }
+
+        /* Responsive Adjustments */
+        @@media (max-width: 768px) {
+        .contact-card {
+        flex-direction: column;
+        }
+
+        .form-side, .info-side {
+        padding: 2rem;
+        }
+        }
+
+
+
+        /* Animations */
+        .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @@keyframes fadeInUp {
+        from {
+        opacity: 0;
+        transform: translateY(20px);
+        }
+
+        to {
+        opacity: 1;
+        transform: translateY(0);
+        }
+        }
+    </style>
+
+    <section id="contact-section" class="contact-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Services</h6>
+                    <h1 class="mb-5">Contact Us</h1>
+                    <p class="text-muted">Have questions? We're here to help.</p>
+                </div>
+                <div class="col-lg-12" data-wow-delay="0.3s">
+                    <div class="contact-card d-flex flex-column flex-lg-row fade-in-up">
+                        <!-- Left Side - Contact Form -->
+                        <div class="form-side col-lg-7" >
+                            <form asp-action="AboutUs" method="post">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" name="name" required placeholder="John Doe" >
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" name="email" class="form-control" placeholder="example@email.com" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <select class="form-select" name="subject" id="subject" required>
+                                        <option value="" disabled selected>Select a topic</option>
+                                        <option value="Medical Inquiry">Medical Inquiry</option>
+                                        <option value="Booking Assistance">Booking Assistance</option>
+                                        <option value="General Question">General Question</option>
+                                        <option value="Feedback">Feedback</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="message" class="form-label">Your Message</label>
+                                    <textarea class="form-control" name="message" rows="4" placeholder="How can we help you?" required></textarea>
+                                </div>
+
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        Send Message <i class="fas fa-paper-plane ms-2"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <a href="/Identity/Account/Login?returnUrl=@Url.Action("aboutus","Home")" class="btn btn-primary w-100">
+                                        <i class="fas fa-paper-plane ms-2"></i>Send Message
+                                    </a>
+                                }
+                            </form>
+                            @if (TempData["Message"] != null)
+                            {
+                                <div class="alert alert-success">
+                                    @TempData["Message"]
+                                </div>
+                            }
+                        </div>
+                        <!-- Right Side - Contact Info -->
+                        <div class="info-side col-lg-5 d-flex flex-column">
+                            <div>
+                                <h3 class="mb-4">Contact Information</h3>
+
+                                <div class="d-flex contact-info-item">
+                                    <div>
+                                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Our Location</h5>
+                                        <p class="mb-0">123 Medical Street, Health City<br>Amman, Jordan 12345</p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex contact-info-item">
+                                    <div>
+                                        <i class="fas fa-phone-alt contact-icon"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Call Us</h5>
+                                        <p class="mb-0">+962 7609 8020<br>+962 78115 5052</p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex contact-info-item">
+                                    <div>
+                                        <i class="fas fa-envelope contact-icon"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Email Us</h5>
+                                        <p class="mb-0">
+                                            <br>tripmedical88@gmail.com
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-auto pt-4">
+                                <h5 class="mb-3">Follow Us</h5>
+                                <div class="d-flex">
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form validation
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    if (!form.checkValidity()) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                });
+            }
+
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+    @* <!-- Team Start --> *@
+    @* <div class="container-xxl py-5"> *@
+    @*     <div class="container"> *@
+    @*         <div class="text-center wow fadeInUp" data-wow-delay="0.1s"> *@
+    @*             <h6 class="section-title bg-white text-center text-primary px-3">Travel Guide</h6> *@
+    @*             <h1 class="mb-5">Meet Our Guide</h1> *@
+    @*         </div> *@
+
+    @*         <div class="row g-4"> *@
+    @*             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s"> *@
+    @*                 <div class="team-item"> *@
+    @*                     <div class="overflow-hidden"> *@
+    @*                         <img class="img-fluid" src="img/team-2.jpg" alt=""> *@
+    @*                     </div> *@
+    @*                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;"> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a> *@
+    @*                     </div> *@
+    @*                     <div class="text-center p-4"> *@
+    @*                         <h5 class="mb-0">Full Name</h5> *@
+    @*                         <small>Designation</small> *@
+    @*                     </div> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s"> *@
+    @*                 <div class="team-item"> *@
+    @*                     <div class="overflow-hidden"> *@
+    @*                         <img class="img-fluid" src="img/team-3.jpg" alt=""> *@
+    @*                     </div> *@
+    @*                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;"> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a> *@
+    @*                     </div> *@
+    @*                     <div class="text-center p-4"> *@
+    @*                         <h5 class="mb-0">Full Name</h5> *@
+    @*                         <small>Designation</small> *@
+    @*                     </div> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s"> *@
+    @*                 <div class="team-item"> *@
+    @*                     <div class="overflow-hidden"> *@
+    @*                         <img class="img-fluid" src="img/team-4.jpg" alt=""> *@
+    @*                     </div> *@
+    @*                     <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;"> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a> *@
+    @*                         <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a> *@
+    @*                     </div> *@
+    @*                     <div class="text-center p-4"> *@
+    @*                         <h5 class="mb-0">Full Name</h5> *@
+    @*                         <small>Designation</small> *@
+    @*                     </div> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+    <!-- Team End -->
+    <!-- Back to Top -->
+   
+</body>
+

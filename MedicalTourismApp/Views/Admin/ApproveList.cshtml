@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+
+@{
+    Layout = "_AdminLayout";
+}
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+
+            <div class="header-left">
+                <a href="/Admin/Dashboard" class="logo">
+                    <img src="~/Home/img/logoTest7Hedar-removebg-preview.png" width="35" height="35" alt=""> <span>Ziyara</span>
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="assets/img/user.jpg" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Admin</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        @* <a class="dropdown-item" href="profile.html">My Profile</a>  *@
+                        @* <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>  *@
+                        <a class="dropdown-item" href="/">Home</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li >
+                            <a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="Admin" asp-action="ApproveList"><i class="fa fa-user"></i> <span>Providers</span></a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Users" asp-action="Users"><i class="fa fa-user-o"></i> <span>Users</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="ProviderList"><i class="fa fa-list"></i> <span>Providers List</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="Testimonial"><i class="fa fa-address-card"></i> <span>Testimonial</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="plans"><i class="fa fa-money"></i><span>Manage Plans</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <form asp-action="ApproveList" asp-controller="Admin" method="get">
+                    <div class="row filter-row">
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus">
+                                <label class="focus-label">Provider Name</label>
+                                <input type="text" class="form-control" name="providerName" value="@ViewBag.ProviderName">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus select-focus">
+                                <label class="focus-label">Service Type</label>
+                                <select class="form-control select-focus" name="serviceType">
+                                    <option value="">-- Select --</option>
+                                    @foreach (var type in ViewBag.types)
+                                    {
+                                        <option value="@type" selected="@((string)ViewBag.ServiceType == type ? "selected" : null)">@type</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus select-focus">
+                                <label class="focus-label">Provider Status</label>
+                                <select class="form-control select-focus" name="status">
+                                    <option value="">-- Select --</option>
+                                    <option value="Pending" selected="@((string)ViewBag.Status == "Pending" ? "selected" : null)">Pending</option>
+                                    <option value="Rejected" selected="@((string)ViewBag.Status == "Rejected" ? "selected" : null)">Rejected</option>
+                                    <option value="Blocked" selected="@((string)ViewBag.Status == "Blocked" ? "selected" : null)">Blocked</option>
+                                    <option value="Approved" selected="@((string)ViewBag.Status == "Approved" ? "selected" : null)">Approved</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus">
+                                <label class="focus-label">From</label>
+                                <div>
+                                    <input class="form-control datetimepicker" type="date" name="fromDate" value="@ViewBag.FromDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus">
+                                <label class="focus-label">To</label>
+                                <div >
+                                    <input class="form-control floating datetimepicker" type="date" name="toDate" value="@ViewBag.ToDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <button type="submit" class="btn btn-success btn-block">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered align-middle text-center">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Provider</th>
+                                        <th>Service Type</th>
+                                        <th>Registration Date</th>
+                                        <th>Docs</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var provider in Model)
+                                    {
+                                        <tr>
+                                            <td class="fw-bold">@provider.fullname</td>
+                                            <td>@provider.ServiceType</td>
+                                            <td>@provider.RegistrationTime.ToShortDateString()</td>
+                                            <td>
+                                                <a asp-controller="Admin" asp-action="details" asp-route-id="@provider.Id" class="btn btn-primary btn-sm">
+                                                    View Details
+                                                </a>
+                                            </td>
+                                            <td>
+                                                @if (provider.Status == "Pending")
+                                                {
+                                                    <span class="badge bg-warning">Pending</span>
+                                                }
+                                                else if (provider.Status == "Approved")
+                                                {
+                                                    <span class="badge bg-success">Accepted</span>
+                                                }
+                                                else if (provider.Status == "Rejected")
+                                                {
+                                                    <span class="badge bg-danger">Rejected</span>
+                                                }
+                                                else if (provider.Status == "Blocked")
+                                                {
+                                                    <span class="badge bg-danger">Blocked</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                    @if(provider.Status!="Approved"){
+                                                    <form asp-action="ApproveProvider" asp-route-id="@provider.Id" asp-controller="Admin" method="post">
+                                                        <input type="hidden" name="id" value="@provider.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-success">
+                                                            <i class="fa fa-check"></i> Approve
+                                                        </button>
+                                                    </form>
+                                                    }
+                                                    @if (provider.Status != "Rejected")
+                                                    {
+
+                                                        <form asp-controller="Admin" asp-action="RejectProvider" asp-route-id="@provider.Id" method="post">
+                                                            <input type="hidden" name="id" value="@provider.Id" />
+                                                            <button type="submit" class="btn btn-sm btn-secondary">
+                                                                <i class="fa fa-times"></i> Reject
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    @if (provider.Status != "Blocked"){
+                                                      <form asp-action="BlockProvider" asp-route-id="@provider.Id" asp-controller="Admin" method="post">
+                                                        <input type="hidden" name="id" value="@provider.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                            <i class="fa fa-times"></i> Block
+                                                        </button>
+                                                    </form>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination Controls -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mt-4">
+                        <li class="page-item @(ViewBag.HasPreviousPage ? "" : "disabled")">
+                            <a class="page-link" asp-action="ApproveList" asp-controller="Admin"
+                               asp-route-page="@(ViewBag.PageIndex - 1)"
+                               asp-route-providerName="@ViewBag.ProviderName"
+                               asp-route-serviceType="@ViewBag.ServiceType"
+                               asp-route-status="@ViewBag.Status"
+                               asp-route-fromDate="@ViewBag.FromDate"
+                               asp-route-toDate="@ViewBag.ToDate">Previous</a>
+                        </li>
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.PageIndex ? "active" : "")">
+                                <a class="page-link" asp-action="ApproveList" asp-controller="Admin"
+                                   asp-route-page="@i"
+                                   asp-route-providerName="@ViewBag.ProviderName"
+                                   asp-route-serviceType="@ViewBag.ServiceType"
+                                   asp-route-status="@ViewBag.Status"
+                                   asp-route-fromDate="@ViewBag.FromDate"
+                                   asp-route-toDate="@ViewBag.ToDate">@i</a>
+                            </li>
+                        }
+                        <li class="page-item @(ViewBag.HasNextPage ? "" : "disabled")">
+                            <a class="page-link" asp-action="ApproveList" asp-controller="Admin"
+                               asp-route-page="@(ViewBag.PageIndex + 1)"
+                               asp-route-providerName="@ViewBag.ProviderName"
+                               asp-route-serviceType="@ViewBag.ServiceType"
+                               asp-route-status="@ViewBag.Status"
+                               asp-route-fromDate="@ViewBag.FromDate"
+                               asp-route-toDate="@ViewBag.ToDate">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+    
+</body>
+
+
+<!-- leaves23:23-->
+</html>

@@ -1,0 +1,249 @@
+﻿@model PlanDetails
+@{
+    Layout = "_AdminLayout";
+}
+<head>
+    <style>
+        :root {
+            --primary-color: #000957;
+            --primary-light: #344cb7;
+            --primary-dark: #00072a;
+            --accent-color: #ffa41b;
+            --light-bg: #f8f9fa;
+        }
+
+        .page-wrapper {
+            padding-top: 30px;
+            background-color: #f5f7fa;
+        }
+
+        .plan-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 9, 87, 0.08);
+        }
+
+        .plan-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            border-radius: 10px 10px 0 0 !important;
+        }
+
+            .plan-header h4 {
+                font-weight: 600;
+                margin-bottom: 0;
+            }
+
+        .plan-body {
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+        }
+
+            .form-control:focus {
+                border-color: var(--primary-light);
+                box-shadow: 0 0 0 0.25rem rgba(0, 9, 87, 0.1);
+            }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.5rem 1.75rem;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--primary-light);
+                border-color: var(--primary-light);
+                transform: translateY(-2px);
+            }
+
+        .btn-secondary {
+            padding: 0.5rem 1.75rem;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 0.15em;
+        }
+
+            .form-check-input:checked {
+                background-color: var(--primary-color);
+                border-color: var(--primary-color);
+            }
+
+        .form-check-label {
+            color: var(--primary-dark);
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .text-danger {
+            font-size: 0.85rem;
+        }
+
+        .validation-summary {
+            border-radius: 8px;
+        }
+
+        @@media (max-width: 768px) {
+            .plan-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+
+            <div class="header-left">
+                <a href="/Admin/Dashboard" class="logo">
+                    <img src="~/Home/img/logoTest7Hedar-removebg-preview.png" width="35" height="35" alt=""> <span>Ziyara</span>
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="assets/img/user.jpg" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Admin</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        @* <a class="dropdown-item" href="profile.html">My Profile</a>  *@
+                        @* <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>  *@
+                        <a class="dropdown-item" href="/">Home</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Sidebar remains unchanged -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li >
+                            <a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="ApproveList"><i class="fa fa-user"></i> <span>Providers</span></a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Users" asp-action="Users"><i class="fa fa-user-o"></i> <span>Users</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="ProviderList"><i class="fa fa-list"></i> <span>Providers List</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="Testimonial"><i class="fa fa-address-card"></i> <span>Testimonial</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="plans"><i class="fa fa-money"></i><span>Manage Plans</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modified Page Content -->
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card plan-card">
+                            <div class="card-header plan-header" style="background-color:#344cb7 ; margin-top:30px">
+                                <h4 class="mb-0"><i class="fa fa-plus-circle mr-2"></i>Create New Subscription Plan</h4>
+                            </div>
+                            <div class="card-body plan-body">
+                                <form asp-action="AddPlans" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="alert alert-danger validation-summary mb-4"></div>
+
+                                    <div class="row mb-4">
+                                        <div class="col-md-6 mb-3 mb-md-0">
+                                            <label asp-for="Months" class="form-label">Duration (Months)</label>
+                                            <input asp-for="Months" type="number" class="form-control" placeholder="Enter months" />
+                                            <span asp-validation-for="Months" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label asp-for="Price" class="form-label">Price ($)</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">$</span>
+                                                <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="0.00" />
+                                            </div>
+                                            <span asp-validation-for="Price" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <div class="form-check form-switch">
+                                            <input asp-for="IsPopular" class="form-check-input" id="popularSwitch" />
+                                            <label asp-for="IsPopular" class="form-check-label" for="popularSwitch">Mark as Featured Plan</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <a asp-action="Plans" class="btn btn-secondary px-4">
+                                            <i class="fa fa-arrow-left mr-2"></i>Cancel
+                                        </a>
+                                        <button type="submit" class="btn btn-primary px-4">
+                                            <i class="fa fa-check mr-2"></i>Create Plan
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+                format: 'LT'
+            });
+        });
+    </script>
+</body>

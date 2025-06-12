@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+@{
+    Layout = "_AdminLayout";
+}
+<!-- blank-page24:04-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+   
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="/Admin/Dashboard" class="logo">
+                    <img src="~/Home/img/logoTest7Hedar-removebg-preview.png" width="35" height="35" alt=""> <span>Ziyara</span>
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="assets/img/user.jpg" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Admin</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/">Home</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li >
+                            <a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="ApproveList"><i class="fa fa-user"></i> <span>Providers</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Users" asp-action="Users"><i class="fa fa-user-o"></i> <span>Users</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="ProviderList"><i class="fa fa-list"></i> <span>Providers List</span></a>
+                        </li>
+                        <li class ="active">
+                            <a asp-controller="Admin" asp-action="Testimonial"><i class="fa fa-address-card"></i> <span>Testimonial</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="plans"><i class="fa fa-money"></i><span>Manage Plans</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <form asp-action="Testimonial" asp-controller="Admin" method="get">
+                    <div class="row filter-row">
+                       
+                     
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus select-focus">
+                                <label class="focus-label">Testimonial Status</label>
+                                <select class="form-control select-focus" name="status">
+                                    <option value="">-- Select --</option>
+                                    <option value="@false" selected="@(ViewBag.Status == false ? "selected" : null)">Rejected</option>
+                                    <option value="@true" selected="@(ViewBag.Status == true ? "selected" : null)">Approved</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus">
+                                <label class="focus-label">From</label>
+                                <div>
+                                    <input class="form-control datetimepicker" type="date" name="fromDate" value="@ViewBag.FromDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus">
+                                <label class="focus-label">To</label>
+                                <div>
+                                    <input class="form-control floating datetimepicker" type="date" name="toDate" value="@ViewBag.ToDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <button type="submit" class="btn btn-success btn-block">Search</button>
+                        </div>
+                    </div>
+                </form>
+
+              
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Message</td>
+                            <td>@item.Date.ToShortDateString()</td>
+                            <td>
+                                @if (item.Status == true)
+                                {
+                                    <span class="badge bg-success">Published</span>
+                                }
+                                else if (item.Status == false)
+                                {
+                                    <span class="badge bg-danger">Refused</span>
+                                }
+                                
+
+                            </td>
+
+                            <td style="white-space: nowrap;">
+                                @if(item.Status!=true){
+                                <form asp-action="PostTestimonial" asp-controller="Admin" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-success btn-sm">Post</button>
+                                </form>
+                                }
+                                else{
+                                <form asp-action="DeleteTestimonial" asp-controller="Admin" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Refuse</button>
+                                </form>
+                                }
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+
+<!-- blank-page24:04-->
+</html>

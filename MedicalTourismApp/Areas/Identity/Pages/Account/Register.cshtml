@@ -1,0 +1,451 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    /* Clean up: Reorganized CSS for better readability and maintenance */
+
+    /* Global and Layout */
+    .footer {
+        display: none;
+    }
+
+
+    /* Background Video Container */
+    .background-container {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 2rem 0;
+        overflow: hidden;
+    }
+
+    /* Video Background */
+    .video-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+
+    /* Fallback for browsers that don't support video */
+    .no-video .video-background {
+        display: none;
+    }
+
+    .no-video .background-container {
+        background-image: url('@Url.Content("~/Home/img/dead6.jpg")');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    /* Card Design */
+    .form-card {
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+    }
+
+        .form-card:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+    .card-body {
+        padding: 2.5rem;
+    }
+
+    /* Form Elements */
+    .form-floating {
+        margin-bottom: 1.25rem;
+    }
+
+    .form-controlR {
+        background-color: rgba(255, 255, 255, 0.85);
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+        .form-controlR:focus {
+            border-color: #86B817;
+            box-shadow: 0 0 0 0.25rem rgba(134, 184, 23, 0.25);
+        }
+
+    .toggle-form {
+        cursor: pointer;
+        color: #0d6efd;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .toggle-form:hover {
+            text-decoration: underline;
+            color: #0a58ca;
+        }
+
+    pR {
+        margin: 0;
+    }
+
+    /* Button Styling */
+    .btn-primary {
+        background: linear-gradient(to right, #86B817, #6A940D);
+        border: none;
+        padding: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(106, 148, 13, 0.2);
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #6A940D, #86B817);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(106, 148, 13, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+    /* Navbar Styling */
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.85) !important;
+        transition: background-color 0.5s ease;
+        backdrop-filter: blur(8px);
+    }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        margin-right: 25px;
+        padding: 35px 0;
+        color: #000000 !important;
+        font-size: 18px;
+        font-weight: 600;
+        outline: none;
+        transition: .5s;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0) !important;
+    }
+
+    .row {
+        padding-top: 10px !important;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .background-container {
+            padding: 1rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+        /* Disable video on mobile */
+        .video-background {
+            display: none;
+        }
+
+        .background-container {
+            background-image: url('@Url.Content("~/Home/img/dead6.jpg")');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .form-card {
+            margin: 0 10px;
+        }
+    }
+
+    /* Animations */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+</style>
+
+<!-- Modernizr check for video support -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!Modernizr.video) {
+            document.documentElement.className += ' no-video';
+        }
+
+        // Add fade-in animation to form card
+        document.querySelector('.form-card').classList.add('fade-in');
+    });
+</script>
+
+<div class="background-container">
+    <!-- Video Background -->
+    <video autoplay muted loop playsinline class="video-background">
+        <source src="@Url.Content("~/Home/img/VidoePackgroundR.mov")" type="video/mp4">
+        
+        <!-- Fallback image -->
+        @* <img src="@Url.Content("~/Home/img/dead6.jpg")" alt="Medical Background"> *@
+    </video>
+
+    <!-- Navigation -->
+    <div class="container-fluid navbar-light p-0">
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+            <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><img  src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                        
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <a href="/Identity/Account/Login" class="btn btn-primary rounded-pill py-2 px-4 center">Login</a>
+                            </div>
+                        </div>
+                    }
+                    <a class="collapse navbar-collapse" id="navbarCollapse">
+                        <img src="~/Home/img/jordanflag1.gif" alt="Jordan Flag" style="width:55px;height:35px;padding-left:5px">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="card form-card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold" style="color: #333;">Create Account</h2>
+                            <p class="text-muted pR">Join us to discover medical tourism opportunities</p>
+                        </div>
+
+                        <form id="registerForm" method="post" class="mt-3">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                            <div class="row">
+                                <!-- First Column -->
+                                <div class="col-md-6">
+                                    <!-- Full Name -->
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.FullName" class="form-control form-controlR" placeholder=" " />
+                                        <label asp-for="Input.FullName" class="form-label">Full Name</label>
+                                        <span asp-validation-for="Input.FullName" class="text-danger small"></span>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Email" class="form-control form-controlR" autocomplete="username" aria-required="true" placeholder=" " />
+                                        <label asp-for="Input.Email" class="form-label">Email Address</label>
+                                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                                    </div>
+                                    <!-- Phone Number -->
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.PhoneNumber" class="form-control form-controlR" placeholder=" " />
+                                        <label asp-for="Input.PhoneNumber" class="form-label">Phone Number</label>
+                                        <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                                    </div>
+                                    
+                                </div>
+
+                                <!-- Second Column -->
+                                <div class="col-md-6">
+                                    <!-- Password -->
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.Password" type="password" class="form-control form-controlR" autocomplete="new-password" aria-required="true" placeholder=" " />
+                                        <label asp-for="Input.Password" class="form-label">Password</label>
+                                        <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                                    </div>
+
+                                    <!-- Confirm Password -->
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Input.ConfirmPassword" type="password" class="form-control form-controlR" autocomplete="new-password" aria-required="true" placeholder=" " />
+                                        <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+                                    </div>
+
+                                    <!-- User Type -->
+                                    <div class="form-floating mb-3">
+                                        <select id="UserType" class="form-select form-controlR" asp-for="Input.UserType" onchange="toggleServiceType()">
+                                            <option value="">-- Select --</option>
+                                            <option value="Tourist">Tourist</option>
+                                            <option value="ServiceProvider">Service Provider</option>
+                                        </select>
+                                        <label for="UserType">Register As</label>
+                                        <span asp-validation-for="Input.UserType" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Service Type (Full Width) -->
+                            <div class="form-group mb-3" id="serviceTypeDiv" style="display: none; transition: all 0.3s ease;">
+                                <div class="form-floating">
+                                    <select id="ServiceType" asp-for="Input.ServiceType" class="form-select form-controlR">
+                                        <option value="">-- Select a Service --</option>
+                                        @foreach (var service in Model.AvailableServices)
+                                        {
+                                            if ((service != "ServiceProvider" && service != "Admin" && service != "Patient"))
+                                            {
+                                                <option value="@service">@service</option>
+                                            }
+                                        }
+                                    </select>
+                                    <label for="ServiceType">Select Your Service Type</label>
+                                    <span asp-validation-for="Input.ServiceType" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Register Button (Full Width) -->
+                            <button id="registerSubmit" type="submit" class="w-100 btn btn-primary btn-lg mb-3">
+                                <i class="fas fa-user-plus me-2"></i> Register
+                            </button>
+
+                            <div class="text-center pt-3">
+                                <p class="text-muted mb-0">
+                                    Already have an account?
+                                    <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl"
+                                       class="toggle-form text-decoration-none">
+                                        Login here
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <!-- Font Awesome for icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+    <script>
+        function toggleServiceType() {
+            var role = document.getElementById("UserType").value;
+            var serviceTypeDiv = document.getElementById("serviceTypeDiv");
+
+            if (role === "ServiceProvider") {
+                serviceTypeDiv.style.display = "block";
+                // Add animation
+                setTimeout(function() {
+                    serviceTypeDiv.style.opacity = "1";
+                    serviceTypeDiv.style.transform = "translateY(0)";
+                }, 10);
+            } else {
+                serviceTypeDiv.style.opacity = "0";
+                serviceTypeDiv.style.transform = "translateY(-10px)";
+                setTimeout(function() {
+                    serviceTypeDiv.style.display = "none";
+                }, 300);
+            }
+        }
+
+        // Ensure video plays on mobile devices
+        document.addEventListener('DOMContentLoaded', function() {
+            var video = document.querySelector('.video-background');
+            if (video) {
+                video.play().catch(function(error) {
+                    // Fallback to image if video can't play
+                    document.documentElement.className += ' no-video';
+                });
+            }
+
+            // Add smooth transitions
+            document.querySelectorAll('.form-controlR').forEach(function(input) {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('focused');
+                });
+            });
+        });
+    </script>
+}

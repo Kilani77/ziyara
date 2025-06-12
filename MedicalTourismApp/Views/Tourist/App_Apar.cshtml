@@ -1,0 +1,476 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Booking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #86B817;
+            --primary-dark: #6A940D;
+            --secondary-color: #2c3e50;
+            --light-gray: #f8f9fa;
+            --dark-gray: #6c757d;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+            padding-bottom: 60px; /* Space for footer */
+        }
+
+        .booking-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            width: 75vw;
+            max-width: 900px;
+            min-width: 300px;
+            padding: 50px;
+            margin: 120px auto 40px; /* Increased top margin for navbar */
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 35px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            height: 50px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(134, 184, 23, 0.2);
+        }
+
+        .flatpickr-input {
+            background-color: white;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 16px 28px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(134, 184, 23, 0.3);
+            margin-top: 20px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(134, 184, 23, 0.4);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dark-gray);
+            font-size: 18px;
+        }
+
+        /* Navbar fixes */
+        .navbar {
+            background-color: var(--white) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px 0;
+        }
+
+        .navbar-brand h1 {
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            padding: 8px 15px !important;
+            margin-right: 10px !important;
+        }
+
+        .navbar-collapse {
+            padding-top: 10px;
+        }
+
+        /* Logout button fixes */
+        .logout-form {
+            margin-left: 15px;
+        }
+
+        .logout-btn {
+            padding: 8px 20px !important;
+            margin: 0 !important;
+            height: auto !important;
+            font-size: 16px !important;
+        }
+
+        /* Footer fixes */
+        footer {
+          
+            padding: 30px 0;
+            margin-top: auto;
+        }
+
+        @@media (max-width: 768px) {
+            .booking-container {
+                width: 90vw;
+                padding: 40px 30px;
+                margin: 100px auto 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+
+            .form-control {
+                padding: 14px 18px;
+            }
+
+            button[type="submit"] {
+                padding: 14px 24px;
+                font-size: 16px;
+            }
+
+            .navbar-nav .nav-link {
+                padding: 8px 0 !important;
+                margin-right: 0 !important;
+            }
+
+            .logout-form {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+            background: #86B817;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            color: #fff;
+            border-color: #86B817;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid navbar-light p-0">
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+            <a href="" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/greenLogo2-removebg.png" alt="Logo">Medical Trip</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0 align-items-center">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="package.html" class="nav-item nav-link">Packages</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Travel Guides</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                        <form class="logout-form" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="btn btn-primary rounded-pill logout-btn">Logout</button>
+                        </form>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="package.html" class="nav-item nav-link">Packages</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Travel Guides</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                        <form class="logout-form" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="btn btn-primary rounded-pill logout-btn">Logout</button>
+                        </form>
+                    }
+                    else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "nursing")
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Nurse/Dashboarder">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "physical therapy")
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Phsy/Dashboard">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "Alternative medicine")
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Alt/Dashboard">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                        <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="package.html" class="nav-item nav-link">Packages</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Travel Guides</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                        <form class="logout-form" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="btn btn-primary rounded-pill logout-btn">Logout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="package.html" class="nav-item nav-link">Packages</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Travel Guides</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                        <a class="nav-item nav-link" href="/Identity/Account/Login">Login</a>
+                        <a href="/Identity/Account/Register" class="btn btn-primary rounded-pill py-2 px-4 ms-lg-2">Register</a>
+                    }
+                    <img src="~/Home/img/jordanflag1.gif" alt="Jordan Flag" style="width:55px;height:35px;margin-left:15px;">
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="booking-container">
+            <h2>Book Your Perfect Stay</h2>
+            <form asp-action="App_Apar" asp-controller="Tourist" method="post" >
+                <input type="hidden" name="Id" value="@Model.ApartmentId">
+                <input type="hidden" name="flow" value="@ViewBag.Flow" />
+
+                <div class="form-group">
+                    <label for="bookingDates">Select Your Dates</label>
+                    <div class="input-icon">
+                        <input type="text" id="bookingDates" class="form-control" name="bookingDates" placeholder="Choose check-in & check-out dates" required readonly>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <small class="text-muted" style="display: block; margin-top: 8px; color: var(--dark-gray);">Click to select your dates</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="escorts">Number of Guests</label>
+                    <div class="input-icon">
+                        <input class="form-control" id="escorts" name="es" type="number" min="1" placeholder="Enter number of guests">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+
+                <button type="submit">
+                    <i class="fas fa-check-circle" style="margin-right: 8px;"></i> Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <!-- Your footer content here -->
+        </div>
+    </footer>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let bookedDates = @Html.Raw(Json.Serialize(ViewBag.BookedDates));
+
+            const dateInput = document.getElementById('bookingDates');
+
+            flatpickr(dateInput, {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                disable: bookedDates,
+                minDate: "today",
+                allowInput: false,
+                clickOpens: true,
+                onOpen: function() {
+                    dateInput.blur();
+                    dateInput.style.borderColor = "var(--primary-color)";
+                    dateInput.style.boxShadow = "0 0 0 3px rgba(134, 184, 23, 0.2)";
+                },
+                onClose: function() {
+                    dateInput.style.borderColor = "";
+                    dateInput.style.boxShadow = "";
+                },
+                onReady: function() {
+                    dateInput.classList.add('flatpickr-input');
+                }
+            });
+
+            // Make the entire input clickable
+            document.querySelector('.input-icon').addEventListener('click', function(e) {
+                if (e.target !== dateInput) {
+                    dateInput.focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

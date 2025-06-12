@@ -1,0 +1,928 @@
+﻿<head>
+    <title>My Appointments - Medical Trip</title>
+    <style>
+        :root {
+            --primary-color: #86B817;
+            --primary-dark: #6A940D;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --card-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Appointments Container Styles */
+        .appointments-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .service-section {
+            margin-bottom: 2.5rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--card-radius);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        }
+
+            .service-section h2 {
+                font-size: 1.5rem;
+                color: var(--secondary-color);
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 3px solid var(--primary-color);
+                display: inline-block;
+            }
+
+                .service-section h2 i {
+                    margin-right: 10px;
+                    color: var(--primary-color);
+                }
+
+        /* Appointment Card Styles */
+        .appointment-card {
+            background-color: white;
+            border-radius: var(--card-radius);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            transition: var(--transition);
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+            .appointment-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+        .appointment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .appointment-icon {
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            color: white;
+            background-color: var(--primary-color);
+            padding: 0.6rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .appointment-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            flex-grow: 1;
+        }
+
+        .appointment-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .detail-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .label {
+            font-weight: 600;
+            color: #6c757d;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .value {
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+        }
+
+        /* Status Badges */
+        .status {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            margin-top: 1rem;
+        }
+
+        .status-approved {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: #198754;
+            border: 1px solid #198754;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .status-rejected {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        /* Review Section */
+        .review-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #ddd;
+        }
+
+        .review-heading {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .ratings {
+            margin-bottom: 0.75rem;
+        }
+
+        .star {
+            color: #ddd;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-right: 0.25rem;
+        }
+
+            .star:hover,
+            .star.active {
+                color: #ffc107;
+            }
+
+        .review-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 0.75rem;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+            .review-textarea:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.25rem rgba(134, 184, 23, 0.25);
+                outline: none;
+            }
+
+        .review-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* No Appointments Message */
+        .no-appointments {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: white;
+            border-radius: var(--card-radius);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            color: #6c757d;
+        }
+
+            .no-appointments i {
+                font-size: 2rem;
+                color: var(--primary-color);
+                margin-bottom: 1rem;
+                display: block;
+            }
+
+        /* Section Dividers */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+            margin: 2.5rem 0;
+            border: none;
+        }
+
+        /* Responsive Adjustments */
+        @@media (max-width: 992px) {
+            .appointments-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .appointment-details {
+                grid-template-columns: 1fr;
+            }
+
+            .service-section h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .appointments-container {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment-card {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid position-relative p-0">
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link Index">Home</a>
+                        <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                      
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link Index">Home</a>
+                        <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                    
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                    }
+                    else if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link">About</a>
+                        <a asp-action="Appointments" asp-controller="Home" class="nav-item nav-link active">Appointments</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                    
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link active">About</a>
+                        <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                        <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                     
+                        <a class="nav-item nav-link" href="/Identity/Account/Login">Login</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <a href="/Identity/Account/Register" class="btn btn-primary rounded-pill py-2 px-4 center">Register</a>
+                            </div>
+                        </div>
+                    }
+                    <a class="collapse navbar-collapse" id="navbarCollapse">
+                        <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container-fluid bg-primary py-5 mb-5 hero-headerB">
+        <div class="container py-5">
+            <div class="row justify-content-center py-5">
+                <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-3 text-white mb-3 animated slideInDown">Your Trip Appointments</h1>
+                    <p class="fs-4 text-white mb-4 animated slideInDown">Track and manage your appointments for your medical travel journey</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+        <div id="reviewToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toastTitle"></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toastMessage"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="service-section">
+            <h2><i class="fas fa-user-md"></i> Doctor Appointments</h2>
+            <div class="appointments-container">
+                @if (Model.DoctorAppointments == null)
+                {
+                    <div class="no-appointments">
+                        <i class="fas fa-calendar-times fa-2x mb-3"></i>
+                        <p>No doctor appointments found.</p>
+                    </div>
+                }
+                else
+                {
+                    foreach (var app in Model.DoctorAppointments)
+                    {
+                        <div class="appointment-card">
+                            <div class="appointment-header">
+                                <div class="appointment-icon">
+                                    <i class="fas fa-stethoscope"></i>
+                                </div>
+                                <div class="appointment-title">
+                                    Medical Consultation
+                                </div>
+                            </div>
+                            <div class="appointment-details">
+                                <div class="detail-item">
+                                    <span class="label">Date:</span>
+                                    <span class="value">@app.date.ToString("MM/dd/yyyy")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Time:</span>
+                                    <span class="value">@app.StartTime.ToString(@"hh\:mm")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Doctor:</span>
+                                    <span class="value">@(app.Doctor?.ServiceProvider?.User?.FullName ?? "N/A")</span>
+                                </div>
+                            </div>
+                            <span class="status status-@app.Approve?.ToLower()">@app.Approve</span>
+                            @if (app.date <= DateOnly.FromDateTime(DateTime.Now) ||
+                           (app.date == DateOnly.FromDateTime(DateTime.Now) && TimeOnly.FromTimeSpan(app.StartTime) < TimeOnly.FromDateTime(DateTime.Now) && app.Approve == "approved"))
+                            {
+                                @if (!Model.HasReview(app.date.ToDateTime(TimeOnly.MinValue), app.StartTime, app.Doctor.ServiceProviderId, "Doctor"))
+                                {
+                                    <div class="review-section">
+                                        <div class="review-heading">
+                                            <strong>Review this appointment</strong>
+                                        </div>
+                                        <form id="review-form-doctor-@app.Id" class="review-form">
+                                            @Html.AntiForgeryToken()
+                                            <div class="ratings">
+                                                <input type="hidden" name="serviceid" value="@app.Doctor.ServiceProviderId" />
+                                                <input type="hidden" name="appointmentDate" value="@app.date.ToString("yyyy-MM-dd")" />
+                                                <input type="hidden" name="appointmentTime" value="@app.StartTime.ToString()" />
+                                                <input type="hidden" name="appointmentType" value="Doctor" />
+                                                <input type="hidden" name="rating" id="rating-doctor-@app.Id" value="0" />
+                                                <i class="fas fa-star star" data-rating="1" data-appointment-id="doctor-@app.Id"></i>
+                                                <i class="fas fa-star star" data-rating="2" data-appointment-id="doctor-@app.Id"></i>
+                                                <i class="fas fa-star star" data-rating="3" data-appointment-id="doctor-@app.Id"></i>
+                                                <i class="fas fa-star star" data-rating="4" data-appointment-id="doctor-@app.Id"></i>
+                                                <i class="fas fa-star star" data-rating="5" data-appointment-id="doctor-@app.Id"></i>
+                                            </div>
+                                            <textarea class="review-textarea" name="comment" placeholder="Share your experience..." required></textarea>
+                                            <div class="review-actions">
+                                                <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-success mt-2">
+                                        <i class="fas fa-check-circle"></i> You've already reviewed this appointment
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+        <div class="service-section">
+            <h2><i class="fas fa-home"></i> Apartments</h2>
+            <div class="appointments-container">
+                @if (Model.Apartments == null)
+                {
+                    <div class="no-appointments">
+                        <i class="fas fa-building fa-2x mb-3"></i>
+                        <p>No apartment appointments found.</p>
+                    </div>
+                }
+                else
+                {
+                    foreach (var apt in Model.Apartments)
+                    {
+                        <div class="appointment-card">
+                            <div class="appointment-header">
+                                <div class="appointment-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="appointment-title">
+                                    Accommodation
+                                </div>
+                            </div>
+                            <div class="appointment-details">
+                                <div class="detail-item">
+                                    <span class="label">Apartment:</span>
+                                    <span class="value">@(apt?.apartment?.serviceprovider?.User?.FullName ?? "N/A")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Check-In:</span>
+                                    <span class="value">@apt.Startdate.ToString("MM/dd/yyyy")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Check-Out:</span>
+                                    <span class="value">@apt.Enddate.ToString("MM/dd/yyyy")</span>
+                                </div>
+                            </div>
+                            <span class="status status-@apt.Approve?.ToLower()">@apt.Approve</span>
+                            @if (apt.Startdate <= DateTime.Now && apt.Approve == "Approved")
+                            {
+                                @if (!Model.HasReview(apt.Startdate, null, apt.apartment.ServiceProviderId, "Apartment"))
+                                {
+                                    <div class="review-section">
+                                        <div class="review-heading">
+                                            <strong>Review this appointment</strong>
+                                        </div>
+                                        <form id="review-form-apartment-@apt.Id" class="review-form">
+                                            @Html.AntiForgeryToken()
+                                            <div class="ratings">
+                                                <input type="hidden" name="serviceid" value="@apt.apartment.ServiceProviderId" />
+                                                <input type="hidden" name="appointmentDate" value="@apt.Startdate.ToString("yyyy-MM-dd")" />
+                                                <input type="hidden" name="appointmentType" value="Apartment" />
+                                                <input type="hidden" name="rating" id="rating-apartment-@apt.Id" value="0" />
+                                                <i class="fas fa-star star" data-rating="1" data-appointment-id="apartment-@apt.Id"></i>
+                                                <i class="fas fa-star star" data-rating="2" data-appointment-id="apartment-@apt.Id"></i>
+                                                <i class="fas fa-star star" data-rating="3" data-appointment-id="apartment-@apt.Id"></i>
+                                                <i class="fas fa-star star" data-rating="4" data-appointment-id="apartment-@apt.Id"></i>
+                                                <i class="fas fa-star star" data-rating="5" data-appointment-id="apartment-@apt.Id"></i>
+                                            </div>
+                                            <textarea class="review-textarea" name="comment" placeholder="Share your experience..." required></textarea>
+                                            <div class="review-actions">
+                                                <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-success mt-2">
+                                        <i class="fas fa-check-circle"></i> You've already reviewed this appointment
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+        <div class="service-section">
+            <h2><i class="fas fa-user-nurse"></i> Freelancers</h2>
+            <div class="appointments-container">
+                @if (Model.Freelances == null)
+                {
+                    <div class="no-appointments">
+                        <i class="fas fa-user-friends fa-2x mb-3"></i>
+                        <p>No freelance appointments found.</p>
+                    </div>
+                }
+                else
+                {
+                    foreach (var free in Model.Freelances)
+                    {
+                        if (free?.Freelancer?.Typeofserivce == "nursing")
+                        {
+                            <div class="appointment-card">
+                                <div class="appointment-header">
+                                    <div class="appointment-icon">
+                                        <i class="fas fa-user-nurse"></i>
+                                    </div>
+                                    <div class="appointment-title">
+                                        Nursing Care
+                                    </div>
+                                </div>
+                                <div class="appointment-details">
+                                    <div class="detail-item">
+                                        <span class="label">Start Date:</span>
+                                        <span class="value">@free.StartDate.ToString("MM/dd/yyyy")</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">End Date:</span>
+                                        <span class="value">@free.EndDate.ToString("MM/dd/yyyy")</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">Nurse:</span>
+                                        <span class="value">@(free?.Freelancer?.ServiceProvider?.User?.FullName ?? "N/A")</span>
+                                    </div>
+                                </div>
+                                @if (free.Approve == null)
+                                {
+                                    <span class="status status-pending">Pending</span>
+                                }
+                                else if (free.Approve == true)
+                                {
+                                    <span class="status status-approved">Approved</span>
+                                }
+                                @if (free.StartDate <= DateTime.Now && free.Approve == true)
+                                {
+                                    @if (!Model.HasReview(free.StartDate, null, free.Freelancer.ServiceProviderId, "Nurse"))
+                                    {
+                                        <div class="review-section">
+                                            <div class="review-heading">
+                                                <strong>Review this appointment</strong>
+                                            </div>
+                                            <form id="review-form-freelancer-@free.Id" class="review-form">
+                                                @Html.AntiForgeryToken()
+                                                <div class="ratings">
+                                                    <input type="hidden" name="serviceid" value="@free.Freelancer.ServiceProviderId" />
+                                                    <input type="hidden" name="appointmentDate" value="@free.StartDate.ToString("yyyy-MM-dd")" />
+                                                    <input type="hidden" name="appointmentType" value="Nurse" />
+                                                    <input type="hidden" name="rating" id="rating-freelancer-@free.Id" value="0" />
+                                                    <i class="fas fa-star star" data-rating="1" data-appointment-id="freelancer-@free.Id"></i>
+                                                    <i class="fas fa-star star" data-rating="2" data-appointment-id="freelancer-@free.Id"></i>
+                                                    <i class="fas fa-star star" data-rating="3" data-appointment-id="freelancer-@free.Id"></i>
+                                                    <i class="fas fa-star star" data-rating="4" data-appointment-id="freelancer-@free.Id"></i>
+                                                    <i class="fas fa-star star" data-rating="5" data-appointment-id="freelancer-@free.Id"></i>
+                                                </div>
+                                                <textarea class="review-textarea" name="comment" placeholder="Share your experience..." required></textarea>
+                                                <div class="review-actions">
+                                                    <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-success mt-2">
+                                            <i class="fas fa-check-circle"></i> You've already reviewed this appointment
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="appointment-card">
+                                <div class="appointment-header">
+                                    <div class="appointment-icon">
+                                        <i class="fas fa-user-friends"></i>
+                                    </div>
+                                    <div class="appointment-title">
+                                        Freelance Service
+                                    </div>
+                                </div>
+                                <div class="appointment-details">
+                                    <div class="detail-item">
+                                        <span class="label">Date:</span>
+                                        <span class="value">@free.BookingDate.ToString("MM/dd/yyyy")</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">Start Time:</span>
+                                        <span class="value">@free.StartTime.ToString(@"hh\:mm")</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">End Time:</span>
+                                        <span class="value">@free.EndTime.ToString(@"hh\:mm")</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">Freelancer:</span>
+                                        <span class="value">@(free?.Freelancer?.ServiceProvider?.User?.FullName ?? "N/A")</span>
+                                    </div>
+                                </div>
+                                @if (free.Approve == null)
+                                {
+                                    <span class="status status-pending">Pending</span>
+                                }
+                                else if (free.Approve == true)
+                                {
+                                    <span class="status status-approved">Approved</span>
+                                }
+                                @if (free.BookingDate <= DateOnly.FromDateTime(DateTime.Now) &&
+                               TimeOnly.FromTimeSpan(free.StartTime) < TimeOnly.FromDateTime(DateTime.Now) && free.Approve == true)
+                                {
+                                    @if (!Model.HasReview(free.BookingDate.ToDateTime(TimeOnly.MinValue), free.StartTime, free.Freelancer.ServiceProviderId, "Freelancer"))
+                                    {
+                                        <div class="review-section">
+                                            <div class="review-heading">
+                                                <strong>Review this appointment</strong>
+                                            </div>
+                                            <form id="review-form-freelancer2-@free.Id" class="review-form">
+                                                @Html.AntiForgeryToken()
+                                                <div class="ratings">
+                                                    <input type="hidden" name="serviceid" value="@free.Freelancer.ServiceProviderId" />
+                                                    <input type="hidden" name="appointmentDate" value="@free.BookingDate.ToString("yyyy-MM-dd")" />
+                                                    <input type="hidden" name="appointmentTime" value="@free.StartTime.ToString()" />
+                                                    <input type="hidden" name="appointmentType" value="Freelancer" />
+                                                    <input type="hidden" name="rating" id="rating-freelancer2-@free.Id" value="0" />
+                                                    <i class="fas fa-star star" data-rating="1" data-appointment-id="freelancer2-@free.Id"></i>
+                                                    <i class="fas fa-star star" data-rating="2" data-appointment-id="freelancer2-@free.Id"></i>
+                                                    <i class="fas fa-star star" data-rating="3" data-appointment-id="freelancer2-@free.Id"></i>
+                                                    <i class="fas fa-star star" data-rating="4" data-appointment-id="freelancer2-@free.Id"></i>
+                                                    <i class="fas fa-star star" data-rating="5" data-appointment-id="freelancer2-@free.Id"></i>
+                                                </div>
+                                                <textarea class="review-textarea" name="comment" placeholder="Share your experience..." required></textarea>
+                                                <div class="review-actions">
+                                                    <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-success mt-2">
+                                            <i class="fas fa-check-circle"></i> You've already reviewed this appointment
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+        <div class="service-section">
+            <h2><i class="fas fa-map-marked-alt"></i> Guides</h2>
+            <div class="appointments-container">
+                @if (Model.Guides == null)
+                {
+                    <div class="no-appointments">
+                        <i class="fas fa-compass fa-2x mb-3"></i>
+                        <p>No guide appointments found.</p>
+                    </div>
+                }
+                else
+                {
+                    foreach (var guide in Model.Guides)
+                    {
+                        <div class="appointment-card">
+                            <div class="appointment-header">
+                                <div class="appointment-icon">
+                                    <i class="fas fa-compass"></i>
+                                </div>
+                                <div class="appointment-title">
+                                    Guide Service
+                                </div>
+                            </div>
+                            <div class="appointment-details">
+                                <div class="detail-item">
+                                    <span class="label">Date:</span>
+                                    <span class="value">@guide.BookingDate.ToString("MM/dd/yyyy")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Guide:</span>
+                                    <span class="value">@(guide?.Guide?.ServiceProvider?.User?.FullName ?? "N/A")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Area:</span>
+                                    <span class="value">@guide.AreaBook</span>
+                                </div>
+                            </div>
+                            <span class="status status-@guide.Approve?.ToLower()">@guide.Approve</span>
+                            @if (guide.BookingDate <= DateOnly.FromDateTime(DateTime.Now) && guide.Approve == "Approved")
+                            {
+                                @if (!Model.HasReview(guide.BookingDate.ToDateTime(TimeOnly.MinValue), null, guide.Guide.ServiceProviderId, "Guide"))
+                                {
+                                    <div class="review-section">
+                                        <div class="review-heading">
+                                            <strong>Review this appointment</strong>
+                                        </div>
+                                        <form id="review-form-guide-@guide.Id" class="review-form">
+                                            @Html.AntiForgeryToken()
+                                            <div class="ratings">
+                                                <input type="hidden" name="serviceid" value="@guide.Guide.ServiceProviderId" />
+                                                <input type="hidden" name="appointmentType" value="Guide" />
+                                                <input type="hidden" name="appointmentDate" value="@guide.BookingDate.ToString("yyyy-MM-dd")" />
+                                                <input type="hidden" name="rating" id="rating-guide-@guide.Id" value="0" />
+                                                <i class="fas fa-star star" data-rating="1" data-appointment-id="guide-@guide.Id"></i>
+                                                <i class="fas fa-star star" data-rating="2" data-appointment-id="guide-@guide.Id"></i>
+                                                <i class="fas fa-star star" data-rating="3" data-appointment-id="guide-@guide.Id"></i>
+                                                <i class="fas fa-star star" data-rating="4" data-appointment-id="guide-@guide.Id"></i>
+                                                <i class="fas fa-star star" data-rating="5" data-appointment-id="guide-@guide.Id"></i>
+                                            </div>
+                                            <textarea class="review-textarea" name="comment" placeholder="Share your experience..." required></textarea>
+                                            <div class="review-actions">
+                                                <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-success mt-2">
+                                        <i class="fas fa-check-circle"></i> You've already reviewed this appointment
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+        <div class="service-section">
+            <h2><i class="fas fa-car"></i> Transportation</h2>
+            <div class="appointments-container">
+                @if (Model.Cars == null)
+                {
+                    <div class="no-appointments">
+                        <i class="fas fa-car-side fa-2x mb-3"></i>
+                        <p>No transportation appointments found.</p>
+                    </div>
+                }
+                else
+                {
+                    foreach (var car in Model.Cars)
+                    {
+                        <div class="appointment-card">
+                            <div class="appointment-header">
+                                <div class="appointment-icon">
+                                    <i class="fas fa-car-side"></i>
+                                </div>
+                                <div class="appointment-title">
+                                    Vehicle Rental
+                                </div>
+                            </div>
+                            <div class="appointment-details">
+                                <div class="detail-item">
+                                    <span class="label">Provider:</span>
+                                    <span class="value">@(car?.Transportation?.ServiceProvider?.User?.FullName ?? "N/A")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Check-In:</span>
+                                    <span class="value">@car.Startdate.ToString("MM/dd/yyyy")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Check-Out:</span>
+                                    <span class="value">@car.Enddate.ToString("MM/dd/yyyy")</span>
+                                </div>
+                            </div>
+                            <span class="status status-@car.Approve?.ToLower()">@car.Approve</span>
+                            @if (car.Startdate <= DateTime.Now && car.Approve == "Approved")
+                            {
+                                @if (!Model.HasReview(car.Startdate, null, car.Transportation.ServiceProviderId, "Transportation"))
+                                {
+                                    <div class="review-section">
+                                        <div class="review-heading">
+                                            <strong>Review this appointment</strong>
+                                        </div>
+                                        <form id="review-form-car-@car.Id" class="review-form">
+                                            @Html.AntiForgeryToken()
+                                            <div class="ratings">
+                                                <input type="hidden" name="serviceid" value="@car.Transportation.ServiceProviderId" />
+                                                <input type="hidden" name="appointmentType" value="Transportation" />
+                                                <input type="hidden" name="appointmentDate" value="@car.Startdate.ToString("yyyy-MM-dd")" />
+                                                <input type="hidden" name="rating" id="rating-car-@car.Id" value="0" />
+                                                <i class="fas fa-star star" data-rating="1" data-appointment-id="car-@car.Id"></i>
+                                                <i class="fas fa-star star" data-rating="2" data-appointment-id="car-@car.Id"></i>
+                                                <i class="fas fa-star star" data-rating="3" data-appointment-id="car-@car.Id"></i>
+                                                <i class="fas fa-star star" data-rating="4" data-appointment-id="car-@car.Id"></i>
+                                                <i class="fas fa-star star" data-rating="5" data-appointment-id="car-@car.Id"></i>
+                                            </div>
+                                            <textarea class="review-textarea" name="comment" placeholder="Share your experience..." required></textarea>
+                                            <div class="review-actions">
+                                                <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-success mt-2">
+                                        <i class="fas fa-check-circle"></i> You've already reviewed this appointment
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Mobile menu toggle
+                const toggler = document.querySelector('.navbar-toggler');
+                const collapse = document.querySelector('.navbar-collapse');
+                if (toggler) {
+                    toggler.addEventListener('click', () => collapse.classList.toggle('show'));
+                }
+
+                // Close dropdown on outside click
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.navbar-toggler') && !e.target.closest('.navbar-collapse') && collapse.classList.contains('show')) {
+                        collapse.classList.remove('show');
+                    }
+                });
+
+                // Star rating interaction
+                document.querySelectorAll('.star').forEach(star => {
+                    star.addEventListener('click', () => {
+                        const rating = star.getAttribute('data-rating');
+                        const appointmentId = star.getAttribute('data-appointment-id');
+                        const ratingInput = document.querySelector(`#rating-${appointmentId}`);
+                        if (ratingInput) {
+                            ratingInput.value = rating;
+                        } else {
+                            console.error(`Rating input not found for appointment ID: ${appointmentId}`);
+                        }
+                        const starsGroup = star.closest('.ratings').querySelectorAll('.star');
+                        starsGroup.forEach(s => {
+                            s.classList.toggle('active', parseInt(s.getAttribute('data-rating')) <= parseInt(rating));
+                        });
+                    });
+                });
+
+                // AJAX form submission for review forms
+                const reviewForms = document.querySelectorAll('.review-form');
+                const reviewToast = new bootstrap.Toast(document.getElementById('reviewToast'));
+
+                reviewForms.forEach(form => {
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        const formData = new FormData(form);
+                        const submitButton = form.querySelector('button[type="submit"]');
+                        submitButton.disabled = true;
+
+                        fetch('/Home/Appointments', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const toast = document.getElementById('reviewToast');
+                            const toastTitle = document.getElementById('toastTitle');
+                            const toastMessage = document.getElementById('toastMessage');
+
+                            if (data.success) {
+                                toast.classList.remove('bg-danger');
+                                toast.classList.add('bg-success', 'text-white');
+                                toastTitle.textContent = 'Success';
+                                toastMessage.textContent = 'Your review has been submitted successfully!';
+                                form.closest('.review-section').outerHTML = `
+                                    <div class="alert alert-success mt-2">
+                                        <i class="fas fa-check-circle"></i> You've already reviewed this appointment
+                                    </div>`;
+                            } else {
+                                toast.classList.remove('bg-success');
+                                toast.classList.add('bg-danger', 'text-white');
+                                toastTitle.textContent = 'Error';
+                                toastMessage.textContent = data.message || 'An error occurred while submitting your review.';
+                            }
+
+                            reviewToast.show();
+                            setTimeout(() => reviewToast.hide(), 5000);
+                            submitButton.disabled = false;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const toast = document.getElementById('reviewToast');
+                            const toastTitle = document.getElementById('toastTitle');
+                            const toastMessage = document.getElementById('toastMessage');
+                            toast.classList.remove('bg-success');
+                            toast.classList.add('bg-danger', 'text-white');
+                            toastTitle.textContent = 'Error';
+                            toastMessage.textContent = 'An unexpected error occurred. Please try again.';
+                            reviewToast.show();
+                            setTimeout(() => reviewToast.hide(), 5000);
+                            submitButton.disabled = false;
+                        });
+                    });
+                });
+            });
+        </script>
+    }
+</body>

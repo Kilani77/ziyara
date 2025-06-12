@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+
+@{
+        Layout = "_dashLayout";
+}
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="/Doctor/Dashboard" class="logo">
+                    <img src="~/dash/img/doctorlogo.jpg" width="35" height="35" alt=""> <span>Transportation</span>
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="@ViewBag.img" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Owner.@ViewBag.name</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/">Home</a>
+                        <a class="dropdown-item" asp-controller="Transportation" asp-action="ProfileD"  >My Profile</a>
+                        <a class="dropdown-item" asp-controller="Transportation" asp-action="editd">Edit Profile</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li>
+                            <a asp-controller="Transportation" asp-action="Dashboarder"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+
+                        <li >
+                            <a asp-controller ="Transportation" asp-action="aprovel"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="Transportation" asp-action="History"><i class="fa fa-clock-o"></i> <span>History</span></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <form asp-action="History" asp-controller="Transportation" method="get">
+                    <div class="row filter-row">
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus">
+                                <label class="focus-label">Provider Name</label>
+                                <input type="text" class="form-control" name="prname" value="@ViewBag.prname">
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <div class="form-group form-focus select-focus">
+                                <label class="focus-label">Provider Status</label>
+                                <select class="form-control select-focus" name="status">
+                                    <option value="">-- Select --</option>
+                                    <option value="Rejected" selected="@((string)ViewBag.Status == "Rejected" ? "selected" : null)">Rejected</option>
+                                    <option value="Approved" selected="@((string)ViewBag.Status == "Approved" ? "selected" : null)">Approved</option>
+                                </select>
+                            </div>
+                        </div>
+                       
+                        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
+                            <button type="submit" class="btn btn-success btn-block">Search</button>
+                        </div>
+                    </div>
+                </form> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered align-middle text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>Patient Name</th>
+                                            <th>Patient Nationality</th>
+                                            <th>Booking Date </th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var app in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="profile.html" class="avatar">A</a>
+                                                    <h2>@app.fullname</h2>
+                                                </td>
+                                                <td>@app.nati</td>
+                                                <td>@app.Startdate.ToShortDateString() - @app.Enddate.ToShortDateString()</td>
+                                                <td class="text-center">
+                                                    <a class="custom-badge status-orange " href="#" data-toggle="dropdown" aria-expanded="false">
+                                                        @app.Approve
+                                                    </a>
+                                                   
+
+                                                    <!-- Unique hidden form -->
+                                                <form id="statusForm-@app.Id" method="post" asp-controller="Transportation" asp-action="aprovel">
+                                                        <input type="hidden" name="id" value="@app.Id" />
+                                                        <input type="hidden" name="status" id="statusValue-@app.Id" />
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination Controls -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mt-4">
+                        <li class="page-item @(ViewBag.HasPreviousPage ? "" : "disabled")">
+                            <a class="page-link" asp-action="History" asp-controller="Transportation"
+                               asp-route-page="@(ViewBag.PageIndex - 1)"
+                              
+                               asp-route-toDate="@ViewBag.ToDate">Previous</a>
+                        </li>
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.PageIndex ? "active" : "")">
+                                <a class="page-link" asp-action="History" asp-controller="Transportation"
+                                   asp-route-page="@i"
+                                  
+                                   asp-route-toDate="@ViewBag.ToDate">@i</a>
+                            </li>
+                        }
+                        <li class="page-item @(ViewBag.HasNextPage ? "" : "disabled")">
+                            <a class="page-link" asp-action="History" asp-controller="Transportation"
+                               asp-route-page="@(ViewBag.PageIndex + 1)"
+                            
+                               asp-route-toDate="@ViewBag.ToDate">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+
+<!-- leaves23:23-->
+</html>

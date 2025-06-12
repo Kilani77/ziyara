@@ -1,0 +1,172 @@
+﻿
+@model IEnumerable<PlanDetails>
+@{
+    Layout = "_AdminLayout";
+}
+<head>
+
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+
+            <div class="header-left">
+                <a href="/Admin/Dashboard" class="logo">
+                    <img src="~/Home/img/logoTest7Hedar-removebg-preview.png" width="35" height="35" alt=""> <span>Ziyara</span>
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="assets/img/user.jpg" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Admin</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        @* <a class="dropdown-item" href="profile.html">My Profile</a>  *@
+                        @* <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>  *@
+                        <a class="dropdown-item" href="/">Home</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="ApproveList"><i class="fa fa-user"></i> <span>Providers</span></a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Users" asp-action="Users"><i class="fa fa-user-o"></i> <span>Users</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="ProviderList"><i class="fa fa-list"></i> <span>Providers List</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Admin" asp-action="Testimonial"><i class="fa fa-address-card"></i> <span>Testimonial</span></a>
+                        </li>
+                        <li class="active">
+                            <a asp-controller="Admin" asp-action="plans"><i class="fa fa-money"></i><span>Manage Plans</span> </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-4 col-3">
+                        <h4 class="page-title">Plans</h4>
+                    </div>
+                    <div class="col-sm-8 col-9 text-right m-b-20">
+                        <a asp-action="AddPlans" asp-controller="Admin" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Plan</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Months</th>
+                                        <th>Price</th>
+                                        <th>Saving</th>
+                                        <th>Is Publish ?</th>
+                                        <th>Date of Creating</th>
+                                        <th >Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var plan in Model)
+                                    {
+                                        <tr>
+                                            <td>@plan.Months</td>
+                                            <td>$@plan.Price</td>
+                                            <td>@plan.SavingsText</td>
+                                            <td>
+                                                @if (plan.IsPopular)
+                                                {
+                                                    <span class="badge bg-primary">Publish</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-primary">Still Not</span>
+
+                                                }
+                                            </td>
+                                            <td>@plan.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                            <td >
+                                                <a asp-action="EditPlan" asp-route-id="@plan.Id"
+                                                class="btn btn-sm btn-warning me-1">
+                                                    <i class="bi bi-pencil">Edit</i>
+                                                </a>
+                                                <a asp-action="DeletePlans" asp-route-id="@plan.Id"
+                                                class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash">Delete</i>
+                                                </a>
+                                                @if (plan.IsPopular==false)
+                                                {
+                                                    <a asp-action="PostPlans"  asp-route-id="@plan.Id"
+                                                    class="btn btn-sm btn-primary">
+                                                        <i class="bi bi-trash">Pub</i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-action="HidePlans" asp-route-id="@plan.Id"
+                                                       class="btn btn-sm btn-primary">
+                                                        <i class="bi bi-trash">Hide</i>
+                                                    </a>
+                                                }
+
+                                            </td>
+                                           
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+                format: 'LT'
+            });
+            $('#datetimepicker4').datetimepicker({
+                format: 'LT'
+            });
+        });
+    </script>
+</body>
+
+
+<!-- appointments23:20-->

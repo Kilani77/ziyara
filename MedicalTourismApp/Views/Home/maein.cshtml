@@ -1,0 +1,223 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    /* Custom Styles */
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        border-radius: 0.75rem !important;
+    }
+
+    a.position-relative:hover .img-overlay {
+        background: rgba(0,0,0,0.4);
+    }
+
+    a.position-relative:hover img {
+        transform: scale(1.05);
+    }
+
+    .icon-box {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .colorWadiRam {
+    }
+
+    .section-title {
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .rounded-3 {
+        border-radius: 0.75rem !important;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important;
+    }
+
+    .fab-back-button {
+        position: fixed;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-color: #FFFFFF;
+        color: limegreen;
+        border: none;
+        border-radius: 50%;
+        padding: 15px;
+        font-size: 20px;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+        .fab-back-button:hover {
+            background-color: black;
+        }
+
+</style>
+<body>
+    <a href="javascript:history.back()" class="fab-back-button" title="Go Back">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+
+
+    <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
+                <h1 class="mb-5">Ma'in Hot Springs</h1>
+            </div>
+            <div class="row g-3">
+
+                <!-- Column 1 -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="row g-3">
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.1s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/Ma'in6.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-6 wow zoomIn" data-wow-delay="0.3s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/Ma'in2.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-6 wow zoomIn" data-wow-delay="0.5s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/Ma'in4.jpg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="col-lg-6 col-md-6 wow zoomIn" data-wow-delay="0.1s">
+                    <div class="d-flex flex-column h-100 justify-content-between">
+                        <!-- Image 1: Ma'in Hot Springs -->
+                        <a class="position-relative d-block overflow-hidden mb-3 flex-fill" style="min-height: 100%;" href="">
+                            <img class="w-100 h-100" src="~/Home/img/ma3en2.jpg" alt="" style="object-fit: cover;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Ma'in Section 1 -->
+    <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/Ma'in101.jpg" alt="Ma'in Waterfalls" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Ma’in Hot Springs:</h3>
+                        <h5>Jordan’s Volcanic Spa Sanctuary</h5>
+                        Nestled 264 meters below sea level in a dramatic canyon, Ma’in’s thermal waterfalls—heated by ancient volcanic activity—cascade over black basalt cliffs into mineral-rich pools. Since Roman times, these waters have been nature’s prescription for wellness.
+                    </p>
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Healing Elements</h3>
+                        <h5>Water That Revives Body and Soul</h5>
+                        With temperatures reaching 60°C (140°F), Ma’in’s hydrogen sulfide-rich waters ease joint pain while zinc and potassium minerals rejuvenate skin. The magnesium content induces profound relaxation, making each soak a holistic therapy session.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ma'in Section 2 -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">A Living Legacy</h3>
+                        <h5>Where History and Hydrotherapy Merge</h5>
+                        King Herod sought these waters for his ailments, Byzantine monks built healing chapels nearby, and Bedouins still follow seasonal soaking rituals. The springs’ 2,000-year reputation as a curative site continues today.
+                    </p>
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">The Waterfall Experience</h3>
+                        <h5>Nature’s Massage Therapist</h5>
+                        Stand under warm cascades for hydrotherapy that combines heat, mineral absorption, and acupressure—all while surrounded by the canyon’s Jurassic-era rock formations. The highest falls plunge from 15 meters into milky blue pools.
+                    </p>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/Ma'in5Sa27.jpg" alt="Ma'in Canyon Pools" style="object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Visit Ma'in Section -->
+    <div class="container-xxl py-5" style="background-color: #fff;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100 rounded-3 overflow-hidden shadow-sm">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/Ma'in6.jpg" alt="Luxury Thermal Baths" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h2 class="text-primary mb-4" style="font-weight: 600;">Why Ma’in Captivates</h2>
+                    <div class="feature-list">
+                        <div class="d-flex mb-4">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Waterfall Hydrotherapy</h5>
+                                <p class="mb-0">Natural pressure massage under warm mineral cascades</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Layered Healing</h5>
+                                <p class="mb-0">Soak in pools with varying mineral profiles and temperatures</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Timeless Luxury</h5>
+                                <p class="mb-0">Five-star resorts harmonize with untouched nature</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4">
+                        "At Ma’in, you’re not just visiting hot springs—you’re experiencing Earth’s ancient healing intelligence." Pair your soak with Dead Sea treatments just 30 minutes away for the ultimate Jordanian wellness journey.
+                    </p>
+                    <a class="btn btn-primary py-3 px-5" style="margin-top:20px" asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Ma'in Hot Springs">Book now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+</body>

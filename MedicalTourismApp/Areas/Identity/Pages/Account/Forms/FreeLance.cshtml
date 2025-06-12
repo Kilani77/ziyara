@@ -1,0 +1,424 @@
+﻿@page
+@model MedicalTourismApp.Areas.Identity.Pages.Account.Forms.FreeLanceModel
+@{
+    ViewData["Title"] = "Register as Freelancer";
+}
+<style>
+    .navbar {
+        background-color: #ffffff !important;
+        transition: background-color 0.5s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+        z-index: 1000; /* stays on top */
+    }
+
+        .navbar.sticky-top, .navbar.scrolled {
+            background-color: #ffffff !important;
+            transition: background-color 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+            z-index: 1000; /* stays on top */
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: #000000 !important;
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        margin-right: 25px;
+        padding: 20px 0;
+        font-size: 18px;
+        font-weight: 600;
+        transition: .5s;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<div class="container-fluid navbar-light p-0">
+    <nav class=" navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+            <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+                 <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+            </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                }
+                
+                else if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                }
+                else
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="/Identity/Account/Login" class="btn btn-primary rounded-pill py-2 px-4 center">Login</a>
+                        </div>
+                    </div>
+
+                }
+                <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                    <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                </a>
+            </div>
+
+
+        </div>
+    </nav>
+</div>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <div class="card-header text-white py-4" style="background: linear-gradient(135deg, #86B817 0%, #9BD117 100%);">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-user-md fa-2x"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h2 class="h3 mb-1">Register Your Freelance Service</h2>
+                            <p class="mb-0 opacity-75">Join Jordan's medical tourism professional network</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="row g-4">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                               
+
+                                <div class="form-floating">
+                                    <input asp-for="Input.language" class="form-control" id="language" placeholder="Languages spoken" />
+                                    <label for="language">Languages Spoken</label>
+                                    <span asp-validation-for="Input.language" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                                <div class="form-floating mt-3">
+                                    <input asp-for="Input.Availabile" class="form-control" id="available" placeholder="Bio" />
+                                    <label for="available">About Yourself</label>
+                                    <span asp-validation-for="Input.Availabile" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label>Service Location:</label>
+                                    <div class="input-group">
+                                        <input type="text" id="location-display" class="form-control" readonly placeholder="Click to select location" />
+                                        <input type="hidden" asp-for="Input.supportArea" id="location-input" />
+                                        <button class="btn" type="button" onclick="$('#mapModal').modal('show')"
+                                                style="background-color: #86B817; color: white;">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Input.supportArea" class="text-danger small mt-1 d-block"></span>
+                                </div>
+
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select asp-for="Input.Typeofservice" class="form-control" id="Typeofservice">
+                                        <option value="">-- Select Service Type --</option>
+                                        <option value="nursing">Nursing</option>
+                                        <option value="physical therapy">Physical Therapy</option>
+                                        <option value="Alternative medicine">Alternative Medicine</option>
+                                    </select>
+                                    <label for="Typeofservice">Professional Service</label>
+                                    <span asp-validation-for="Input.Typeofservice" class="text-danger small mt-1 d-block"></span>
+                                </div>
+
+                                <div class="form-floating mt-3">
+                                    <input asp-for="Input.expirenece" class="form-control" id="experience" placeholder="Years of experience" />
+                                    <label for="experience">Years of Experience</label>
+                                    <span asp-validation-for="Input.expirenece" class="text-danger small mt-1 d-block"></span>
+                                </div>
+
+                                <div class="form-floating mt-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-transparent border-end-0" style="color: #86B817;">$</span>
+                                        <input asp-for="Input.StartingPrice" class="form-control border-start-0 ps-0" id="price" placeholder="Starting price" />
+                                        
+                                    </div>
+                                    <span asp-validation-for="Input.StartingPrice" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold" style="color:black">Upload Profile Images</label>
+                            <div class="file-upload-wrapper border rounded p-3" style="background-color: #f8f9fa;">
+                                <input type="file" asp-for="Input.Images"  class="form-control" id="guideImages" accept="image/*" />
+
+                                <span asp-validation-for="Input.Images" class="text-danger small"></span>
+                            </div>
+                            <div id="imagePreview" class="d-flex flex-wrap gap-2 mt-3"></div>
+                        </div>
+                        <div class="d-grid mt-5">
+                            <button type="submit" class="btn btn-lg py-3 text-white fw-bold"
+                                    style="background: linear-gradient(135deg, #86B817 0%, #9BD117 100%);
+                                           border: none;
+                                           letter-spacing: 1px;">
+                                <i class="fas fa-user-plus me-2"></i>REGISTER AS FREELANCER
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Map Modal (unchanged) -->
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mapModalLabel">Select Location</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="map" style="height: 400px; width: 100%;"></div>
+                <p id="selected-location" class="mt-2">Selected: <span id="location-address">None</span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel-button">Cancel</button>
+                <button type="button" class="btn btn-primary" style="background-color: #86B817; border-color: #86B817;" id="confirm-location">Confirm Location</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary-color: #86B817;
+            --primary-light: #d1e7a3;
+            --primary-dark: #769e14;
+        }
+
+        .footer {
+            display: none;
+        }
+        .card {
+            border-radius: 16px;
+            overflow: hidden;
+            border: none;
+        }
+
+        .card-header {
+            border-bottom: none;
+        }
+
+        .form-floating > label {
+            color: #6c757d;
+        }
+
+        .form-control, .form-select, .form-floating > .form-control {
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.25rem rgba(134, 184, 23, 0.15);
+            }
+
+        .btn {
+            transition: all 0.4s;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(134, 184, 23, 0.3);
+            }
+
+            .btn:active {
+                transform: translateY(-1px);
+            }
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&libraries=places&callback=initMap"></script>
+    <script>
+        let map, marker, geocoder;
+          let selectedLatLng = null;
+          document.getElementById('location-display').addEventListener('click', () => {
+              $('#mapModal').modal('show');
+          });
+          function initMap() {
+              // Initialize map centered on Amman, Jordan
+              map = new google.maps.Map(document.getElementById('map'), {
+                  center: { lat: 31.9539, lng: 35.9106 },
+                  zoom: 12
+              });
+
+              geocoder = new google.maps.Geocoder();
+
+              // Add click listener to place marker
+              map.addListener('click', (event) => {
+                  placeMarker(event.latLng);
+              });
+          }
+
+          function placeMarker(location) {
+              // Remove existing marker
+              if (marker) {
+                  marker.setMap(null);
+              }
+
+              // Place new marker
+              marker = new google.maps.Marker({
+                  position: location,
+                  map: map
+              });
+
+              selectedLatLng = location;
+
+              // Reverse geocode to get address
+              geocoder.geocode({ location: location }, (results, status) => {
+                  if (status === 'OK' && results[0]) {
+                      document.getElementById('location-address').textContent = results[0].formatted_address;
+                  } else {
+                      document.getElementById('location-address').textContent = 'Address not found';
+                  }
+              });
+          }
+
+          // Confirm location and update form
+          document.getElementById('confirm-location').addEventListener('click', () => {
+              if (selectedLatLng) {
+                  const lat = selectedLatLng.lat();
+                  const lng = selectedLatLng.lng();
+                  const locationString = `${lat},${lng}`;
+                  document.getElementById('location-input').value = locationString;
+                  document.getElementById('location-display').value = document.getElementById('location-address').textContent;
+                  $('#mapModal').modal('hide');
+              } else {
+                  alert('Please select a location on the map.');
+              }
+          });
+          document.getElementById('cancel-button').addEventListener('click', () => {
+            $('#mapModal').modal('hide');
+        });
+        document.querySelector('.modal-header .close').addEventListener('click', () => {
+            $('#mapModal').modal('hide');
+        });
+    </script>
+    <script>
+        // Map functionality (unchanged)
+        let map, marker, geocoder;
+        let selectedLatLng = null;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 31.9539, lng: 35.9106 },
+                zoom: 12
+            });
+
+            geocoder = new google.maps.Geocoder();
+
+            map.addListener('click', (event) => {
+                placeMarker(event.latLng);
+            });
+        }
+
+        function placeMarker(location) {
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            selectedLatLng = location;
+
+            geocoder.geocode({ location: location }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    document.getElementById('location-address').textContent = results[0].formatted_address;
+                } else {
+                    document.getElementById('location-address').textContent = 'Address not found';
+                }
+            });
+        }
+
+        document.getElementById('confirm-location').addEventListener('click', () => {
+            if (selectedLatLng) {
+                const lat = selectedLatLng.lat();
+                const lng = selectedLatLng.lng();
+                const locationString = `${lat},${lng}`;
+                document.getElementById('location-input').value = locationString;
+                document.getElementById('location-display').value = document.getElementById('location-address').textContent;
+                $('#mapModal').modal('hide');
+            } else {
+                alert('Please select a location on the map.');
+            }
+        });
+
+        $('#mapModal').on('shown.bs.modal', function() {
+            google.maps.event.trigger(map, 'resize');
+            if (selectedLatLng) {
+                map.setCenter(selectedLatLng);
+            } else {
+                map.setCenter({ lat: 31.9539, lng: 35.9106 });
+            }
+        });
+                document.getElementById('cancel-button').addEventListener('click', () => {
+            $('#mapModal').modal('hide');
+        });
+        document.querySelector('.modal-header .close').addEventListener('click', () => {
+            $('#mapModal').modal('hide');
+        });
+    </script>
+}

@@ -1,0 +1,601 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Premium Car Rentals in Jordan";
+}
+
+<style>
+    .m-3 {
+        margin: 0.3rem !important;
+    }
+
+    .hover-translate {
+        transition: all 0.3s ease;
+    }
+
+        .hover-translate:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .badge.bg-light {
+        padding: 0.35rem 0.75rem;
+        font-weight: 500;
+    }
+
+    .object-cover {
+        object-fit: cover;
+    }
+
+    .car-img-container {
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .car-placeholder-icon {
+        font-size: 3.5rem;
+        color: rgba(0, 0, 0, 0.1);
+    }
+
+    .driver-badge {
+        background-color: rgba(25, 135, 84, 0.9);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .navbar {
+        background-color: #ffffff !important;
+        transition: background-color 0.5s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+        z-index: 1000; /* stays on top */
+    }
+
+        .navbar.sticky-top, .navbar.scrolled {
+            background-color: #ffffff !important;
+            transition: background-color 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+            z-index: 1000; /* stays on top */
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: #000000 !important;
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        margin-right: 25px;
+        padding: 20px 0;
+        font-size: 18px;
+        font-weight: 600;
+        transition: .5s;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        padding: 10px !important;
+    }
+
+    .shadow-lg {
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.100) !important
+    }
+  .floating-skip-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px; /* Increased for more rounded shape */
+        background: #86B817; /* Solid green as per your specification */
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(134, 184, 23, 0.3); /* Subtle shadow */
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 1000;
+    }
+
+    .floating-skip-btn:hover {
+        background: #99C930; /* Lighter green for hover effect based on image */
+        transform: translateY(-2px); /* Slight lift on hover */
+        box-shadow: 0 6px 15px rgba(134, 184, 23, 0.4); /* Enhanced shadow on hover */
+    }
+
+    .floating-skip-btn:active {
+        transform: translateY(0);
+    }
+
+    @@media (max-width: 768px) {
+        .floating-skip-btn {
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+    }
+</style>
+<div class="container-fluid navbar-light p-0">
+    <nav class=" navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+        <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+                    <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "nursing")
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Nurse/Dashboarder">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "physical therapy")
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Phsy/Dashboard">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "Alternative medicine")
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Alt/Dashboard">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Apartment"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Apartment/Dashboarder">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Guide"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Guide/Dashboarder">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Transportation"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Transportation/Dashboarder">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a asp-action="Appointments" asp-controller="Home" class="nav-item nav-link">Appointments</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+
+
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                }
+                else
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+
+                    <a class="nav-item nav-link " href="/Identity/Account/Login">Login</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="/Identity/Account/Register" class="btn btn-primary rounded-pill py-2 px-4 center">Register</a>
+                        </div>
+                    </div>
+
+                }
+                <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                    <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                </a>
+            </div>
+
+
+        </div>
+    </nav>
+</div>
+
+	<section class="tour-guides-section" style="margin-top:100px">
+    <div class="container py-7">
+        <!-- Page Header -->
+        <div class="text-center mb-6">
+            <span class="badge bg-primary bg-opacity-10 mb-3 px-4 py-2 rounded-pill">
+                <i class="fas fa-car me-2"></i> Premium Rentals
+            </span>
+            @if (ViewBag.Flow != null)
+            {
+                <h1 class="display-4 fw-bold mb-3">Find Your Perfect Ride in Jordan</h1>
+                <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                    Step 3: Choose a Car.
+                </p>
+            }
+            else
+            {
+                <h1 class="display-4 fw-bold mb-3">Find Your Perfect Ride in Jordan</h1>
+                <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                    Explore our premium collection of vehicles for your next adventure
+                </p>
+            }
+        </div>
+
+        <!-- Search Form -->
+        <div class="card shadow-lg border-0 rounded-4 mb-6" style="margin-bottom: 1rem !important;">
+            <div class="card-body p-4">
+                <form asp-action="carIndex" asp-controller="Tourist" method="get" class="row g-3">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-start-0">
+                                <i class="fas fa-car text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-start-0" name="modelcar"
+                                   placeholder="Car model" value="@Context.Request.Query["modelcar"]">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fas fa-map-marker-alt text-muted"></i>
+                            </span>
+                            <select class="form-select border-start-0" name="city">
+                                <option value="">Location</option>
+                                <option value="Amman" selected="@(Context.Request.Query["city"] == "Amman")">Amman</option>
+                                <option value="Aqaba" selected="@(Context.Request.Query["city"] == "Aqaba")">Aqaba</option>
+                                <option value="Petra" selected="@(Context.Request.Query["city"] == "Petra")">Petra</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fas fa-users text-muted"></i>
+                            </span>
+                            <select class="form-select border-start-0" name="numberseat">
+                                <option value="">Seats</option>
+                                <option value="2" selected="@(Context.Request.Query["numberseat"] == "2")">2</option>
+                                <option value="4" selected="@(Context.Request.Query["numberseat"] == "4")">4-5</option>
+                                <option value="7" selected="@(Context.Request.Query["numberseat"] == "7")">6-7</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fas fa-dollar-sign text-muted"></i>
+                            </span>
+                            <select class="form-select border-start-0" name="price">
+                                <option value="">Max Price</option>
+                                <option value="50" selected="@(Context.Request.Query["price"] == "50")">$50</option>
+                                <option value="100" selected="@(Context.Request.Query["price"] == "100")">$100</option>
+                                <option value="150" selected="@(Context.Request.Query["price"] == "150")">$150+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="driveravl" id="driverCheck" @(Context.Request.Query["driveravl"].Count > 0 ? "checked" : "")>
+                            <label class="form-check-label" for="driverCheck">With Driver</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-primary w-100 h-100">
+                            <i class="fas fa-search me-2"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        
+
+        <!-- Cars Grid -->
+        <div class="row g-4">
+            @foreach (var car in Model)
+            {
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 overflow-hidden transition-all hover-translate">
+                        <!-- Car Image -->
+                        <div class="car-img-container">
+                            @{
+                                var firstImage = ViewData[$"FirstImage_{car.Id}"]?.ToString();
+                            }
+                            @if (!string.IsNullOrEmpty(firstImage))
+                            {
+                                <img src="@firstImage" class="img-fluid w-100 h-100 object-cover">
+                            }
+
+                            @if (car.DriverAvalablity)
+                            {
+                                <span class="driver-badge position-absolute top-0 start-0 m-3">
+                                    <i class="fas fa-user-tie me-1"></i> With Driver
+                                </span>
+                            }
+                            <div class="position-absolute top-0 end-0 m-3">
+                                @{
+                                    var averageRating = (double)(ViewData[$"AverageRating_{car.Id}"] ?? 0.0);
+                                }
+                                @if (averageRating == 0.0)
+                                {
+                                    <span class="badge bg-white text-dark fw-semibold px-3 py-2 shadow-sm rounded-pill">
+                                        No reviews yet
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge  text-dark fw-semibold px-3 py-2 shadow-sm rounded-pill" data-bs-toggle="tooltip" data-bs-placement="left" title="@averageRating.ToString("F1") out of 5">
+                                        <span class="star-rating" data-rating="@averageRating">
+                                            @for (int i = 0; i < averageRating; i++)
+                                            {
+                                                <i class="fas fa-star text-warning ms-1"></i>
+
+                                            }
+
+                                        </span>
+                                        <span class="ms-1">@averageRating.ToString("F1")</span>
+                                    </span>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Car Details -->
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3">
+                                <h5 class="fw-bold mb-1">@car.modelocar</h5>
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-user me-1"></i> @car.ServiceProvider?.User?.FullName
+                                </p>
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <span class="badge bg-light text-dark border">
+                                        <i class="fas fa-users text-primary me-1"></i> @car.Numberofseats seats
+                                    </span>
+                                    @* <span class="badge bg-light text-dark border"> *@
+                                    @*     <i class="fas fa-gas-pump text-primary me-1"></i> Petrol *@
+                                    @* </span> *@
+                                    @* <span class="badge bg-light text-dark border"> *@
+                                    @*     <i class="fas fa-map-marker-alt text-primary me-1"></i> @car.Location *@
+                                    @* </span> *@
+                                </div>
+                                @* <p class="card-text text-muted small">@car.Bio</p> *@
+                            </div>
+                            <div class="mt-auto pt-2">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <span class="text-primary fw-bold">$@car.PricePerDay</span>
+                                        <span class="text-muted small">/day</span>
+                                    </div>
+                                    <a asp-controller="Tourist" asp-action="carDetails" asp-route-flow="@ViewBag.Flow" asp-route-id="@car.Id"
+                                       class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                        View Details
+                                    </a>
+                                </div>
+                                <div class="btn btn-primary w-100 rounded-3">
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                                    {
+                                        <a asp-action="carBook" asp-controller="Tourist" asp-route-id="@car.Id" asp-route-flow="@ViewBag.Flow" class="btn btn-primary book-btn px-4 me-md-2">
+                                            <i class="fas fa-calendar-check me-2"></i>Book Now
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Identity/Account/Login?returnUrl=@Url.Action("carDetails","Tourist", new { id = car.Id })" class="btn btn-primary book-btn px-4 me-md-2">
+                                            <i class="fas fa-calendar-check me-2"></i>Book Now
+                                        </a>
+                                    }
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+         
+        <!-- Pagination -->
+        <div class="text-center mt-6" style="margin-top: 1rem !important;">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link" asp-action="ApartmentIndex" asp-controller="Tourist"
+                           asp-route-page="@(ViewBag.PageIndex - 1)"
+                           asp-route-modelcar="@ViewBag.modelcar"
+                           asp-route-numberseat="@ViewBag.numberseat"
+                           asp-route-driveravl="@ViewBag.driveravl"
+                           asp-route-numberofrooms="@ViewBag.NumberOfRooms"
+                           asp-route-price="@ViewBag.price"
+                           asp-route-flow="@ViewBag.Flow">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.PageIndex ? "active" : "")">
+                            <a class="page-link" asp-action="ApartmentIndex" asp-controller="Tourist"
+                               asp-route-page="@i"
+                              asp-route-modelcar="@ViewBag.modelcar"
+                           asp-route-numberseat="@ViewBag.numberseat"
+                           asp-route-driveravl="@ViewBag.driveravl"
+                           asp-route-numberofrooms="@ViewBag.NumberOfRooms"
+                           asp-route-price="@ViewBag.price"
+                               asp-route-flow="@ViewBag.Flow">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.HasNextPage ? "" : "disabled")">
+                        <a class="page-link" asp-action="ApartmentIndex" asp-controller="Tourist"
+                           asp-route-page="@(ViewBag.PageIndex + 1)"
+                           asp-route-modelcar="@ViewBag.modelcar"
+                           asp-route-numberseat="@ViewBag.numberseat"
+                           asp-route-driveravl="@ViewBag.driveravl"
+                           asp-route-numberofrooms="@ViewBag.NumberOfRooms"
+                           asp-route-price="@ViewBag.price"
+                           asp-route-flow="@ViewBag.Flow">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+@if(ViewBag.flow=="easy"){
+     <a asp-action="GuideIndex" asp-controller="Tourist" asp-route-flow="@ViewBag.Flow" class="floating-skip-btn">
+         <i class="fas fa-forward"></i> Skip Service
+     </a>
+}
+else if(ViewBag.flow=="guide")
+{
+    <a asp-action="DoctorIndex" asp-controller="Tourist" asp-route-flow="@ViewBag.Flow" class="floating-skip-btn">
+     <i class="fas fa-forward"></i> Skip Service
+    </a>
+}

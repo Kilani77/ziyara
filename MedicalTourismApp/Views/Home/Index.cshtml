@@ -1,0 +1,1154 @@
+﻿<style>
+    .package-item {
+        box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+        height: 100%; /* Make it fill its column */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        .package-item img {
+            transition: .5s;
+            width: 100%;
+            height: 250px; /* Set fixed image height */
+            object-fit: cover; /* Ensure image covers space without stretching */
+        }
+
+        .package-item .text-center.p-4 {
+            flex-grow: 1; /* Allow content to grow and fill space */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        overflow: hidden;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .card-header {
+        padding: 1.5rem;
+        border-bottom: none;
+        text-align: center;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .btn {
+        border-radius: 8px;
+        font-weight: 500;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+    .medical-card {
+        background-color: #e6f0fa;
+    }
+
+    .accommodation-card {
+        background-color: #e6faec;
+    }
+
+    .transport-card {
+        background-color: #e6f5fa;
+    }
+
+    .tourism-card {
+        background-color: #faf0e6;
+    }
+
+    .badge-medical {
+        background-color: #007bff;
+    }
+
+    .badge-accommodation {
+        background-color: #28a745;
+    }
+
+    .badge-transport {
+        background-color: #17a2b8;
+    }
+
+    .badge-tourism {
+        background-color: #ffc107;
+    }
+
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+    }
+
+    .text-primary-medical {
+        color: #007bff !important;
+    }
+
+    .text-primary-accommodation {
+        color: #28a745 !important;
+    }
+
+    .text-primary-transport {
+        color: #17a2b8 !important;
+    }
+
+    .text-primary-tourism {
+        color: #ffc107 !important;
+    }
+
+ 
+
+.testimonial-item {
+     border-radius: 50px;
+    transition: transform 0.3s ease;
+
+}
+
+.testimonial-item:hover {
+    transform: translateY(-5px);
+}
+
+.testimonial-inner {
+    border-radius: 20px;
+    overflow: hidden;
+}
+    /* Alert Styles */
+    .alert {
+        max-width: 400px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @@keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .mb-1 {
+        margin-bottom: .25rem !important;
+        margin-top: .80rem !important;
+    }
+
+</style>
+
+<body>
+    <section id="Up">
+    <div class="container-fluid position-relative p-0">
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+                <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+                    <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3 " src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+                </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button> 
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin")) 
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a> 
+                        <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a> 
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                            <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                            <a href="Destination" class="nav-item nav-link">Destination</a>
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                            <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                            <a href="#Destination" class="nav-item nav-link">Destination</a>
+                       
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                   else if ( User.IsInRole("Freelance")&&TempData["type"].ToString() == "nursing" )
+                        {
+                            <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                            <a class="nav-item nav-link" href="/Nurse/Dashboarder">Dashboard</a>
+
+                            <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                                <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                                <a href="#Destination" class="nav-item nav-link">Destination</a>
+                       
+                            <div class="collapse navbar-collapse" id="navbarCollapse">
+                                <div class="navbar-nav ms-auto py-0">
+                                    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                        <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        }
+                   else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "physical therapy"  )
+                                    {
+                            <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                            <a class="nav-item nav-link" href="/Phsy/Dashboard">Dashboard</a>
+
+                            <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                                <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                                <a href="#Destination" class="nav-item nav-link">Destination</a>
+                       
+                            <div class="collapse navbar-collapse" id="navbarCollapse">
+                                <div class="navbar-nav ms-auto py-0">
+                                    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                        <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        }
+                   else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "Alternative medicine")
+                                    {
+                            <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                            <a class="nav-item nav-link" href="/Alt/Dashboard">Dashboard</a>
+
+                            <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                                <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                                <a href="#Destination" class="nav-item nav-link">Destination</a>
+                       
+                            <div class="collapse navbar-collapse" id="navbarCollapse">
+                                <div class="navbar-nav ms-auto py-0">
+                                    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                        <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        }
+                   
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Apartment"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Apartment/Dashboarder">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                            <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                            <a href="#Destination" class="nav-item nav-link">Destination</a>
+                       
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Guide"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                            <a class="nav-item nav-link" href="/Guide/Dashboarder">Dashboard</a>
+
+                            <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                            <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                            <a href="#Destination" class="nav-item nav-link">Destination</a>
+                       
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Transportation"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                            <a class="nav-item nav-link" href="/Transportation/Dashboarder">Dashboard</a>
+
+                            <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                            <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                            <a href="#Destination" class="nav-item nav-link">Destination</a>
+                       
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                        <a asp-action="Appointments" asp-controller="Home" class="nav-item nav-link">Appointments</a>
+                            <a href="#Our Service" class="nav-item nav-link">Service</a>
+                            <a href="#Destination" class="nav-item nav-link">Destination</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                            <a href="#Our Service" class="nav-item nav-link">Service</a>
+                            <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+               
+                        <a class="nav-item nav-link" href="/Identity/Account/Login">Login</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <a href="/Identity/Account/Register" class="btn btn-primary rounded-pill py-2 px-4 center">Register</a>
+                            </div>
+                        </div>
+
+                    }
+      
+                    <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                        <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                    </a>
+                </div>
+
+
+            </div>
+        </nav>
+    </div>
+    </section>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+    @* <div class="container-fluid bg-primary py-5 mb-5 hero-header"> *@
+    @*     <div class="container py-5"> *@
+
+    @*         <div class="row justify-content-center py-5"> *@
+    @*             <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center"> *@
+    @*                 <div class="position-relative w-75 mx-auto animated slideInDown"> *@
+    @*                     <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Eg: Thailand"> *@
+    @*                     <button type="button" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Search</button> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+    <!-- Topbar End -->
+    <!-- Navbar & Hero Start -->
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+        <!-- Your existing navbar code remains the same -->
+        <!-- Hero Slider Section -->
+        <div class="hero-slider">
+            <!-- Slide 1 -->
+
+
+            <div class="slide active" style="background-image: url('@Url.Content("~/Home/img/bg-hero.jpg")');">
+
+
+                <div class="container py-5">
+                    <div class="row justify-content-center py-5">
+                        <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                            <h1 class="display-3 text-white mb-3 animated slideInDown">Enjoy Your Trip With Us</h1>
+                            <p class="fs-4 text-white mb-4 animated slideInDown">Enjoy a unique adventure in the heart of Jordan, where history meets nature</p>
+                            <div class="position-relative w-75 mx-auto animated slideInDown">
+                                <a class="btn btn-primary rounded-pill text-white py-3 " style="width:200px;" href="#Our Service">Our Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="slide" style="background-image:url('@Url.Content("~/Home/img/deadSeaM3.jpg")');">
+                <div class="container py-5">
+                    <div class="row justify-content-center py-5">
+                        <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                            <h1 class="display-3 text-white mb-3 animated slideInDown">Discover Amazing Places</h1>
+                            <p class="fs-4 text-white mb-4 animated slideInDown">Rediscover your health amidst the stunning landscapes of Jordan.</p>
+                            <div class="position-relative w-75 mx-auto animated slideInDown">
+                                <a class="btn btn-primary rounded-pill text-white py-3 " style="width:200px;" href="#Our Service">Our Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="slide" style="background-image: url('@Url.Content("~/Home/img/carousel-1.jpg")');">
+                <div class="container py-5">
+                    <div class="row justify-content-center py-5">
+                        <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                            <h1 class="display-3 text-white mb-3 animated slideInDown">Medical Services</h1>
+                            <p class="fs-4 text-white mb-4 animated slideInDown">Discover your exceptional treatment journey in the heart of Jordan, where comfort and premium healthcare meet</p>
+                            <div class="position-relative w-75 mx-auto animated slideInDown">
+                                <a class="btn btn-primary rounded-pill text-white py-3 " style="width:200px;" href="#Our Service">Our Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Slider Controls -->
+            <button class="slider-control prev" aria-label="Previous slide">&#10094;</button>
+            <button class="slider-control next" aria-label="Next slide">&#10095;</button>
+
+            <!-- Slider Indicators -->
+            <div class="slider-indicators">
+                <button class="indicator active" aria-label="Go to slide 1"></button>
+                <button class="indicator" aria-label="Go to slide 2"></button>
+                <button class="indicator" aria-label="Go to slide 3"></button>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
+    <!-- Navbar & Hero End -->
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/jordanAbuot.gif" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title bg-white text-start text-primary pe-3">Medical tourism </h6>
+                    <h1 class="mb-4">Welcome to <span class="text-primary">Jordan</span></h1>
+                    <p class="mb-4">Jordan is a leading destination for medical tourism, offering high-quality healthcare services at affordable prices, with skilled doctors and internationally accredited hospitals.</p>
+                    <p class="mb-4">
+                        Patients also enjoy recovering in Jordan’s rich  natural sites like the Dead Sea ,Wadi Rum ,Al-Himmah Al-Ordonia, Ma'in Hot Springs
+                        and Afra Hot Springs , combining medical care with a unique travel experience.
+                    </p>
+                    <p>Why Choose Jordan for Medical Treatment?</p>
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Top-Tier Healthcare</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Cost-Effective Care</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>English-Speaking Medical Staff</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Short Waiting Times</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Tourism & Recovery Combined</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>24/7 Service</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+    <!-- Service Start -->
+    <section id="Our Service">
+
+        <div class="container-xxl py-5 bg-light">
+            <div class="container">
+                <div class="container">
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <h6 class="section-title bg-white text-center text-primary px-3">Services</h6>
+                        <h1 class="mb-5">Our Services</h1>
+                        <p class="lead text-muted mx-auto" style="max-width: 700px;">From medical consultations to travel accommodations, we provide all essential services for your health and comfort.</p>
+
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Doctors -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow">
+
+                                    <div class="position-relative">
+                                        <img src="~/Home/img/doctor.jpg" class="card-img-top" alt="Doctors" style="height: 200px; object-fit: cover;">
+                                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                                            <span class="badge bg-primary">Medical</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h5 class="mb-0 me-2">Doctors</h5>
+                                                <i class="fas fa-user-md text-primary"></i>
+                                            </div>
+                                            <p class="text-muted mb-3">Available for in-person and virtual consultations with certified healthcare professionals.</p>
+                                        </div>
+                                        <a asp-action="DoctorIndex" asp-controller="Tourist" class="btn btn-outline-primary mt-auto align-self-start">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Medical Freelance -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.3s">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow">
+
+                                    <div class="position-relative">
+                                        <img src="~/Home/img/blog-3.jpg" class="card-img-top" alt="Medical Staff" style="height: 200px; object-fit: cover;">
+                                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                                            <span class="badge bg-primary">Medical</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h5 class="mb-0 me-2">Medical Freelance</h5>
+                                                <i class="fas fa-hand-holding-medical text-primary"></i>
+                                            </div>
+                                            <p class="text-muted mb-3">Skilled nurses and healthcare professionals available for home care services.</p>
+                                        </div>
+                                        <a asp-action="FreeTypes" asp-controller="Tourist" class="btn btn-outline-primary mt-auto align-self-start">Hire Staff</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Guides -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.5s">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow">
+
+                                    <div class="position-relative">
+                                        <img src="~/Home/img/Guide.jpg" class="card-img-top" alt="Guides" style="height: 200px; object-fit: cover;">
+                                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                                            <span class="badge bg-primary">Tourism</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h5 class="mb-0 me-2">Guides</h5>
+                                                <i class="fas fa-map-marked-alt text-primary"></i>
+                                            </div>
+                                            <p class="text-muted mb-3">Knowledgeable local guides to help you explore and experience the best sights.</p>
+                                        </div>
+                                        <a href="@Url.Action("GuideIndex", "Tourist")" class="btn btn-outline-primary mt-auto align-self-start">Find Guides</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Transportations -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.7s">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow">
+
+                                    <div class="position-relative">
+                                        <img src="~/Home/img/RentCar.jpg" class="card-img-top" alt="Transportation" style="height: 200px; object-fit: cover;">
+                                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                                            <span class="badge bg-primary">Transport</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h5 class="mb-0 me-2">Transportations</h5>
+                                                <i class="fas fa-car text-primary"></i>
+                                            </div>
+                                            <p class="text-muted mb-3">Reliable transportation services including taxis, car rentals, and transfers.</p>
+                                        </div>
+                                        <a asp-action="carIndex" asp-controller="Tourist" class="btn btn-outline-primary mt-auto align-self-start">Book Ride</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotels -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow">
+
+                                    <div class="position-relative">
+                                        <img src="~/Home/img/hotel.jpg" class="card-img-top" alt="Hotels" style="height: 200px; object-fit: cover;">
+                                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                                            <span class="badge bg-primary">Accommodation</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h5 class="mb-0 me-2">Hotels</h5>
+                                                <i class="fas fa-hotel text-primary"></i>
+                                            </div>
+                                            <p class="text-muted mb-3">Browse our selection of available hotels and comfortable accommodations.</p>
+                                        </div>
+                                        <a asp-action="Hotel" asp-controller="Tourist" class="btn btn-outline-primary mt-auto align-self-start">View Hotels</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Rent Apartments -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.3s">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow">
+
+                                    <div class="position-relative">
+                                        <img src="~/Home/img/apartment.jpg" class="card-img-top" alt="Apartments" style="height: 200px; object-fit: cover;">
+                                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                                            <span class="badge bg-primary">Accommodation</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h5 class="mb-0 me-2">Rent Apartments</h5>
+                                                <i class="fas fa-home text-primary"></i>
+                                            </div>
+                                            <p class="text-muted mb-3">Fully furnished apartments for short-term or long-term stays with amenities.</p>
+                                        </div>
+                                        <a asp-action="apartmentIndex" asp-controller="Tourist" class="btn btn-outline-primary mt-auto align-self-start">View Apartments</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Clinics -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.5s">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow">
+
+                                    <div class="position-relative">
+                                        <img src="~/Home/img/Clinic.jpg" class="card-img-top" alt="Clinics" style="height: 200px; object-fit: cover;">
+                                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                                            <span class="badge bg-primary">Medical</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h5 class="mb-0 me-2">Clinics</h5>
+                                                <i class="fas fa-clinic-medical text-primary"></i>
+                                            </div>
+                                            <p class="text-muted mb-3">Modern clinics offering specialized medical services with state-of-the-art facilities.</p>
+                                        </div>
+                                        <a asp-action="ClinicIndex" asp-controller="Tourist" class="btn btn-outline-primary mt-auto align-self-start">Find Clinics</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hospitals -->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.7s">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow">
+
+                                    <div class="position-relative">
+                                        <img src="~/Home/img/Hospital.jpg" class="card-img-top" alt="Hospitals" style="height: 200px; object-fit: cover;">
+                                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                                            <span class="badge bg-primary">Medical</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h5 class="mb-0 me-2">Hospitals</h5>
+                                                <i class="fas fa-hospital text-primary"></i>
+                                            </div>
+                                            <p class="text-muted mb-3">Comprehensive healthcare institutions providing emergency and specialized treatments.</p>
+                                        </div>
+                                        <a asp-action="HospitalIndex" asp-controller="Tourist" class="btn btn-outline-primary mt-auto align-self-start">View Hospitals</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+
+                        
+
+                       
+
+                       
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Service End -->
+    <div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center pb-4 wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Process</h6>
+            <h1 class="mb-5">Plan Your Journey in Two Easy Steps</h1>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">Effortlessly plan your medical and travel experience with our streamlined two-step process.</p>
+        </div>
+        <div class="row gy-5 gx-4 justify-content-center">
+            <!-- Step 1: Book a Doctor -->
+            <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow" style="background-color: #e6f5d6;">
+                    <div class="position-relative pt-5 pb-4 px-4">
+                        <div class="icon-circle bg-primary text-white mb-3">
+                            <i class="fa fa-stethoscope fa-2x"></i>
+                        </div>
+                        <h5 class="mt-4" style="color: #86B817;">Book a Doctor First</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="text-muted mb-3">Start by booking a trusted doctor, then seamlessly choose additional services like a guide, apartment, freelancer, or car.</p>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                        {
+                            <a asp-action="DoctorIndex" asp-controller="Tourist" asp-route-flow="easy" class="btn btn-primary rounded-pill mt-auto">Book Now</a>
+                        }
+                        else
+                        {
+                            <a href="/Identity/Account/Login?returnUrl=@Url.Action("DoctorIndex","Tourist",new {flow="easy"})" class="btn btn-primary rounded-pill mt-auto">Book Now</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- Step 2: Book a Guide --> 
+            <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden transition-all hover-shadow" style="background-color: #e6f5d6;">
+                    <div class="position-relative pt-5 pb-4 px-4">
+                        <div class="icon-circle bg-primary text-white mb-3">
+                            <i class="fa fa-compass fa-2x"></i>
+                        </div>
+                        <h5 class="mt-4" style="color: #86B817;">Book a Guide First</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="text-muted mb-3">Begin with a local guide to explore your destination, then easily add services like a doctor, apartment, freelancer, or car.</p>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                        {
+                            <a asp-action="Guideindex" asp-controller="Tourist" asp-route-flow="guide" class="btn btn-primary rounded-pill mt-auto">Find a Guide</a>
+                        }
+                        else
+                        {
+
+                            <a href="/Identity/Account/Login?returnUrl=@Url.Action("Guideindex","Tourist",new {flow="guide"})" class="btn btn-primary rounded-pill mt-auto">Find a Guide</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Destination Start -->
+    
+        <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
+                <h1 class="mb-5">Popular Destination</h1>
+            </div>
+            <div class="row g-3">
+
+                <!-- Column 1 -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="row g-3">
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.1s">
+                            <a class="position-relative d-block overflow-hidden">
+                                <img src="~/Home/img/ram.jpg" alt="">
+                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Wadi Rum</div>
+
+                            </a>
+                        </div>
+                        <div class="col-6 wow zoomIn" data-wow-delay="0.3s">
+                            <a class="position-relative d-block overflow-hidden">
+                                <img src="~/Home/img/deadSea2.jpg" alt="">
+                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Dead Sea</div>
+                            </a>
+                        </div>
+                        <div class="col-6 wow zoomIn" data-wow-delay="0.5s">
+                            <a class="position-relative d-block overflow-hidden">
+                                <img src="~/Home/img/hmamresilutionUp.png" alt="">
+                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Al-Hamma</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="col-lg-6 col-md-6 wow zoomIn" data-wow-delay="0.7s">
+                    <div class="d-flex flex-column h-100 justify-content-between">
+                        <!-- Image 1: Ma'in Hot Springs -->
+                        <a class="position-relative d-block overflow-hidden mb-3 flex-fill" style="min-height: 100%;">
+                            <img class="w-100 h-100" src="~/Home/img/ma3en2.jpg" alt="" style="object-fit: cover;">
+                            <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Ma'in Hot Springs</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Destination Start -->
+    <!-- Package Start -->
+    <section id="Destination">
+        <div class="container-xxl py-5">
+        <div class="container">
+
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
+                <h1 class="mb-5">Awesome Destination</h1>
+            </div>
+            @*================================================================================ *@
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="~/Home/img/ram.jpg" alt="">
+                        </div>
+
+                        <div class="text-center p-4">
+                            <h3 class="mb-0"> Wadi Rum </h3>
+                            @* <div class="mb-3"> *@
+                            @*     <small class="fa fa-star text-primary"></small> *@
+                            @*     <small class="fa fa-star text-primary"></small> *@
+                            @*     <small class="fa fa-star text-primary"></small> *@
+                            @*     <small class="fa fa-star text-primary"></small> *@
+                            @*     <small class="fa fa-star text-primary"></small> *@
+                            @* </div> *@
+                            <p>Explore Wadi Rum’s breathtaking red dunes, starry nights, and ancient wonders—a healing desert paradise like no other!</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a asp-action="WadiRum" asp-controller="Home" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Wadi Rum" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Show Guide</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="~/Home/img/dead2F.jpg" alt="">
+                        </div>
+
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">Dead Sea</h3>
+
+                            <p>Earth’s lowest point, highest relaxation—rejuvenate in the Dead Sea’s magic.</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a asp-action="DeadSea" asp-controller="Home" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Dead Sea" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Show Guide</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="~/Home/img/homaOr3.jpg" alt="">
+                        </div>
+
+                        <div class="text-center p-4">
+                            <h3 class="mb-0"> Al-Himmah Al-Ordonia </h3>
+
+                            <p>Step into warm, sulfur-rich springs, surrounded by Jordan’s lush valley beauty.</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a asp-action="homaOrdoonia" asp-controller="Home" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Al-Himmah Al-Ordonia" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Show Guide</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="~/Home/img/Ma'in100.jpg" alt="">
+                        </div>
+
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">Ma'in Hot Springs </h3>
+
+                            <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam eos</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a asp-action="maein" asp-controller="Home" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Ma'in Hot Springs" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Show Guide</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="~/Home/img/afra4.jpg" alt="">
+                        </div>
+
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">Afra Hot Springs</h3>
+
+                            <p>Where desert meets hot springs: unwind in Afra’s mineral-rich, restorative pools.</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a asp-action="Afra" asp-controller="Home" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Afra Hot Springs" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Show Guide</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Booking Start -->
+    <!-- Process Start -->
+
+   
+   
+
+<div class="container-fluid testimonial py-5 wow zoomInDown" data-wow-delay="0.1s">
+        <div class="container py-5">
+			<div class="text-center pb-4 wow fadeInUp" data-wow-delay="0.1s">
+				<h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
+				<h1 class="mb-5">What Our Clients Says</h1>
+			</div>
+			<!-- Testimonial Display -->
+            <div class="testimonial-carousel owl-carousel">
+
+                @foreach (var testimonial in Model)
+                {
+
+                    <div class="testimonial-item">
+                        <div class="testimonial-inner p-5">
+                            <div class="testimonial-inner-img mb-4">
+                                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3"
+                                     src="~/Home/img/default-avatar.jpg"
+                                     style="width: 80px; height: 80px; object-fit: cover;">
+                            </div>
+                            <div class="text-center">
+
+                                <p class="text-white fs-7">
+                                    @testimonial.Message
+                                </p>
+
+                                <h5 class="mb-2">@testimonial.User.FullName</h5>
+                                <p class="mb-2 text-white-50">@testimonial.Date.ToString("MMMM dd, yyyy")</p>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="text-center">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button class="btn btn-primary mb-1" data-bs-toggle="modal" data-bs-target="#testimonialModal">
+                        <i class="fas fa-plus me-2"></i>Share Your Experience
+                    </button>
+                }
+            </div>
+
+        </div>
+    </div>
+<!-- Testimonial Modal -->
+    <div class="modal fade" id="testimonialModal" tabindex="-1" aria-labelledby="testimonialModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="testimonialModalLabel">Share Your Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-controller="Home" asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Your Testimonial</label>
+                            <textarea class="form-control" id="message" name="message" rows="4" required
+                                      placeholder="Tell us about your experience..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Alert -->
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-@TempData["AlertType"] alert-dismissible fade show position-fixed top-0 end-0 m-3" style="z-index: 1100;">
+            @TempData["AlertMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Testimonial End -->
+    <!-- Back to Top -->
+    <a href="#Up" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="Home/lib/wow/wow.min.js"></script>
+    <script src="Home/lib/easing/easing.min.js"></script>
+    <script src="Home/lib/waypoints/waypoints.min.js"></script>
+    <script src="Home/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="Home/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="Home/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="Home/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="Home/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            let currentSlide = 0;
+            let slideInterval;
+            const slideDuration = 5000; // 5 seconds
+
+            // Function to show a specific slide
+            function showSlide(index) {
+                // Hide all slides
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+
+                // Show the selected slide
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            // Function to go to next slide
+            function nextSlide() {
+                const nextIndex = (currentSlide + 1) % slides.length;
+                showSlide(nextIndex);
+            }
+
+            // Function to go to previous slide
+            function prevSlide() {
+                const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(prevIndex);
+            }
+
+            // Start the automatic slideshow
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, slideDuration);
+            }
+
+            // Pause the slideshow when hovering over slider
+            function pauseSlideShow() {
+                clearInterval(slideInterval);
+            }
+
+            // Resume slideshow when mouse leaves
+            function resumeSlideShow() {
+                startSlideShow();
+            }
+
+            // Event listeners
+            nextBtn.addEventListener('click', function () {
+                pauseSlideShow();
+                nextSlide();
+                resumeSlideShow();
+            });
+
+            prevBtn.addEventListener('click', function () {
+                pauseSlideShow();
+                prevSlide();
+                resumeSlideShow();
+            });
+
+            // Add click event to indicators
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', function () {
+                    pauseSlideShow();
+                    showSlide(index);
+                    resumeSlideShow();
+                });
+            });
+
+            // Pause on hover
+            const slider = document.querySelector('.hero-slider');
+            slider.addEventListener('mouseenter', pauseSlideShow);
+            slider.addEventListener('mouseleave', resumeSlideShow);
+
+            // Initialize
+            showSlide(0);
+            startSlideShow();
+        });
+    </script>
+
+</body>

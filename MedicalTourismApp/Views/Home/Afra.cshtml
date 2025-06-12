@@ -1,0 +1,223 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    /* Custom Styles */
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    a.position-relative:hover .img-overlay {
+        background: rgba(0,0,0,0.4);
+    }
+
+    a.position-relative:hover img {
+        transform: scale(1.05);
+    }
+
+    .icon-box {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .colorWadiRam {
+    }
+
+    .section-title {
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .rounded-3 {
+        border-radius: 0.75rem !important;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important;
+    }
+
+    .fab-back-button {
+        position: fixed;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-color: #FFFFFF;
+        color: limegreen;
+        border: none;
+        border-radius: 50%;
+        padding: 15px;
+        font-size: 20px;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+        .fab-back-button:hover {
+            background-color: black;
+        }
+
+</style>
+<body>
+    <a href="javascript:history.back()" class="fab-back-button" title="Go Back">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+
+
+    <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
+                <h1 class="mb-5">Afra Mineral Hot Springs</h1>
+            </div>
+            <div class="row g-3">
+
+                <!-- Column 1 -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="row g-3">
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.1s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/Afra7.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-6 wow zoomIn" data-wow-delay="0.3s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/Afra3.jpeg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-6 wow zoomIn" data-wow-delay="0.5s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/Afra2.jpg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="col-lg-6 col-md-6 wow zoomIn" data-wow-delay="0.1s">
+                    <div class="d-flex flex-column h-100 justify-content-between">
+                        <!-- Image 1: Ma'in Hot Springs -->
+                        <a class="position-relative d-block overflow-hidden mb-3 flex-fill" style="min-height: 100%;" href="">
+                            <img class="w-100 h-100" src="~/Home/img/afra1.jpg" alt="" style="object-fit: cover;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Afra Section 1 -->
+    <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/afra5.jpg" alt="Afra Hot Springs" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Afra Hot Springs:</h3>
+                        <h5>Where Earth’s Depths Offer Healing</h5>
+                        Hidden in Tafilah’s mountains, Afra’s mineral springs emerge from volcanic fissures at 45°C (113°F), carrying a potent mix of sulfur, magnesium, and lithium. For millennia, weary travelers have sought these waters—from Nabatean traders to Ottoman healers—leaving the pools imbued with timeless therapeutic wisdom.
+                    </p>
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">The Science of Soaking</h3>
+                        <h5>Water That Transforms Body and Mind</h5>
+                        Afra’s unique mineral profile reduces inflammation, detoxifies through sweating, and even elevates mood through trace lithium absorption. The silica-rich waters leave skin noticeably softer—a natural alternative to cosmetic treatments.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Afra Section 2 -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">The Wild Soaking Experience</h3>
+                        <h5>Nature’s Spa Untamed</h5>
+                        Unlike commercial hot springs, Afra offers primitive stone pools where you can adjust water temperature by diverting mountain streams. Soak under open skies by day, or witness bioluminescent microbes glow in the waters after dark—a phenomenon unique to these mineral-rich springs.
+                    </p>
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Sacred Healing Ground</h3>
+                        <h5>Where Cultures Converged</h5>
+                        Ottoman bathhouse ruins stand testament to centuries of hydrotherapy, while nearby petroglyphs suggest even earlier Neolithic use. Local Bedouins still follow moon-cycle bathing rituals, believing the waters are most potent during full moons.
+                    </p>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/afra8.jpg" alt="Afra Stone Pools" style="object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Visit Afra Section -->
+    <div class="container-xxl py-5" style="background-color: #fff;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100 rounded-3 overflow-hidden shadow-sm">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/afra9.jpg" alt="Afra Canyon" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h2 class="text-primary mb-4" style="font-weight: 600;">Why Afra Stands Apart</h2>
+                    <div class="feature-list">
+                        <div class="d-flex mb-4">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Untouched Therapeutic Power</h5>
+                                <p class="mb-0">Experience undiluted mineral waters exactly as nature created them</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Customizable Therapy</h5>
+                                <p class="mb-0">Mix hot spring and cold stream waters to your ideal temperature</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Night Magic</h5>
+                                <p class="mb-0">Witness bioluminescent microorganisms glow in the dark waters</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4">
+                        "Afra isn’t about luxury amenities—it’s about raw, mineral-rich healing in its purest form." Pair your visit with Dana Biosphere Reserve’s hiking trails for a full mind-body rejuvenation.
+                    </p>
+                    <a class="btn btn-primary py-3 px-5" style="margin-top:20px" asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Afra Hot Springs">Book now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End Wadi Rum -->
+  
+  
+
+</body>

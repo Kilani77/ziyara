@@ -1,0 +1,196 @@
+.bodycal {
+	margin: 0;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100vh;
+}
+
+.containercal {
+	width: 400px;
+	height: 200px;
+	position: relative;
+	perspective: 1000;
+	-webkit-perspective: 1000;
+	left: calc(50% - 200px);
+	top: calc(50vh - 100px);
+}
+
+.cardcal {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	transition: transform 1s ease;
+	cursor: pointer;
+}
+
+.backcal, .frontcal {
+	border-radius: 6px;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+}
+
+.contentfrontcal {
+	width: 100%;
+	height: 100%;
+	float: left;
+	transform: translatez(60px);
+	-webkit-transform: translatez(60px);
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+}
+
+.contentbackcal {
+	width: 100%;
+	height: 100%;
+	float: left;
+	transform: translatez(60px);
+	-webkit-transform: translatez(60px);
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+}
+
+.backcal {
+	transform: rotateY(180deg);
+	background-color: #232227;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.frontcal {
+	text-transform: uppercase;
+	background-color: #232227;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.datecal {
+	height: 100%;
+	width: 130px;
+	float: left;
+	background-color: #E76642;
+	border-radius: 0 6px 6px 0;
+	text-align: right;
+	padding: 10px 30px;
+	box-sizing: border-box;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+}
+
+.datecontcal {
+	height: 100%;
+	transform: translatez(60px) scale(.9);
+	-webkit-transform: translatez(60px) scale(.9);
+}
+
+#datecal {
+	font-size: 50px;
+	color: #ECECE7;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 500;
+	float: right;
+}
+
+#daycal {
+	float: right;
+	font-size: 14px;
+	color: #232227;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 400;
+}
+
+#monthcal {
+	float: right;
+	font-size: 10px;
+	color: #232227;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 200;
+}
+
+.datecal i {
+	color: #ECECE7;
+	position: absolute;
+	bottom: 10px;
+	right: 0;
+}
+
+	.datecal i:hover {
+		color: #232227;
+		transition: .3s ease;
+	}
+
+.monthcal {
+	height: 100%;
+	width: 270px;
+	float: left;
+	padding: 20px 30px;
+	box-sizing: border-box;
+}
+
+	.monthcal table {
+		width: 100%;
+	}
+
+.orangeTrcal {
+	color: #E76642;
+}
+
+.whiteTrcal {
+	color: #ECECE7;
+}
+
+	.whiteTrcal th:hover {
+		color: #E76642;
+		transition: .3s ease;
+	}
+
+.monthcal tr {
+	height: 24px;
+}
+
+.monthcal th {
+	width: 14%;
+	font-size: 10px;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 400;
+}
+
+.flippedcal {
+	transform: rotateY(-180deg);
+	/*height:400px;
+      width:200px;
+      left:calc(50% - 100px);
+      top:calc(50vh - 200px);*/
+}
+
+.backcontainercal {
+	transform-style: preserve-3d;
+	width: calc(100% - 60px);
+	height: calc(100% - 40px);
+	float: left;
+	margin-left: 30px;
+	margin-top: 20px;
+	/*transform:translatez(60px) scale();*/
+
+	background-color: #E76642;
+	border-radius: 6px;
+	padding: 10px 30px;
+	box-sizing: border-box;
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+}

@@ -1,0 +1,174 @@
+﻿@model MedicalTourismApp.Controllers.TouristController.GuideBookingViewModel
+
+<style>
+    .booking-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2.5rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .booking-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .booking-header h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+    .guide-name {
+        color: #86B817;
+        font-weight: 600;
+    }
+
+    .booking-form {
+        padding: 1.5rem;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: white;
+    }
+
+        .form-control:focus {
+            border-color: #86B817;
+            box-shadow: 0 0 0 3px rgba(134, 184, 23, 0.2);
+            outline: none;
+        }
+
+    input[type="date"] {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2386B817' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        width: 100%;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #86B817, #6A940D);
+        color: white;
+        box-shadow: 0 4px 6px rgba(106, 148, 13, 0.2);
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #6A940D, #86B817);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(106, 148, 13, 0.3);
+        }
+
+    .alert {
+        padding: 1rem;
+        border-radius: 6px;
+        margin: 1.5rem 0;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .alert-success {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border-left: 4px solid #4caf50;
+    }
+
+    .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+
+    .booking-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    @@media (max-width: 768px) {
+        .booking-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+
+        .booking-header h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+<div class="booking-container">
+    <div class="booking-header">
+        <h2>Book Your Medical Guide</h2>
+        <p>You're booking: <span class="guide-name">@Model.GuideName</span></p>
+    </div>
+
+    <!-- You could add an image here if guides have profile pictures -->
+  
+    <form method="post" asp-action="BookGuide" asp-controller="Tourist" class="booking-form">
+        <input type="hidden" name="id" value="@Model.GuideId" />
+        <input type="hidden" name="flow" value="@ViewBag.Flow" />
+
+        <div class="form-group">
+            <label for="bookingDate">Select Appointment Date</label>
+            <input type="date"
+                   id="bookingDate"
+                   name="date"
+                   class="form-control"
+                   min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                   value="@Model.SelectedDate?.ToString("yyyy-MM-dd")"
+                   required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Confirm Booking
+        </button>
+    </form>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            <span class="alert-icon">✓</span>
+            @TempData["SuccessMessage"]
+        </div>
+    }
+</div>

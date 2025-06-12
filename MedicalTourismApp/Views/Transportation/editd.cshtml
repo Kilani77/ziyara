@@ -1,0 +1,188 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+@{
+    Layout = "_dashLayout";
+}
+<!-- edit-profile23:03-->
+
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="/Doctor/Dashboard" class="logo">
+                    <img src="~/dash/img/doctorlogo.jpg" width="35" height="35" alt=""> <span>Transportation</span>
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="@ViewBag.img" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Owner.@ViewBag.name</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/">Home</a>
+                        <a class="dropdown-item" asp-controller="Transportation" asp-action="ProfileD"  >My Profile</a>
+                        <a class="dropdown-item" asp-controller="Transportation" asp-action="editd">Edit Profile</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"  method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li >
+                            <a asp-controller="Transportation" asp-action="Dashboarder"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Transportation" asp-action="aprovel"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Transportation" asp-action="History"><i class="fa fa-clock-o"></i> <span>History</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">Edit Profile</h4>
+                    </div>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="card-box">
+                        <h3 class="card-title">Transportation Service Information</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                    <div class="profile-image-edit">
+                                        <h4>Service Provider Images</h4>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Upload New Images</label>
+                                                    <input type="file" class="form-control" name="apartmentImages" multiple accept="image/*">
+                                                    <small class="text-muted">You can select multiple images at once</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Display current images for editing -->
+                                        @if (ViewBag.Images != null && ViewBag.Images.Count > 0)
+                                        {
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <h5>Current Images</h5>
+                                                    <div class="row">
+                                                        @foreach (var image in ViewBag.Images)
+                                                        {
+                                                            <div class="col-md-3 mb-3">
+                                                                <div class="image-container" style="position: relative; height: 150px;">
+                                                                    <img src="@image.FilePath" alt="Property Image" class="img-thumbnail" style="width: 100%; height: 100%; object-fit: cover;">
+                                                                    <div class="image-actions" style="position: absolute; top: 5px; right: 5px;">
+                                                                        <input type="checkbox" name="deleteImages" value="@image.Id"> Remove
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <small class="text-muted">Check the images you want to remove</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                <div class="profile-basic">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus">
+                                                <label class="focus-label">Full Name</label>
+                                                <input type="text" class="form-control floating" value="@ViewBag.name" name="fullname">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus">
+                                                <label class="focus-label">Contact Number</label>
+                                                <input type="text" class="form-control floating" value="@ViewBag.number" name="number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus">
+                                                <label class="focus-label">Price Per Day</label>
+                                                <input type="text" class="form-control floating" value="@ViewBag.pricePerDay" name="pricePerDay">
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus">
+                                                <label class="focus-label">Model of Car</label>
+                                                <input type="text" class="form-control floating" value="@ViewBag.modelocar" name="modelocar">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus">
+                                                <label class="focus-label">Email</label>
+                                                <input type="email" class="form-control floating" value="@ViewBag.email" name="email">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-focus">
+                                                <label class="focus-label">Description</label>
+                                                <textarea class="form-control floating" name="des" value="@ViewBag.des" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Driver Availability</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="driveravalablity" id="driveravalablity"  value="true">
+                                                    <label class="form-check-label" for="driveravalablity">
+                                                        Driver Available
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center m-t-20">
+                        <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+<!-- edit-profile23:05-->
+</html>

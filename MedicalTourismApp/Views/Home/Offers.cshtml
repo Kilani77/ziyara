@@ -1,0 +1,271 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<style>
+    :root {
+        --primary-color: #86B817;
+        --secondary-color: #558b2f;
+        --accent-color: #ff6f61;
+        --light-bg: #f5fdf3;
+    }
+
+    .subscription-section {
+        background-color: var(--light-bg);
+        padding: 4rem 0;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.2rem;
+        color: #6c757d;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .plan-card {
+        border: 1px solid #dfe6d9;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        background: white;
+        height: 100%;
+        position: relative;
+    }
+
+        .plan-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-card.selected {
+            border: 2px solid var(--primary-color);
+            background-color: #f0fbeb;
+        }
+
+    .popular-tag {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        box-shadow: 0 5px 15px rgba(255, 111, 97, 0.3);
+    }
+
+    .plan-header {
+        padding: 1.8rem;
+        text-align: center;
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .plan-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .plan-price {
+        font-size: 2.6rem;
+        font-weight: 800;
+        margin-bottom: 0;
+    }
+
+    .plan-period {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    .plan-body {
+        padding: 2rem;
+    }
+
+    .savings-badge {
+        background-color: rgba(134, 184, 23, 0.1);
+        color: var(--primary-color);
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .features-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 2rem;
+    }
+
+        .features-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+    .btn-select {
+        width: 100%;
+        padding: 12px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-select-plan {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        font-size: 1rem;
+    }
+
+        .btn-select-plan:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+    .btn-continue {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 14px 45px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.4s ease;
+        margin-top: 2rem;
+    }
+
+        .btn-continue:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-continue:disabled {
+            opacity: 0.6;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+    .guarantee-note {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+        .guarantee-note i {
+            color: var(--primary-color);
+            margin-right: 6px;
+        }
+</style>
+
+<div class="subscription-section">
+    <div class="container">
+        <div class="section-header">
+            <h1 class="section-title">Choose Your Subscription Plan</h1>
+            <p class="section-subtitle">All plans include full platform access. Save more with longer commitments.</p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var plan in Model)
+            {
+                <div class="col-md-4">
+                    <div class="plan-card" onclick="selectPlan(@plan.Months, @plan.Price, this)">
+                        @if (plan.Months == 6)
+                        {
+                            <div class="popular-tag">Best Value</div>
+                        }
+
+                        <div class="plan-header">
+                            <h3 class="plan-name">
+                                @(plan.Months == 1 ? "1 Month Plan" : (plan.Months == 6 ? "6 Month Plan" : "12 Month Plan"))
+                            </h3>
+                            <h2 class="plan-price">@plan.Price JOD</h2>
+                            <p class="plan-period">@plan.Months Month@(plan.Months > 1 ? "s" : "")</p>
+                        </div>
+
+                        <div class="plan-body text-center">
+                            @if (!string.IsNullOrEmpty(plan.SavingsText))
+                            {
+                                <div class="savings-badge">
+                                    <i class="fas fa-percentage"></i> @plan.SavingsText
+                                </div>
+                            }
+
+                            <ul class="features-list text-start">
+                                <li><i class="fas fa-check"></i> Full platform access</li>
+                                <li><i class="fas fa-check"></i> Unlimited service listings</li>
+                                <li><i class="fas fa-check"></i> Customer management tools</li>
+                                <li><i class="fas fa-check"></i> 24/7 support</li>
+                                <li><i class="fas fa-check"></i> Profile analytics</li>
+                            </ul>
+
+                            <button class="btn btn-select btn-select-plan">
+                                Select Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-4">
+            <form id="planForm" method="post" asp-action="SelectPlan">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="selectedPlanInput" name="selectedPlan" value="" />
+                <button type="submit" id="continueButton" class="btn btn-continue" disabled>
+                    Continue to Payment <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </form>
+
+            <p class="guarantee-note">
+                <i class="fas fa-shield-alt"></i> 30-day satisfaction guarantee
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function selectPlan(months, price, element) {
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+
+            document.getElementById('selectedPlanInput').value = months;
+
+            const continueButton = document.getElementById('continueButton');
+            continueButton.disabled = false;
+            continueButton.innerHTML = `Continue to Payment - ${price} JOD <i class="fas fa-arrow-right ms-2"></i>`;
+
+            continueButton.classList.add('animate__animated', 'animate__pulse');
+            setTimeout(() => {
+                continueButton.classList.remove('animate__animated', 'animate__pulse');
+            }, 1000);
+        }
+    </script>
+}

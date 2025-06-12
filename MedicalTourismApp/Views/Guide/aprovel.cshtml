@@ -1,0 +1,421 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+
+@{
+    Layout = "_dashLayout";
+}
+<style>
+    .bodycal {
+        margin: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+    }
+
+    .containercal {
+        width: 400px;
+        height: 200px;
+        position: relative;
+        perspective: 1000;
+        -webkit-perspective: 1000;
+        left: calc(50% - 200px);
+        top: calc(50vh - 100px);
+    }
+
+    .cardcal {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+        transition: transform 1s ease;
+        cursor: pointer;
+    }
+
+    .backcal, .frontcal {
+        border-radius: 6px;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+
+    .contentfrontcal {
+        width: 100%;
+        height: 100%;
+        float: left;
+        transform: translatez(60px);
+        -webkit-transform: translatez(60px);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+    }
+
+    .contentbackcal {
+        width: 100%;
+        height: 100%;
+        float: left;
+        transform: translatez(60px);
+        -webkit-transform: translatez(60px);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+    }
+
+    .backcal {
+        transform: rotateY(180deg);
+        background-color: #232227;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -o-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
+    .frontcal {
+        text-transform: uppercase;
+        background-color: #232227;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -o-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
+    .datecal {
+        height: 100%;
+        width: 130px;
+        float: left;
+        background-color: #E76642;
+        border-radius: 0 6px 6px 0;
+        text-align: right;
+        padding: 10px 30px;
+        box-sizing: border-box;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+    }
+
+    .datecontcal {
+        height: 100%;
+        transform: translatez(60px) scale(.9);
+        -webkit-transform: translatez(60px) scale(.9);
+    }
+
+    #datecal {
+        font-size: 50px;
+        color: #ECECE7;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        float: right;
+    }
+
+    #daycal {
+        float: right;
+        font-size: 14px;
+        color: #232227;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+    }
+
+    #monthcal {
+        float: right;
+        font-size: 10px;
+        color: #232227;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 200;
+    }
+
+    .datecal i {
+        color: #ECECE7;
+        position: absolute;
+        bottom: 10px;
+        right: 0;
+    }
+
+        .datecal i:hover {
+            color: #232227;
+            transition: .3s ease;
+        }
+
+    .monthcal {
+        height: 100%;
+        width: 270px;
+        float: left;
+        padding: 20px 30px;
+        box-sizing: border-box;
+    }
+
+        .monthcal table {
+            width: 100%;
+        }
+
+    .orangeTrcal {
+        color: #E76642;
+    }
+
+    .whiteTrcal {
+        color: #ECECE7;
+    }
+
+        .whiteTrcal th:hover {
+            color: #E76642;
+            transition: .3s ease;
+        }
+
+    .monthcal tr {
+        height: 24px;
+    }
+
+    .monthcal th {
+        width: 14%;
+        font-size: 10px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+    }
+
+    .flippedcal {
+        transform: rotateY(-180deg);
+        /*height:400px;
+        width:200px;
+        left:calc(50% - 100px);
+        top:calc(50vh - 200px);*/
+    }
+
+    .backcontainercal {
+        transform-style: preserve-3d;
+        width: calc(100% - 60px);
+        height: calc(100% - 40px);
+        float: left;
+        margin-left: 30px;
+        margin-top: 20px;
+        /*transform:translatez(60px) scale();*/
+
+        background-color: #E76642;
+        border-radius: 6px;
+        padding: 10px 30px;
+        box-sizing: border-box;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+    }
+</style>
+<head>
+
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="/Doctor/Dashboard" class="logo">
+                    <span>Ziyara</span>
+
+                    @* <img src="~/dash/img/doctorlogo.jpg" width="35" height="35" alt=""> <span>Doctor</span> *@
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="@ViewBag.img" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Guide.@ViewBag.name</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/">Home</a>
+                        <a class="dropdown-item" asp-controller="Guide" asp-action="ProfileD"  >My Profile</a>
+                        <a class="dropdown-item" asp-controller="Guide" asp-action="editd">Edit Profile</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li>
+                            <a asp-controller="Guide" asp-action="Dashboarder"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+
+                        <li class="active">
+                            <a><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-5 col-4">
+                        <h4 class="page-title">Appointments Details</h4>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table datatable mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Patient Name</th>
+                                        <th>Patient Nationality</th>
+                                        <th>Booking Date </th>
+                                        <th>End Time </th>
+                                        <th>Status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var app in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="profile.html" class="avatar">A</a>
+                                                <h2>@app.fullname</h2>
+                                            </td>
+                                            <td>@app.nati</td>
+                                            <td>@app.BookingDate</td>
+                                            <td>@app.AreaBook</td>
+                                            <td class="text-center">
+                                                <a class="custom-badge status-orange dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+
+                                                    @app.Approve
+
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="#" onclick="submitStatus('@app.Id')('Pending')">Pending</a>
+                                                    <a class="dropdown-item" href="#" onclick="submitStatus('@app.Id')('Approved')">Approved</a>
+                                                    <a class="dropdown-item" href="#" onclick="submitStatus('@app.Id')('Declined')">Declined</a>
+                                                </div>
+
+                                                <!-- Unique hidden form -->
+                                                <form id="statusForm-@app.Id" method="post" asp-controller="Guide" asp-action="aprovel">
+                                                    <input type="hidden" name="id" value="@app.Id" />
+                                                    <input type="hidden" name="status" id="statusValue-@app.Id" />
+                                                </form>
+                                            </td>
+                                            <td class="text-right">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="edit-provident-fund.html"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_pf"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="delete_pf" class="modal fade delete-modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <img src="assets/img/sent.png" alt="" width="50" height="46">
+                        <h3>Are you sure want to delete this PF?</h3>
+                        <div class="m-t-20">
+                            <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
+                            <button type="submit" class="btn btn-info">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+            let cardElement = document.querySelector(".cardcal");
+
+        cardElement.addEventListener("click", flip);
+
+        function flip(){
+          cardElement.classList.toggle("flipped")
+        }
+
+        function startTime() {
+            var weekday = new Array();
+            weekday[0] =  "Sunday";
+            weekday[1] = "Monday";
+            weekday[2] = "Tuesday";
+            weekday[3] = "Wednesday";
+            weekday[4] = "Thursday";
+            weekday[5] = "Friday";
+            weekday[6] = "Saturday";
+            var month = new Array();
+            month[0] = "January";
+            month[1] = "February";
+            month[2] = "March";
+            month[3] = "April";
+            month[4] = "May";
+            month[5] = "June";
+            month[6] = "July";
+            month[7] = "August";
+            month[8] = "September";
+            month[9] = "October";
+            month[10] = "November";
+            month[11] = "December";
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            var d = today.getDate();
+            var y = today.getFullYear();
+            var wd = weekday[today.getDay()];
+            var mt = month[today.getMonth()];
+
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('datcal').innerHTML =
+            d;
+         document.getElementById('daycal').innerHTML =
+            wd;
+         document.getElementById('monthcal').innerHTML =
+            mt + "/" + y;
+
+            var t = setTimeout(startTime, 500);
+        }
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};
+            return i;
+        }
+
+    </script>
+    <script>
+        function submitStatus(appId) {
+            return function (status) {
+                document.getElementById("statusValue-" + appId).value = status;
+                document.getElementById("statusForm-" + appId).submit();
+            };
+        }
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,1069 @@
+﻿@{
+    ViewData["Title"] = "Car Details";
+    Layout = "_Layout";
+}
+
+<style>
+    .card-body {
+        flex: 1 1 auto;
+        padding: 0rem 1rem;
+    }
+    /* Main Styles */
+    .vehicle-details-section {
+        margin-top: 100px;
+        /* background: linear-gradient(135deg, rgba(245, 251, 255, 0.8) 0%, rgba(255, 255, 255, 1) 100%); */
+    }
+
+    /* Image Slider Styles */
+    .image-slider {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .slider-container {
+        display: flex;
+        height: 100%;
+        transition: transform 0.5s ease;
+    }
+
+    .slider-image {
+        min-width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .slider-indicators {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        z-index: 10;
+    }
+
+    .slider-indicator {
+        width: 30px;
+        height: 4px;
+        background-color: rgba(255,255,255,0.5);
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .slider-indicator.active {
+            background-color: rgba(255,255,255,0.9);
+        }
+
+    .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0,0,0,0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.3s;
+    }
+
+        .slider-nav:hover {
+            background-color: rgba(0,0,0,0.7);
+        }
+
+    .slider-prev {
+        left: 15px;
+    }
+
+    .slider-next {
+        right: 15px;
+    }
+
+    /* Card Styles */
+    .vehicle-card {
+        transition: transform 0.3s;
+        border: none;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+    .image-only-card {
+        padding: 0;
+    }
+
+    /* Badge Styles */
+    .badge {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .availability-badge {
+        background-color: rgba(46, 204, 113, 0.9);
+        color: white;
+    }
+
+    /* Button Styles */
+    .map-btn {
+        background-color: #86B817;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .map-btn:hover {
+            background-color: #6a9a0f;
+            transform: translateY(-2px);
+        }
+
+    .book-btn {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 500;
+    }
+
+    /* Text Styles */
+    .text-primary {
+        color: #86B817 !important;
+    }
+
+    .border-primary {
+        border-color: #86B817 !important;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .image-slider {
+            height: 300px;
+        }
+
+        .slider-nav {
+            width: 30px;
+            height: 30px;
+            font-size: 0.8rem;
+        }
+    }
+
+    .navbar {
+        background-color: #ffffff !important;
+        transition: background-color 0.5s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+        z-index: 1000; /* stays on top */
+    }
+
+        .navbar.sticky-top, .navbar.scrolled {
+            background-color: #ffffff !important;
+            transition: background-color 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+            z-index: 1000; /* stays on top */
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: #000000 !important;
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        margin-right: 25px;
+        padding: 20px 0;
+        font-size: 18px;
+        font-weight: 600;
+        transition: .5s;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        padding-top: 30px !important;
+    }
+
+    /* Review-specific styles */
+    .review-section {
+        padding: 50px;
+        border-radius: 10px;
+    }
+
+    .review-card {
+        background-color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        animation: fadeIn 0.5s ease-in;
+    }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+
+        .review-card .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #86B817;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .review-card .timestamp {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+    .review-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+        .review-form .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+
+            .review-form .form-control:focus {
+                border-color: #3498db;
+                box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            }
+
+        .review-form .btn {
+            border-radius: 8px;
+            padding: 10px 20px;
+        }
+
+    .ratings {
+        display: inline-flex;
+        gap: 5px;
+    }
+
+    .star {
+        color: #e4e5e9;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+        .star.active {
+            color: #ffc107;
+        }
+
+    .sort-reviews {
+        margin-bottom: 20px;
+    }
+
+    /* Animation for reviews */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .image-slider {
+            height: 300px;
+        }
+
+        .slider-nav {
+            width: 30px;
+            height: 30px;
+            font-size: 0.8rem;
+        }
+    }
+
+    .navbar {
+        background-color: #ffffff !important;
+        transition: background-color 0.5s ease;
+    }
+
+        .navbar.sticky-top, .navbar.scrolled {
+            background-color: #ffffff !important;
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: #000000 !important;
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        margin-right: 25px;
+        padding: 20px 0;
+        font-size: 18px;
+        font-weight: 600;
+        transition: .5s;
+    }
+
+   
+
+</style>
+<div class="container-fluid navbar-light p-0">
+    <nav class=" navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+        <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+                    <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "nursing")
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Nurse/Dashboarder">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "physical therapy")
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Phsy/Dashboard">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.IsInRole("Freelance") && TempData["type"].ToString() == "Alternative medicine")
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Alt/Dashboard">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Apartment"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Apartment/Dashboarder">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Guide"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Guide/Dashboarder">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Transportation"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Transportation/Dashboarder">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="#Our Service" class="nav-item nav-link">Service</a>
+
+                    <a href="#Destination" class="nav-item nav-link">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a asp-action="Appointments" asp-controller="Home" class="nav-item nav-link">Appointments</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+
+
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                }
+                else
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+
+                    <a class="nav-item nav-link " href="/Identity/Account/Login">Login</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="/Identity/Account/Register" class="btn btn-primary rounded-pill py-2 px-4 center">Register</a>
+                        </div>
+                    </div>
+
+                }
+                <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                    <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                </a>
+            </div>
+
+
+        </div>
+    </nav>
+</div>
+
+<!-- Vehicle Details Section -->
+<div class="vehicle-details-section">
+    <div class="container py-5">
+        <!-- Page Header -->
+        <div class="text-center mb-6">
+            <span class="badge bg-primary bg-opacity-10 mb-3 px-4 py-2 rounded-pill">
+                <i class="fas fa-car me-2"></i> Premium Rentals
+            </span>
+            <h1 class="display-4 fw-bold mb-3">Vehicle Details</h1>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                Explore our premium collection of vehicles for your next adventure
+            </p>
+        </div>
+
+        <!-- Vehicle List -->
+        @foreach (var car in Model)
+        {
+            <div class="row mb-5">
+                <!-- Vehicle Image Column -->
+                <div class="col-lg-6 mb-4">
+                    <div class="vehicle-card image-only-card ">
+                        <!-- Image Slider -->
+                        <div class="image-slider">
+                            <!-- Navigation Arrows -->
+                            <button class="slider-nav slider-prev" onclick="prevSlide('slider-@car.Id')">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="slider-nav slider-next" onclick="nextSlide('slider-@car.Id')">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+
+                            <!-- Slider Container -->
+                            <div class="slider-container" id="slider-@car.Id">
+                                @{
+                                    var images = ViewData["Images"] as List<string> ?? new List<string>();
+                                }
+                                @if (images.Any())
+                                {
+                                    foreach (var image in images)
+                                    {
+                                        <img src="@image" alt="@car.fullname" class="slider-image">
+                                    }
+                                }
+                                else
+                                {
+                                    <img src="~/images/no-image.jpg" alt="No image available" class="slider-image">
+                                }
+                            </div>
+
+                            <!-- Image Indicators -->
+                            <div class="slider-indicators">
+                                @if (images.Any())
+                                {
+                                    for (int i = 0; i < images.Count; i++)
+                                    {
+                                        <button class="slider-indicator @(i == 0 ? "active" : "")" onclick="showSlide('slider-@car.Id', @i)"></button>
+                                    }
+                                }
+                                else
+                                {
+                                    <button class="slider-indicator active" onclick="showSlide('slider-@car.Id', 0)"></button>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Card Body Content -->
+                        
+                    </div>
+                </div>
+
+                <!-- Vehicle Details Column -->
+                <div class="col-lg-6 mb-4">
+                    <div class="vehicle-card h-100">
+                        <div class="card-body">
+                            <h2 class="text-primary mb-4">@car.fullname's Vehicle</h2>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-phone-alt text-primary me-3 fs-5"></i>
+                                        <div>
+                                            <h6 class="mb-0 text-muted">Contact</h6>
+                                            <p class="mb-0">@car.contact</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-map-marker-alt text-primary me-3 fs-5"></i>
+                                        <div>
+                                            <h6 class="mb-0 text-muted">Location</h6>
+                                            @if (!string.IsNullOrEmpty(car.location1))
+                                            {
+                                                <a href="https://www.google.com/maps/search/?api=1&query=@car.location1"
+                                                   target="_blank"
+                                                   class="btn btn-outline-primary btn-sm rounded-pill">
+                                                    View in Google Maps
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <p class="mb-0">Various locations</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-chair text-primary me-3 fs-5"></i>
+                                        <div>
+                                            <h6 class="mb-0 text-muted">Seats</h6>
+                                            <p class="mb-0">@car.number</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-tag text-primary me-3 fs-5"></i>
+                                        <div>
+                                            <h6 class="mb-0 text-muted">Price</h6>
+                                            <p class="mb-0">$@car.price1/day</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="text-primary"><i class="fas fa-info-circle me-2"></i>About This Vehicle</h5>
+                                <p class="card-text">@car.Bio1</p>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                                    {
+                                        <a asp-action="carBook" asp-controller="Tourist" asp-route-flow="@ViewBag.Flow" asp-route-id="@car.Id" class="btn btn-primary book-btn px-4 me-md-2">
+                                            <i class="fas fa-calendar-check me-2"></i>Book Now
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Identity/Account/Login?returnUrl=@Url.Action("carDetails","Tourist", new { id = car.Id })" class="btn btn-primary book-btn px-4 me-md-2">
+                                            <i class="fas fa-calendar-check me-2"></i>Book Now
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+
+                          
+                        </div>
+                    </div>
+                </div>
+                <!-- Review Submission Form -->
+                @{
+
+                
+                var Treviews = ViewData["Treviews"] as IEnumerable<dynamic>
+                    ?? new List<dynamic>
+                        ();
+                }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Patient") && !Treviews.Any())
+                        {
+                            <div class="row mb-4 review-section">
+                                <div class="col-12">
+                                    <h3 class="text-primary mb-3"><i class="fas fa-star me-2"></i>Write a Review</h3>
+                                    <form asp-action="SubmitReview" asp-controller="Tourist" method="post" class="review-form">
+                                        @Html.AntiForgeryToken()
+                                <input type="hidden" name="serviceProviderId" value="@car.ServiceProviderId" />
+                                <input type="hidden" name="hotelId" value="@car.Id" />
+                                <input type="hidden" name="appointmentType" value="Car" />
+                                <input type="hidden" name="returnUrl" value="@Url.Action("DetailsDoctors", "Tourist", new { id = car.Id })" />
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Rating</label>
+                                            <div class="ratings">
+                                        <span class="star" data-rating="1" data-appointment-id="@car.Id"><i class="fas fa-star"></i></span>
+                                        <span class="star" data-rating="2" data-appointment-id="@car.Id"><i class="fas fa-star"></i></span>
+                                        <span class="star" data-rating="3" data-appointment-id="@car.Id"><i class="fas fa-star"></i></span>
+                                        <span class="star" data-rating="4" data-appointment-id="@car.Id"><i class="fas fa-star"></i></span>
+                                        <span class="star" data-rating="5" data-appointment-id="@car.Id"><i class="fas fa-star"></i></span>
+                                            </div>
+                                    <input type="hidden" id="rating-@car.Id" name="rating" value="0" required />
+                                        </div>
+                                        <div class="mb-3">
+                                    <label for="comment-@car.Id" class="form-label fw-bold">Comment</label>
+                                    <textarea class="form-control" id="comment-@car.Id" name="comment" rows="4" maxlength="500" placeholder="Share your experience..." required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-paper-plane me-2"></i>Submit Review
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Reviews Display -->
+                        <div class="row review-section">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="text-primary"><i class="fas fa-comments me-2"></i>Reviews (<span id="review-count-@car.Id">@((ViewData["Reviews"] as IEnumerable<dynamic>)?.Count() ?? 0)</span>)</h3>
+                                    <div class="sort-reviews">
+                                <select id="sortReviews-@car.Id" class="form-select" style="width: 200px;">
+                                            <option value="newest">Sort by: Newest First</option>
+                                            <option value="oldest">Sort by: Oldest First</option>
+                                            <option value="highest">Sort by: Highest Rating</option>
+                                            <option value="lowest">Sort by: Lowest Rating</option>
+                                        </select>
+                                    </div>
+                                </div>
+                        <div id="reviews-container-@car.Id">
+                                    @{
+                                        var reviews = ViewData["Reviews"] as IEnumerable<dynamic> ?? new List<dynamic>();
+                                    }
+                                    @if (reviews.Any())
+                                    {
+                                        foreach (var review in reviews)
+                                        {
+                                            <div class="review-card" data-rating="@review.Rating" data-date="@review.CreatedAt">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="avatar">@(string.IsNullOrEmpty(review.UserName) ? "A" : review.UserName[0])</div>
+                                                    <div>
+                                                        <strong>@(review.UserName ?? "Anonymous")</strong>
+                                                        <div class="timestamp">@(DateTime.Parse(review.CreatedAt).ToString("MMM dd, yyyy"))</div>
+                                                    </div>
+                                                </div>
+                                                <div class="ratings mb-2">
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        <span class="star @(i <= review.Rating ? "active" : "")"><i class="fas fa-star"></i></span>
+                                                    }
+                                                </div>
+                                                <p class="mb-0">@review.Comment</p>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                <p class="text-muted" id="no-reviews-message-@car.Id">No reviews yet. Be the first to share your experience!</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        // Track current slide for each slider
+        const sliderStates = {};
+
+        function initializeSlider(sliderId) {
+            sliderStates[sliderId] = 0;
+        }
+
+        function showSlide(sliderId, slideIndex) {
+            const slider = document.getElementById(sliderId);
+            const indicators = slider.parentElement.querySelectorAll('.slider-indicator');
+
+            // Update slider position
+            slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                if (index === slideIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+
+            // Update current slide state
+            sliderStates[sliderId] = slideIndex;
+        }
+
+        function nextSlide(sliderId) {
+            const slider = document.getElementById(sliderId);
+            const slides = slider.querySelectorAll('.slider-image');
+            let nextIndex = sliderStates[sliderId] + 1;
+
+            if (nextIndex >= slides.length) {
+                nextIndex = 0;
+            }
+
+            showSlide(sliderId, nextIndex);
+        }
+
+        function prevSlide(sliderId) {
+            const slider = document.getElementById(sliderId);
+            const slides = slider.querySelectorAll('.slider-image');
+            let prevIndex = sliderStates[sliderId] - 1;
+
+            if (prevIndex < 0) {
+                prevIndex = slides.length - 1;
+            }
+
+            showSlide(sliderId, prevIndex);
+        }
+
+        // Initialize all sliders on page load
+        document.addEventListener('DOMContentLoaded', function() {
+        @foreach (var car in Model)
+        {
+            <text>initializeSlider('slider-@car.Id');</text>
+        }
+        });
+    </script>
+    <script>
+
+        // Initialize Bootstrap Toast
+         const toastElement = document.getElementById('reviewToast');
+         if (!toastElement) {
+             console.error('Toast element not found. Ensure reviewToast is defined in _Layout.cshtml.');
+         } else {
+             const toastTitle = document.getElementById('toastTitle');
+             const toastMessage = document.getElementById('toastMessage');
+             const toast = new bootstrap.Toast(toastElement);
+
+             function showToast(title, message, type) {
+                 if (toastTitle && toastMessage) {
+                     toastTitle.textContent = title;
+                     toastMessage.textContent = message;
+                     toastElement.className = `toast position-fixed bottom-0 end-0 m-3 ${type === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}`;
+                     toast.show();
+                 } else {
+                     console.error('Toast title or message element not found.');
+                 }
+             }
+         }
+
+         // Review Sorting
+         function sortReviews(doctorId, sortBy) {
+             const reviewsContainer = document.getElementById(`reviews-container-${doctorId}`);
+             const reviewCards = Array.from(reviewsContainer.querySelectorAll('.review-card'));
+             reviewCards.sort((a, b) => {
+                 const ratingA = parseInt(a.dataset.rating);
+                 const ratingB = parseInt(b.dataset.rating);
+                 const dateA = new Date(a.dataset.date);
+                 const dateB = new Date(b.dataset.date);
+                 if (sortBy === 'highest') return ratingB - ratingA;
+                 if (sortBy === 'lowest') return ratingA - ratingB;
+                 if (sortBy === 'newest') return dateB - dateA;
+                 if (sortBy === 'oldest') return dateA - dateB;
+                 return 0;
+             });
+             reviewsContainer.innerHTML = '';
+             reviewCards.forEach(card => reviewsContainer.appendChild(card));
+             if (!reviewCards.length) {
+                 reviewsContainer.innerHTML = `<p class="text-muted" id="no-reviews-message-${doctorId}">No reviews yet. Be the first to share your experience!</p>`;
+             }
+         }
+
+         // Update Review Display
+         function updateReviewDisplay(form, review) {
+             const doctorId = form.querySelector('input[name="hotelId"]').value;
+             const reviewsContainer = document.getElementById(`reviews-container-${doctorId}`);
+             const noReviewsMessage = document.getElementById(`no-reviews-message-${doctorId}`);
+             const reviewCountSpan = document.getElementById(`review-count-${doctorId}`);
+
+             if (noReviewsMessage) {
+                 noReviewsMessage.remove();
+             }
+
+             const userName = review.UserName || 'Anonymous';
+             const avatarChar = userName[0] || 'A';
+             const createdAt = review.CreatedAt || new Date().toISOString();
+             const rating = Math.min(Math.max(parseInt(review.Rating) || 0, 0), 5);
+             const comment = review.Comment || '';
+
+             let starsHtml = '';
+             for (let i = 1; i <= 5; i++) {
+                 starsHtml += `<span class="star ${i <= rating ? 'active' : ''}"><i class="fas fa-star"></i></span>`;
+             }
+
+             const newReviewHtml = `
+                 <div class="review-card" data-rating="${rating}" data-date="${createdAt}">
+                     <div class="d-flex align-items-center mb-2">
+                         <div class="avatar">${avatarChar}</div>
+                         <div>
+                             <strong>${userName}</strong>
+                             <div class="timestamp">${new Date(createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                         </div>
+                     </div>
+                     <div class="ratings mb-2">
+                         ${starsHtml}
+                     </div>
+                     <p class="mb-0">${comment}</p>
+                 </div>
+             `;
+
+             reviewsContainer.insertAdjacentHTML('afterbegin', newReviewHtml);
+             const currentCount = parseInt(reviewCountSpan.textContent) || 0;
+             reviewCountSpan.textContent = currentCount + 1;
+         }
+
+         document.addEventListener('DOMContentLoaded', () => {
+             // Mobile menu toggle
+             const toggler = document.querySelector('.navbar-toggler');
+             const collapse = document.querySelector('.navbar-collapse');
+             if (toggler) {
+                 toggler.addEventListener('click', () => collapse.classList.toggle('show'));
+             }
+
+             // Close dropdown on outside click
+             document.addEventListener('click', (e) => {
+                 if (!e.target.closest('.navbar-toggler') && !e.target.closest('.navbar-collapse') && collapse.classList.contains('show')) {
+                     collapse.classList.remove('show');
+                 }
+             });
+
+             // Star rating interaction
+             document.querySelectorAll('.star').forEach(star => {
+                 star.addEventListener('click', () => {
+                     const rating = star.getAttribute('data-rating');
+                     const doctorId = star.getAttribute('data-appointment-id');
+                     const ratingInput = document.querySelector(`#rating-${doctorId}`);
+                     if (ratingInput) {
+                         ratingInput.value = rating;
+                         const starsGroup = star.closest('.ratings').querySelectorAll('.star');
+                         starsGroup.forEach(s => {
+                             s.classList.toggle('active', parseInt(s.getAttribute('data-rating')) <= parseInt(rating));
+                         });
+                     } else {
+                         console.error(`Rating input not found for doctor ID: ${doctorId}`);
+                     }
+                 });
+             });
+
+             // Review form submission
+             const reviewForms = document.querySelectorAll('.review-form');
+             reviewForms.forEach(form => {
+                 form.addEventListener('submit', function (e) {
+                     e.preventDefault();
+                     const submitButton = form.querySelector('button[type="submit"]');
+                     submitButton.disabled = true;
+                     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+
+                     const rating = parseInt(form.querySelector('input[name="rating"]').value);
+                     if (rating < 1 || rating > 5) {
+                         showToast('Error', 'Please select a rating between 1 and 5.', 'error');
+                         submitButton.disabled = false;
+                         submitButton.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Review';
+                         return;
+                     }
+
+                     const comment = form.querySelector('textarea[name="comment"]').value.trim();
+                     if (!comment) {
+                         showToast('Error', 'Comment cannot be empty.', 'error');
+                         submitButton.disabled = false;
+                         submitButton.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Review';
+                         return;
+                     }
+
+                     const formData = new FormData(form);
+                     const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                     fetch('/Tourist/SubmitReview', {
+                         method: 'POST',
+                         body: formData,
+                         headers: {
+                             'X-Requested-With': 'XMLHttpRequest',
+                             'RequestVerificationToken': token
+                         }
+                     })
+                     .then(response => {
+                         if (!response.ok) {
+                             return response.text().then(text => {
+                                 console.error('Non-OK response:', response.status, text);
+                                 try {
+                                     const json = JSON.parse(text);
+                                     throw new Error(json.message || `HTTP ${response.status}`);
+                                 } catch {
+                                     throw new Error(`HTTP ${response.status}: Non-JSON response`);
+                                 }
+                             });
+                         }
+                         return response.json().catch(error => {
+                             console.error('JSON parse error:', error);
+                             throw new Error('Invalid JSON response from server');
+                         });
+                     })
+                     .then(data => {
+                         if (data.success && data.review) {
+                             updateReviewDisplay(form, data.review);
+                             form.closest('.review-section').innerHTML = `
+                                 <div class="alert alert-success mt-3">
+                                     <i class="fas fa-check-circle me-2"></i> Thank you! Your review has been submitted successfully.
+                                 </div>
+                             `;
+                             showToast('Success', data.message || 'Your review has been submitted successfully.', 'success');
+                         } else {
+                             showToast('Error', data.message || 'An error occurred while submitting your review.', 'error');
+                         }
+                         submitButton.disabled = false;
+                         submitButton.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Review';
+                     })
+                     .catch(error => {
+                         console.error('SubmitReview Error:', error.message);
+                         showToast('Error', 'Failed to submit review. Please try again.', 'error');
+                         submitButton.disabled = false;
+                         submitButton.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Review';
+                     });
+                 });
+             });
+
+             // Initialize sort dropdowns
+        @foreach (var doctor in Model)
+        {
+            @:document.getElementById('sortReviews-@doctor.Id')?.addEventListener('change', (e) => sortReviews('@doctor.Id', e.target.value));
+        }
+         });
+    </script>
+}
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

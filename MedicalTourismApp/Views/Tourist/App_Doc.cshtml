@@ -1,0 +1,536 @@
+﻿@model MedicalTourismApp.Controllers.TouristController.BookingViewModel
+
+<style>
+    :root {
+        --primary-color: #86B817;
+        --primary-dark: #6A940D;
+        --secondary-color: #2c3e50;
+        --light-gray: #f8f9fa;
+        --dark-gray: #6c757d;
+    }
+
+    .booking-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    h2 {
+        color: var(--secondary-color);
+        margin-bottom: 30px;
+        font-weight: 700;
+        text-align: center;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            border-radius: 2px;
+        }
+
+    h3 {
+        color: var(--secondary-color);
+        margin: 30px 0 20px;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+            .form-group input[type="date"]:focus {
+                border-color: var(--primary-color);
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(134, 184, 23, 0.2);
+            }
+
+    .time-slots-container {
+        margin-top: 40px;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .slots-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+        margin: 25px 0;
+    }
+
+    .time-slot {
+        display: block;
+        position: relative;
+    }
+
+        .time-slot input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+    .slot-time {
+        display: block;
+        padding: 14px 10px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        background: white;
+    }
+
+    .time-slot input[type="radio"]:checked + .slot-time {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(134, 184, 23, 0.3);
+    }
+
+    .time-slot input[type="radio"]:not(:checked) + .slot-time:hover {
+        border-color: var(--primary-color);
+        background: rgba(134, 184, 23, 0.1);
+    }
+
+    .btn {
+        padding: 14px 28px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+        color: white;
+        box-shadow: 0 4px 15px rgba(134, 184, 23, 0.3);
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(134, 184, 23, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+    .alert {
+        padding: 16px;
+        border-radius: 8px;
+        margin: 25px 0;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+
+    .alert-warning {
+        background-color: #fff8e6;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+
+        .alert-warning::before {
+            content: "⚠️";
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+    .doctor-info {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .doctor-infoD {
+        
+        margin-bottom: 30px;
+    }
+    .doctor-name {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 5px;
+    }
+
+    .doctor-specialty {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    @@media (max-width: 768px) {
+        .booking-container {
+            padding: 30px 20px;
+            margin: 20px;
+        }
+
+        .slots-grid {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+    }
+
+    .info-box {
+        display: flex;
+        align-items: flex-start;
+        background-color: #f0f9ff;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+        .info-box i {
+            color: var(--primary);
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            margin-top: 0.15rem;
+        }
+
+    .nurse-details {
+        margin-left: 1.5rem;
+    }
+
+        .nurse-details h3 {
+            margin: 0 0 0.25rem;
+            font-weight: 600;
+        }
+
+        .nurse-details p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+    .nurse-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: var(--primary);
+        box-shadow: var(--shadow);
+        flex-shrink: 0;
+    }
+
+    .navbar {
+        background-color: #ffffff !important; /* Solid white background */
+        transition: background-color 0.5s ease;
+    }
+
+        .navbar.sticky-top {
+            background-color: #ffffff !important; /* Also enforce background when sticky */
+        }
+
+        .navbar.scrolled {
+            background-color: #ffffff !important; /* Force white even if JS adds 'scrolled' class */
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: #000000 !important;
+    }
+
+
+    .navbar-light .navbar-nav .nav-link {
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        margin-right: 25px;
+        padding: 20px 0;
+        color: #000000 !important;
+        font-size: 18px;
+        font-weight: 600;
+        outline: none;
+        transition: .5s;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0) !important;
+    }
+
+    .row {
+        padding-top: 60px !important;
+    }
+</style>
+<div class="container-fluid navbar-light p-0">
+    <nav class=" navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+        <a href="" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+
+                    <a href="package.html" class="nav-item nav-link">Packages</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="destination.html" class="dropdown-item">Destination</a>
+                            <a href="booking.html" class="dropdown-item">Booking</a>
+                            <a href="team.html" class="dropdown-item">Travel Guides</a>
+                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                            <a href="404.html" class="dropdown-item">404 Page</a>
+                        </div>
+                    </div>
+                    <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                }
+                else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+
+                    <a href="package.html" class="nav-item nav-link">Packages</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="destination.html" class="dropdown-item">Destination</a>
+                            <a href="booking.html" class="dropdown-item">Booking</a>
+                            <a href="team.html" class="dropdown-item">Travel Guides</a>
+                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                            <a href="404.html" class="dropdown-item">404 Page</a>
+                        </div>
+                    </div>
+                    <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                }
+                else if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+
+                    <a href="package.html" class="nav-item nav-link">Packages</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="destination.html" class="dropdown-item">Destination</a>
+                            <a href="booking.html" class="dropdown-item">Booking</a>
+                            <a href="team.html" class="dropdown-item">Travel Guides</a>
+                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                            <a href="404.html" class="dropdown-item">404 Page</a>
+                        </div>
+                    </div>
+                    <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                }
+                else
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="package.html" class="nav-item nav-link">Packages</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="destination.html" class="dropdown-item">Destination</a>
+                            <a href="booking.html" class="dropdown-item">Booking</a>
+                            <a href="team.html" class="dropdown-item">Travel Guides</a>
+                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                            <a href="404.html" class="dropdown-item">404 Page</a>
+                        </div>
+                    </div>
+                    <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                    <a class="nav-item nav-link " href="/Identity/Account/Login">Login</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="/Identity/Account/Register" class="btn btn-primary rounded-pill py-2 px-4 center">Register</a>
+                        </div>
+                    </div>
+
+                }
+                <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                    <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                </a>
+            </div>
+
+
+        </div>
+    </nav>
+</div>
+
+
+
+	<div class="booking-container" style="margin-top:100px">
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    <div class="doctor-info">
+ 
+    <div class="nurse-profile">
+        <div class="nurse-avatar" style="margin-inline:auto">
+            <i class="fas fa-user-nurse"></i>
+        </div>
+        <div class="nurse-details">
+            <h3>Dr.@Model.DoctorName</h3>
+            <p>Specialized in patient care and medical assistance</p>
+            <span class="badge">
+                <i class="fas fa-certificate"></i> Certified Professional
+            </span>
+        </div>
+    </div>
+    </div>
+        <div class="doctor-infoD">
+        <div class="info-box ">
+        <i class="fas fa-info-circle"></i>
+        <div class="info-content ">
+            <strong>Important Note</strong>
+            <p>Gray dates on the calendar indicate unavailable time slots. Please select from the available dates shown in white.</p>
+        </div>
+		</div>
+	</div>
+    <!-- Step 1: Select Date -->
+    <form method="get" asp-action="App_Doc" asp-controller="Tourist">
+        <input type="hidden" name="doctorId" value="@Model.DoctorId" />
+        <input type="hidden" name="flow" value="@ViewBag.Flow" />
+
+        <div class="form-group">
+            <label for="appointmentDate">Select Appointment Date</label>
+            <input type="date" id="appointmentDate" name="date"
+                   min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                   value="@Model.SelectedDate?.ToString("yyyy-MM-dd")"
+                   required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-calendar-check" style="margin-right: 8px;"></i> Check Availability
+        </button>
+    </form>
+
+    <!-- Step 2: Show Available Time Slots -->
+    @if (Model.AvailableSlots != null && Model.AvailableSlots.Any())
+    {
+        <div class="time-slots-container">
+            <h3>Available Time Slots for @Model.SelectedDate?.ToString("dddd, MMMM d")</h3>
+
+            <form method="post"  asp-action="App_Doc" asp-controller="Tourist"  asp-route-flow="@ViewBag.Flow">
+                <input type="hidden" name="doctorId" value="@Model.DoctorId" />
+                <input type="hidden" name="date" value="@Model.SelectedDate?.ToString("yyyy-MM-dd")" />
+
+                <div class="slots-grid">
+                    @foreach (var slot in Model.AvailableSlots)
+                    {
+                        <label class="time-slot">
+                            <input type="radio" name="startTime" value="@slot.StartTime" required />
+                            <span class="slot-time">@slot.StartTime.ToString(@"hh\:mm") - @slot.EndTime.ToString(@"hh\:mm")</span>
+                        </label>
+                    }
+                </div>
+
+                    <button type="submit" class="btn btn-primary">
+                         <i class="fas fa-calendar-check" style="margin-right: 8px;"></i> Confirm Booking
+                    </button>
+            </form>
+        </div>
+    }
+    else if (Model.SelectedDate.HasValue)
+    {
+        <div class="alert alert-warning">
+            No available time slots for this date. Please select another date.
+        </div>
+
+    }
+</div>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

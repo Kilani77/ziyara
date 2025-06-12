@@ -1,0 +1,141 @@
+﻿@page
+@model MedicalTourismApp.Areas.Identity.Pages.Account.RequestStatusModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Status</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        .status-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Pending Status */
+        .status-pending {
+        color: #ffa500; /* Orange color for pending */
+        }
+
+        .status-pending i {
+        font-size: 50px;
+        margin-bottom: 20px;
+        }
+
+        /* Rejected Status */
+        .status-rejected {
+        color: #ff0000; /* Red color for rejection */
+        }
+
+        .status-rejected i {
+        font-size: 50px;
+        margin-bottom: 20px;
+        }
+
+        .btn-support {
+        background-color: #ff0000;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 20px;
+        display: inline-block;
+        }
+
+        .btn-support:hover {
+        background-color: #cc0000;
+        }
+
+        /* Approved Status */
+        .status-approved {
+        color: #008000; /* Green color for approval */
+        }
+
+        .status-approved i {
+        font-size: 50px;
+        margin-bottom: 20px;
+        }
+
+        .btn-next {
+        background-color: #008000;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 20px;
+        display: inline-block;
+        }
+
+        .btn-next:hover {
+        background-color: #006400;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-container">
+        <!-- Pending Status -->
+        @if(TempData["status"].ToString()=="Pending"){
+            <div class="status-pending">
+                <i class="fas fa-hourglass-half"></i> <!-- Font Awesome icon for pending -->
+                <h2>Your request is pending</h2>
+                <p>Please wait while we process your request. We'll notify you once it's complete.</p>
+            </div>
+        }
+        else if (TempData["status"].ToString() == "Rejected")
+        {
+            <!-- Rejected Status -->
+            <div class="status-rejected">
+                <i class="fas fa-times-circle"></i> <!-- Font Awesome icon for rejection -->
+                <h2>Request Rejected</h2>
+                <p>We're sorry, but your request has been rejected. Please contact support for more details.</p>
+                <a href="/contact-support" class="btn btn-support">Contact Support</a>
+            </div>
+        }
+        else if (TempData["status"].ToString() == "Approved")
+        {
+            <!-- Approved Status -->
+            <div class="status-approved">
+                <i class="fas fa-check-circle"></i> <!-- Font Awesome icon for approval -->
+                <h2>Request Approved</h2>
+                <p>Congratulations! Your request has been approved. You can now proceed with the next steps.</p>
+                @if (TempData["type"] == "Doctor")
+                {
+                    <a asp-action="Available" asp-controller="Provider" asp-route-id="@TempData["Id"]" class="btn btn-next">Next Steps</a>
+
+                }
+                else if (TempData["type"] == "Apartment")
+                {
+                    <a asp-action="Available" asp-controller="Provider" asp-route-id="@TempData["Id"]" class="btn btn-next">Next Steps</a>
+                }
+                else if (TempData["type"] == "Guide")
+                {
+                    <a asp-action="AvailableG" asp-controller="Provider" asp-route-id="@TempData["Id"]" class="btn btn-next">Next Steps</a>
+                }
+                else if (TempData["type"].ToString() == "Freelance" && TempData["servicetype"].ToString() == "Nursing")
+                {
+                    <a asp-action="Dashboard" asp-controller="Nurse" asp-route-id="@TempData["Id"]" class="btn btn-next">Next Steps</a>
+                }
+                else if (TempData["type"].ToString() == "Freelance" && TempData["servicetype"].ToString() != "Nursing")
+                {
+                    <a asp-action="AvailableFree" asp-controller="Provider" asp-route-id="@TempData["Id"]" class="btn btn-next">Next Steps</a>
+                }
+                else if (TempData["type"] == "Apartment")
+                {
+                    <a asp-action="index" asp-controller="Home" asp-route-id="@TempData["Id"]" class="btn btn-next">Next Steps</a>
+                }
+               
+               
+        </div>
+        }
+    </div>
+</body>
+</html>

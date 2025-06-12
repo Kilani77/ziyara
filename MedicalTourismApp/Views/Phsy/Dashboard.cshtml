@@ -1,0 +1,1165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+
+@{
+    Layout = "_dashLayout";
+}
+<style>
+
+
+    .doc-calendar {
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 4px;
+        margin-bottom: 30px;
+        padding: 20px;
+        position: relative;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 0;
+        font-size: 32px;
+        line-height: 1.2;
+    }
+
+    .subtitle {
+        color: #3498db;
+        font-size: 36px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .calendar-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 25px 0;
+    }
+
+        .calendar-controls button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+            .calendar-controls button:hover {
+                background: #2980b9;
+            }
+
+    #month-year {
+        font-size: 32px;
+        text-transform: uppercase;
+        margin: 0;
+        font-weight: bold;
+        text-align: center;
+        flex-grow: 1;
+    }
+
+    .calendar-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        table-layout: fixed;
+    }
+
+        .calendar-table th, .calendar-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            vertical-align: middle;
+        }
+
+        .calendar-table th {
+            background-color: #3498db;
+            color: white;
+            font-weight: normal;
+            font-size: 16px;
+            height: 40px;
+        }
+
+        .calendar-table td {
+            height: 60px;
+            position: relative;
+            font-size: 16px;
+        }
+
+            .calendar-table td.selected {
+                background-color: #d4e6f7;
+                box-shadow: inset 0 0 0 2px #3498db;
+            }
+
+    .appointment-dot {
+        width: 6px;
+        height: 6px;
+        background-color: #3498db;
+        border-radius: 50%;
+        margin: 4px auto 0;
+    }
+
+    .appointment-title {
+        font-size: 28px;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .appointment-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .appointment-table th, .appointment-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .appointment-table th {
+            background-color: #3498db;
+            color: white;
+            font-weight: normal;
+            font-size: 16px;
+        }
+
+    .no-appointments {
+        text-align: center;
+        padding: 20px;
+        color: #7f8c8d;
+        font-style: italic;
+    }
+
+    #dashboard-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        z-index: 9998;
+        backdrop-filter: blur(5px);
+    }
+
+    .subscription-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+        .subscription-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    .subscription-modal {
+        background: white;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        transform: translateY(30px) scale(0.95);
+        transition: all 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .subscription-overlay.active .subscription-modal {
+        transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+        padding: 28px 24px 20px;
+        text-align: center;
+        background: linear-gradient(to right, #f8f9fa, #ffffff);
+        border-bottom: 1px solid #eee;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* This ensures everything centers properly */
+    }
+
+    .icon-wrapper {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 18px;
+        background: #fff2f2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(255, 82, 82, 0.2);
+    }
+
+    .icon {
+        width: 40px;
+        height: 40px;
+        color: #ff5252;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+        color: #2c3e50;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+    }
+
+    .modal-body {
+        padding: 24px;
+    }
+
+        .modal-body p {
+            color: #555;
+            margin-bottom: 24px;
+            text-align: center;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+    .features-list {
+        margin: 28px 0;
+        padding: 0 12px;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+    .feature-icon {
+        width: 22px;
+        height: 22px;
+        margin-right: 14px;
+        color: #4CAF50;
+        flex-shrink: 0;
+    }
+
+    .feature-item span {
+        color: #444;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .modal-footer {
+        display: flex;
+        padding: 20px;
+        background: #f9f9f9;
+        border-top: 1px solid #eee;
+        gap: 12px;
+    }
+
+
+    .btn-outline {
+        background: white;
+        border: 1px solid #ddd;
+        color: #555;
+    }
+
+        .btn-outline:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+    .btn-primary {
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #2980b9, #2472a4);
+            box-shadow: 0 3px 12px rgba(52, 152, 219, 0.4);
+        }
+
+    .btn-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+
+    /* Animation when appearing */
+
+    /* Disable interactions when modal is active */
+    body.modal-open {
+        overflow: hidden;
+    }
+
+        body.modal-open .main-wrapper {
+            filter: brightness(0.5);
+            pointer-events: none;
+            user-select: none;
+        }
+
+</style>
+<head>
+
+</head>
+
+<body class="@(ViewBag.NeedsSubscription ? "modal-open" : "")">
+    <div id="subscription-overlay" class="subscription-overlay @(ViewBag.NeedsSubscription ? "active" : "")">
+        <div class="subscription-modal">
+            <div class="modal-header">
+                <div class="icon-wrapper">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12,2L1,21H23M12,6L19.5,19H4.5M11,10V14H13V10M11,16V18H13V16" />
+                    </svg>
+                </div>
+                <h2>Subscription Required</h2>
+            </div>
+            <div class="modal-body">
+                <p>Your profile will <strong>not be visible</strong> </p>
+
+                <p>Your current plan has expired. Upgrade to continue accessing all features.</p>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+                        </svg>
+                        <span>Unlimited appointments</span>
+                    </div>
+                    <div class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+                        </svg>
+                        <span>Priority support</span>
+                    </div>
+                    <div class="feature-item">
+                        <svg class="feature-icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+                        </svg>
+                        <span>Advanced analytics</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="logout-btn" class="btn btn-outline">
+                    <svg class="btn-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z" />
+                    </svg>
+                    Log Out
+                </button>
+                <a asp-controller="Home" asp-action="Offers" class="btn btn-primary" id="upgrade-btn">
+                    <svg class="btn-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12,15L7,10H10V3H14V10H17L12,15M21,18H3V16H21V18M21,20H3V22H21V20Z" />
+                    </svg>
+                    Upgrade Now
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="main-wrapper" style="@(ViewBag.NeedsSubscription ? "filter: brightness(0.5); pointer-events: none;" : "")">
+        <div class="header">
+            <div class="header-left">
+                <a href="/Doctor/Dashboard" class="logo">
+                    <span>Ziyara</span>
+                    @* <img src="~/dash/img/doctorlogo.jpg" width="35" height="35" alt=""> <span>Doctor</span> *@
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+               
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="@ViewBag.img" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Dr.@ViewBag.name</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/">Home</a>
+                        <a class="dropdown-item" asp-controller="Phsy" asp-action="ProfileD"  >My Profile</a>
+                        <a class="dropdown-item" asp-controller="Phsy" asp-action="editd">Edit Profile</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li class="active">
+                            <a href=""><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Phsy" asp-action="aprovel"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Phsy" asp-action="Available"><i class="fa fa-calendar-check-o"></i> <span>Availability</span></a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Phsy" asp-action="History"><i class="fa fa-clock-o"></i> <span>History</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <div id="dashboard-flip-clock" class="flip-clock-wrapper">
+                    <div class="flip-clock-unit">
+                        <div class="flip-clock-digit" id="dashboard-flip-clock-days-1">0</div>
+                        <div class="flip-clock-digit" id="dashboard-flip-clock-days-0">0</div>
+                        <div class="flip-clock-label">Days</div>
+                    </div>
+                    <span class="flip-clock-divider">:</span>
+                    <div class="flip-clock-unit">
+                        <div class="flip-clock-digit" id="dashboard-flip-clock-hours-1">0</div>
+                        <div class="flip-clock-digit" id="dashboard-flip-clock-hours-0">0</div>
+                        <div class="flip-clock-label">Hours</div>
+                    </div>
+                    <span class="flip-clock-divider">:</span>
+                    <div class="flip-clock-unit">
+                        <div class="flip-clock-digit" id="dashboard-flip-clock-minutes-1">0</div>
+                        <div class="flip-clock-digit" id="dashboard-flip-clock-minutes-0">0</div>
+                        <div class="flip-clock-label">Minutes</div>
+                    </div>
+                    <span class="flip-clock-divider">:</span>
+                    <div class="flip-clock-unit">
+                        <div class="flip-clock-digit" id="dashboard-flip-clock-seconds-1">0</div>
+                        <div class="flip-clock-digit" id="dashboard-flip-clock-seconds-0">0</div>
+                        <div class="flip-clock-label">Seconds</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                        <div class="dash-widget">
+                            <span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
+                            <div class="dash-widget-info text-right">
+                                <h3>@ViewBag.app</h3>
+                                <span class="widget-title1">Apointment <i class="fa fa-check" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                        <div class="dash-widget">
+                            <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
+                            <div class="dash-widget-info text-right">
+                                <h3>@ViewBag.review</h3>
+                                <span class="widget-title2">Avg Rating <i class="fa fa-check" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                        <div class="dash-widget">
+                            <span class="dash-widget-bg3"><i class="fa fa-user-md" aria-hidden="true"></i></span>
+                            <div class="dash-widget-info text-right">
+                                <h3>@ViewBag.view</h3>
+                                <span class="widget-title3">Number of Views <i class="fa fa-check" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                        <div class="dash-widget">
+                            <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
+                            <div class="dash-widget-info text-right">
+                                <h3>@ViewBag.pending</h3>
+                                <span class="widget-title4">Pending <i class="fa fa-check" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="doc-calendar">
+                    <h2 class="subtitle">Appointment Viewer</h2>
+
+                    <div class="calendar-controls">
+                        <button id="prev-month">&lt; Previous</button>
+                        <h3 id="month-year">APRIL 2025</h3>
+                        <button id="next-month">Next &gt;</button>
+                    </div>
+
+                    <table class="calendar-table">
+                        <thead>
+                            <tr>
+                                <th>SUN</th>
+                                <th>MON</th>
+                                <th>TUE</th>
+                                <th>WED</th>
+                                <th>THU</th>
+                                <th>FRI</th>
+                                <th>SAT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-body">
+                            <!-- Calendar days will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+
+                    <h3 id="appointments-title" class="appointment-title">Appointments</h3>
+                    <div id="reject-all-area" class="mb-4" style="display: none;">
+                        <div class="d-flex gap-2 align-items-center">
+                            <input type="text" id="rejection-reason" class="form-control" placeholder="Reason for rejecting all appointments" style="max-width: 400px;">
+                            <button id="reject-all-btn" class="btn btn-danger">Reject All Appointments</button>
+                        </div>
+                    </div>
+                    <table class="appointment-table">
+                        <thead>
+                            <tr>
+                                <th>DATE</th>
+                                <th>TIME</th>
+                                <th>PATIENT</th>
+                                <th>Cancel</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointments-body">
+                            <!-- Appointments will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const calendarBody = document.getElementById('calendar-body');
+                        const appointmentsBody = document.getElementById('appointments-body');
+                        const monthYearDisplay = document.getElementById('month-year');
+                        const rejectAllArea = document.getElementById('reject-all-area');
+                        let currentDate = new Date();
+                        let selectedDate = null;
+                        let selectedCell = null;
+
+                     // Flip Clock Setup
+                    function createFlipClock(containerId) {
+                        const container = document.getElementById(containerId);
+                        container.innerHTML = `
+                                            <div class="flip-clock-unit">
+                                                <div class="flip-clock-digits">
+                                                    <div class="flip-clock-digit" id="${containerId}-days-1">0</div>
+                                                    <div class="flip-clock-digit" id="${containerId}-days-0">0</div>
+                                                </div>
+                                                <div class="flip-clock-label">Days</div>
+                                            </div>
+                                            <div class="flip-clock-divider"></div>
+                                            <div class="flip-clock-unit">
+                                                <div class="flip-clock-digits">
+                                                    <div class="flip-clock-digit" id="${containerId}-hours-1">0</div>
+                                                    <div class="flip-clock-digit" id="${containerId}-hours-0">0</div>
+                                                </div>
+                                                <div class="flip-clock-label">Hours</div>
+                                            </div>
+                                            <div class="flip-clock-divider"></div>
+                                            <div class="flip-clock-unit">
+                                                <div class="flip-clock-digits">
+                                                    <div class="flip-clock-digit" id="${containerId}-minutes-1">0</div>
+                                                    <div class="flip-clock-digit" id="${containerId}-minutes-0">0</div>
+                                                </div>
+                                                <div class="flip-clock-label">Minutes</div>
+                                            </div>
+                                            <div class="flip-clock-divider"></div>
+                                            <div class="flip-clock-unit">
+                                                <div class="flip-clock-digits">
+                                                    <div class="flip-clock-digit" id="${containerId}-seconds-1">0</div>
+                                                    <div class="flip-clock-digit" id="${containerId}-seconds-0">0</div>
+                                                </div>
+                                                <div class="flip-clock-label">Seconds</div>
+                                            </div>
+                                        `;
+                    }
+                    // Initialize flip clocks
+                    createFlipClock('dashboard-flip-clock');
+
+                    // Subscription timer logic
+
+                                        const monthEndDateStr = '@ViewBag.MonthEndDate';
+                    const monthEndDate = monthEndDateStr ? new Date(monthEndDateStr) : null;
+
+                    function updateFlipClock(containerId, days, hours, minutes, seconds) {
+                        const daysStr = String(days).padStart(2, '0');
+                        const hoursStr = String(hours).padStart(2, '0');
+                        const minutesStr = String(minutes).padStart(2, '0');
+                        const secondsStr = String(seconds).padStart(2, '0');
+
+                        // Track previous seconds value to trigger animation
+                        const prevSeconds = document.getElementById(`${containerId}-seconds-0`)?.textContent;
+
+                        // Only update if elements exist
+                        if (document.getElementById(`${containerId}-days-1`)) {
+                            document.getElementById(`${containerId}-days-1`).textContent = daysStr[0];
+                            document.getElementById(`${containerId}-days-0`).textContent = daysStr[1];
+                            document.getElementById(`${containerId}-hours-1`).textContent = hoursStr[0];
+                            document.getElementById(`${containerId}-hours-0`).textContent = hoursStr[1];
+                            document.getElementById(`${containerId}-minutes-1`).textContent = minutesStr[0];
+                            document.getElementById(`${containerId}-minutes-0`).textContent = minutesStr[1];
+
+                            // Apply animation to seconds digits when they change
+                            const secondsDigit0 = document.getElementById(`${containerId}-seconds-0`);
+                            const secondsDigit1 = document.getElementById(`${containerId}-seconds-1`);
+
+                            if (secondsDigit0 && secondsDigit0.textContent !== secondsStr[1]) {
+                                secondsDigit0.classList.add('flip-effect');
+                                setTimeout(() => {
+                                    secondsDigit0.classList.remove('flip-effect');
+                                }, 600);
+                            }
+
+                            if (secondsDigit1 && secondsDigit1.textContent !== secondsStr[0]) {
+                                secondsDigit1.classList.add('flip-effect');
+                                setTimeout(() => {
+                                    secondsDigit1.classList.remove('flip-effect');
+                                }, 600);
+                            }
+
+                            if (secondsDigit1) secondsDigit1.textContent = secondsStr[0];
+                            if (secondsDigit0) secondsDigit0.textContent = secondsStr[1];
+
+                            // Add warning class if less than 3 days remain
+                            const clockElement = document.getElementById(containerId);
+                            if (clockElement) {
+                                if (days < 3) {
+                                    clockElement.classList.add('flip-clock-warning');
+                                } else {
+                                    clockElement.classList.remove('flip-clock-warning');
+                                }
+                            }
+                        }
+                    }
+
+                    function updateTimer() {
+                        if (!monthEndDate || isNaN(monthEndDate)) {
+                            updateFlipClock('dashboard-flip-clock', 0, 0, 0, 0);
+                            return;
+                        }
+
+                        const now = new Date();
+                        const timeDiff = monthEndDate - now;
+                        if (timeDiff <= 0) {
+                            updateFlipClock('dashboard-flip-clock', 0, 0, 0, 0);
+                            return;
+                        }
+
+                        const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                        updateFlipClock('dashboard-flip-clock', totalDays, hours, minutes, seconds);
+                    }
+
+                    if (monthEndDate && !isNaN(monthEndDate)) {
+                        updateTimer();
+                        setInterval(updateTimer, 1000);
+                    } else {
+                        updateFlipClock('dashboard-flip-clock', 0, 0, 0, 0);
+                    }
+
+
+                        function loadAppointmentsForMonth(year, month) {
+                            const monthStr = `${year}-${String(month + 1).padStart(2, '0')}`;
+                            fetch(`/api/Appointments/approved-monthp/${monthStr}`)
+                                .then(res => res.json())
+                                .then(data => {
+                                    renderCalendar(year, month, data);
+                                });
+                        }
+
+                       function renderCalendar(year, month, appointments) {
+                        const firstDay = new Date(year, month, 1).getDay();
+                        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                        calendarBody.innerHTML = '';
+                        let dateCounter = 1;
+
+                    for (let i = 0; i < 6; i++) {
+                        const row = document.createElement('tr');
+                        let rowHasDate = false; // Track if the row includes at least one day
+
+                        for (let j = 0; j < 7; j++) {
+                            const cell = document.createElement('td');
+
+                            if (i === 0 && j < firstDay) {
+                                cell.textContent = '';
+                            } else if (dateCounter <= daysInMonth) {
+                                const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(dateCounter).padStart(2, '0')}`;
+                                    const hasAppointments = appointments.some(app => app.bookingdate === fullDate);
+
+                                cell.textContent = dateCounter;
+                                rowHasDate = true;
+
+                                if (hasAppointments) {
+                                    const dot = document.createElement('div');
+                                    dot.classList.add('appointment-dot');
+                                    cell.appendChild(dot);
+                                }
+
+                                cell.addEventListener('click', () => {
+                                    if (selectedCell) selectedCell.classList.remove('selected');
+                                    cell.classList.add('selected');
+                                    selectedCell = cell;
+                                    selectedDate = fullDate;
+
+                                                    fetch(`/api/Appointments/approvedp/${fullDate}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("Appointments for selected date:", data);
+                        appointmentsBody.innerHTML = '';
+                        rejectAllArea.style.display = 'block';
+
+                        if (data.length === 0) {
+                            const row = document.createElement('tr');
+                            const cell = document.createElement('td');
+                            cell.colSpan = 4;
+                            cell.textContent = 'No approved appointments for this day';
+                            cell.classList.add('no-appointments');
+                            row.appendChild(cell);
+                            appointmentsBody.appendChild(row);
+                        } else {
+                            data.forEach(app => {
+                                console.log("Processing appointment:", app); // Log each appointment
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                    <td>${app.bookingdate || 'N/A'}</td>
+                                    <td>${app.startTime || 'N/A'}</td>
+                                    <td>${app.tourist?.user?.fullName || ''}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <input type="text" class="form-control reason-input" data-id="${app.id}" placeholder="Reason">
+                                            <button type="button" class="btn btn-info cancel-btn" data-id="${app.id}">Cancel</button>
+                                        </div>
+                                    </td>
+                                `;
+                                appointmentsBody.appendChild(row);
+                            });
+                                           document.querySelectorAll('.cancel-btn').forEach(button => {
+                                    button.addEventListener('click', function () {
+                                        const id = this.dataset.id;
+                                        const reason = document.querySelector(`.reason-input[data-id="${id}"]`).value;
+
+                                        if (!reason) {
+                                            alert("Please enter a reason.");
+                                            return;
+                                        }
+
+                                        if (confirm("Reject this appointment?")) {
+                                            fetch(`/api/Appointments/rejectp/${id}`, {
+                                                method: 'PUT',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify(reason)
+                                            }).then(res => {
+                                                if (res.ok) {
+                                                    alert("Appointment rejected.");
+                                                    this.closest('tr').remove();
+                                                } else {
+                                                    alert("Error rejecting appointment.");
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+
+
+                                            const monthName = new Date(year, month).toLocaleString('default', { month: 'long' });
+                                            document.getElementById('appointments-title').textContent =
+                                                `Approved Appointments for ${getDayName(new Date(fullDate).getDay())}, ${monthName} ${dateCounter}, ${year}`;
+                                        });
+                                });
+
+                                dateCounter++;
+                            }
+
+                            row.appendChild(cell);
+                        }
+
+                        if (rowHasDate) {
+                            calendarBody.appendChild(row);
+                        }
+                        }
+
+                        const displayMonth = new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' }).toUpperCase();
+                        monthYearDisplay.textContent = displayMonth;
+                            }
+
+                                     document.getElementById('reject-all-btn').addEventListener('click', () => {
+                        const reason = document.getElementById("rejection-reason").value;
+                        if (!selectedDate) {
+                            alert("Select a date first.");
+                            return;
+                        }
+                        if (!reason) {
+                            alert("Enter a reason.");
+                            return;
+                        }
+
+                        if (confirm(`Reject ALL appointments on ${selectedDate}?`)) {
+                            fetch(`/api/Appointments/reject-allp/${selectedDate}`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(reason)
+                            })
+                            .then(res => {
+                                if (res.ok) {
+                                    alert("All appointments rejected.");
+                                    appointmentsBody.innerHTML = '';
+                                } else {
+                                    alert("Error rejecting all.");
+                                }
+                            });
+                        }
+                    });
+                        function getDayName(dayIndex) {
+                            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                            return days[dayIndex];
+                        }
+
+                        document.getElementById('prev-month').addEventListener('click', () => {
+                            currentDate.setMonth(currentDate.getMonth() - 1);
+                            loadAppointmentsForMonth(currentDate.getFullYear(), currentDate.getMonth());
+                            selectedCell = null;
+                            document.getElementById('appointments-title').textContent = 'Appointments';
+                            appointmentsBody.innerHTML = '';
+                        });
+
+                        document.getElementById('next-month').addEventListener('click', () => {
+                            currentDate.setMonth(currentDate.getMonth() + 1);
+                            loadAppointmentsForMonth(currentDate.getFullYear(), currentDate.getMonth());
+                            selectedCell = null;
+                            document.getElementById('appointments-title').textContent = 'Appointments';
+                            appointmentsBody.innerHTML = '';
+                        });
+
+                        // Initial load
+                        loadAppointmentsForMonth(currentDate.getFullYear(), currentDate.getMonth());
+                    });
+
+
+                </script>
+
+
+
+
+            </div>
+            <div class="notification-box">
+                <div class="msg-sidebar notifications msg-noti">
+                    <div class="topnav-dropdown-header">
+                        <span>Messages</span>
+                    </div>
+                    <div class="drop-scroll msg-list-scroll" id="msg_list">
+                        <ul class="list-box">
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">R</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Richard Miles </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item new-message">
+                                        <div class="list-left">
+                                            <span class="avatar">J</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">John Doe</span>
+                                            <span class="message-time">1 Aug</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">T</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Tarah Shropshire </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">M</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Mike Litorus</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">C</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Catherine Manseau </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">D</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Domenic Houston </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">B</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Buster Wigton </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">R</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Rolland Webber </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">C</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Claire Mapes </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">M</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Melita Faucher</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">J</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Jeffery Lalor</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">L</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Loren Gatlin</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">T</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Tarah Shropshire</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="topnav-dropdown-footer">
+                        <a href="chat.html">See all messages</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize modal if needed
+                document.getElementById('logout-btn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/Identity/Account/Logout';
+
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = '__RequestVerificationToken';
+            tokenInput.value = token;
+            form.appendChild(tokenInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+
+        // Handle upgrade button
+        document.querySelector('.btn-primary')?.addEventListener('click', function(e) {
+            // Ensure the link works even if other event handlers interfere
+            window.location.href = '/subscription';
+        });
+
+        function disableDashboardInteractions() {
+            // Disable all interactive elements except the modal
+            document.querySelectorAll('a, button, input, select, textarea').forEach(el => {
+                if (!el.closest('.subscription-modal')) {
+                    el.style.pointerEvents = 'none';
+                    el.style.opacity = '0.5';
+                    el.tabIndex = -1;
+                }
+            });
+        }
+
+            // Handle extend trial button
+            document.getElementById('extend-trial')?.addEventListener('click', function() {
+                fetch('/api/appointments/extend-trial', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Trial extended until ${new Date(data.newEndDate).toLocaleDateString()}`);
+                        hideSubscriptionPrompt();
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    alert('Error extending trial: ' + error.message);
+                });
+            });
+
+            function showSubscriptionPrompt() {
+                document.body.classList.add('modal-open');
+                document.getElementById('dashboard-overlay').style.display = 'block';
+                document.getElementById('subscription-modal').style.display = 'block';
+            }
+
+            function hideSubscriptionPrompt() {
+                document.body.classList.remove('modal-open');
+                document.getElementById('dashboard-overlay').style.display = 'none';
+                document.getElementById('subscription-modal').style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+
+
+</html>

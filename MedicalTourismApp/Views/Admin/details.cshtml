@@ -1,0 +1,437 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+
+@{
+    Layout = "_AdminLayout";
+}
+<!-- blank-page24:04-->
+<head>
+  
+</head>
+
+        <body>
+            <div class="main-wrapper">
+        <div class="header">
+
+            <div class="header-left">
+                <a href="/Admin/Dashboard" class="logo">
+                    <img src="~/Home/img/logoTest7Hedar-removebg-preview.png" width="35" height="35" alt=""> <span>Ziyara</span> 
+                </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">    
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="assets/img/user.jpg" width="24">
+                            <span class="status online"></span>
+                        </span>
+                        <span>Admin</span>
+                    </a>
+                    <div class="dropdown-menu">
+                         @* <a class="dropdown-item" href="profile.html">My Profile</a>  *@
+                         @* <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>  *@
+                        <a class="dropdown-item" href="/">Home</a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                         <li >
+                             <a asp-controller="Admin" asp-action="Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                         </li>
+                         <li>
+                             <a asp-controller="Admin" asp-action="ApproveList"><i class="fa fa-user"></i> <span>Providers</span></a>
+                         </li>
+                         
+                        <li>
+                            <a asp-controller="Users" asp-action="Users"><i class="fa fa-user-o"></i> <span>Users</span></a>
+                        </li>
+                         <li>
+                             <a asp-controller="Admin" asp-action="ProviderList"><i class="fa fa-list"></i> <span>Providers List</span></a>
+                         </li>
+                         <li >
+                             <a asp-controller="Admin" asp-action="Testimonial"><i class="fa fa-address-card"></i> <span>Testimonial</span></a>
+                         </li>
+                         <li >
+                             <a asp-controller="Admin" asp-action="plans"><i class="fa fa-money"></i><span>Manage Plans</span> </a>
+                         </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+            <div class="page-wrapper">
+                    <div class="content">
+                        <h1 class="mb-4">Provider Details</h1>
+
+                        <div class="card shadow-sm p-4">
+                            <p><strong>Service Type:</strong> @Model.Provider.ServiceType</p>
+
+                            @if (Model.ServiceDetails != null)
+                            {
+                                <h4 class="mt-4">Service Details</h4>
+
+                                @switch (Model.Provider.ServiceType)
+                                {
+                                    case "Doctor":
+                                        var doctor = (Doctor)Model.ServiceDetails;
+                                        <p><strong>Specialization:</strong> @doctor.Specialization</p>
+                                        <p><strong>available:</strong> @doctor.available</p>
+                                        <p><strong>location:</strong> @doctor.location</p>
+                                        <p><strong>Bio:</strong> @doctor.Bio</p>
+                                        <p><strong>price:</strong> @doctor.price</p>
+                                        <p><strong>Years of Experience:</strong> @doctor.exprienece</p>
+                                        break;
+
+                                    case "Hospital":
+                                        var hospital = (Hospital)Model.ServiceDetails;
+                                        <p><strong>Name:</strong> @hospital.Name</p>
+                                        <p><strong>License Documents:</strong> @hospital.LicenseDocuments</p>
+                                        <p><strong>Specialties:</strong> @hospital.Specialties</p>
+                                        <p><strong>Website:</strong> @hospital.Website</p>
+                                        <p><strong>ContactNumber:</strong> @hospital.ContactNumber</p>
+                                        <p><strong>Number of Beds:</strong> @hospital.NumberOfBeds</p>
+                                        <p><strong>Location:</strong> @hospital.Location</p>
+                                        <p><strong>Email:</strong> @hospital.Email</p>
+                                        <p><strong>Emergency Available:</strong> @hospital.EmergencyAvailable</p>
+                                        <p><strong>Languages Spoken:</strong> @hospital.LanguagesSpoken</p>
+                                        <p><strong>Medical Staff Count:</strong> @hospital.MedicalStaffCount</p>
+                                        <p><strong>Equipment:</strong> @hospital.Equipment</p>
+                                        <p><strong>Year Established:</strong> @hospital.YearEstablished</p>
+                                        <p><strong>Starting Price:</strong> @hospital.StartingPrice</p>
+                                        <p><strong>Open 24 Hours?</strong> @hospital.Open24Hours</p>
+
+
+
+                                        break;
+
+                                    case "Guide":
+                                        var guide = (Guide)Model.ServiceDetails;
+                                        <p><strong>Languages Spoken:</strong> @guide.language</p>
+                                        <p><strong>Experience:</strong> @guide.exprienece years</p>
+                                        <p><strong>location:</strong> @guide.location </p>
+                                        <p><strong>start Price:</strong> @guide.startPrice </p>
+                                        <p><strong>city:</strong> @guide.city </p>
+                                        <p><strong>supported Area:</strong> @guide.supportedArea </p>
+                                        <p><strong>available:</strong> @guide.available </p>
+                                        break;
+                                    case "Transportation":
+                                        var trans = (Transportation)Model.ServiceDetails;
+                                        <p><strong>Full Name:</strong> @trans.FullName</p>
+                                        <p><strong>License:</strong> @trans.License </p>
+                                        <p><strong>License Plate:</strong> @trans.LicensePlate </p>
+                                        <p><strong>Location:</strong> @trans.Location </p>
+                                        <p><strong>Numberofseats?</strong> @trans.Numberofseats </p>
+                                        <p><strong>Price Per Trip:</strong> @trans.PricePerDay </p>
+                                        <p><strong>Bio:</strong> @trans.Bio </p>
+                                        <p><strong>DriverAvalablity:</strong> @trans.DriverAvalablity </p>
+                                        <p><strong>Contact Number:</strong> @trans.ContactNumber </p>
+                                        <p><strong>model of the car:</strong> @trans.modelocar </p>
+                                        break;
+                                    case "Freelance":
+                                        var free = (Freelancer)Model.ServiceDetails;
+                                        <p><strong>language:</strong> @free.language</p>
+                                        <p><strong>available:</strong> @free.available </p>
+                                        <p><strong>Exprienece:</strong> @free.exprienece </p>
+                                        <p><strong>price:</strong> @free.price </p>
+                                        <p><strong>supported Area:</strong> @free.supportedArea </p>
+                                        break;
+                                    case "Clinic":
+                                        var cl = (Clinic)Model.ServiceDetails;
+                                        <p><strong>Name:</strong> @cl.Name</p>
+                                        <p><strong>License Documents:</strong> @cl.LicenseDocuments</p>
+                                        <p><strong>Specialties:</strong> @cl.Specialties</p>
+                                        <p><strong>ContactNumber:</strong> @cl.ContactNumber</p>
+                                        <p><strong>Location:</strong> @cl.Location</p>
+                                        <p><strong>Email:</strong> @cl.Email</p>
+                                        <p><strong>Emergency Available:</strong> @cl.EmergencyAvailable</p>
+                                        <p><strong>Languages Spoken:</strong> @cl.LanguagesSpoken</p>
+                                        <p><strong>Medical Staff Count:</strong> @cl.MedicalStaffCount</p>
+                                        <p><strong>Equipment:</strong> @cl.Equipment</p>
+                                        <p><strong>Year Established:</strong> @cl.YearEstablished</p>
+                                        <p><strong>Starting Price:</strong> @cl.StartingPrice</p>
+                                        <p><strong>Open 24 Hours?</strong> @cl.Open24Hours</p>
+
+
+
+                                        break;
+                                    case "Apartment":
+                                         var ap = (Apartment)Model.ServiceDetails;
+                                            <p><strong>Name:</strong> @ap.Name</p>
+                                            <p><strong>Capacity Of Place:</strong> @ap.CapacityOfPlace</p>
+                                            <p><strong>Available:</strong> @ap.Available</p>
+                                            <p><strong>ContactNumber:</strong> @ap.ContactNumber</p>
+                                            <p><strong>Location:</strong> @ap.Location</p>
+                                            <p><strong>Description:</strong> @ap.Description</p>
+                                            <p><strong>Has Balcony:</strong> @ap.HasBalcony</p>
+                                            <p><strong>Has Kitchen:</strong> @ap.HasKitchen</p>
+                                            <p><strong>Number Of Rooms:</strong> @ap.NumberOfRooms</p>
+                                            <p><strong>Price:</strong> @ap.Price</p>
+                                    break;
+                                        case "Hotel":
+                                       
+                                            var ho = (Hotel)Model.ServiceDetails;
+                                            <p><strong>Name:</strong> @ho.Name</p>
+                                            <p><strong>Capacity Of Place:</strong> @ho.CapacityOfPlace</p>
+                                            <p><strong>Available:</strong> @ho.Available</p>
+                                            <p><strong>ContactNumber:</strong> @ho.ContactNumber</p>
+                                            <p><strong>Location:</strong> @ho.Location</p>
+                                            <p><strong>Description:</strong> @ho.Description</p>
+                                            <p><strong>Has Gym:</strong> @ho.HasGym</p>
+                                            <p><strong>Break fast Included:</strong> @ho.BreakfastIncluded</p>
+                                            <p><strong>Number Of Rooms:</strong> @ho.NumberOfRooms</p>
+                                            <p><strong>Price:</strong> @ho.Price</p>
+                                            <p><strong>Has Pool:</strong> @ho.HasPool</p>
+                                            <p><strong>Parking Availability:</strong> @ho.ParkingAvailability</p>
+                                            <p><strong>Price:</strong> @ho.Price</p>
+                                        
+                                        break;
+                                    default:
+                                        <p>No additional details available.</p>
+                                        break;
+                                }
+                            }
+
+
+                        </div>
+                    </div>
+                    <div class="notification-box">
+                        <div class="msg-sidebar notifications msg-noti">
+                            <div class="topnav-dropdown-header">
+                                <span>Messages</span>
+                            </div>
+                            <div class="drop-scroll msg-list-scroll" id="msg_list">
+                                <ul class="list-box">
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">R</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author">Richard Miles </span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item new-message">
+                                                <div class="list-left">
+                                                    <span class="avatar">J</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author">John Doe</span>
+                                                    <span class="message-time">1 Aug</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">T</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author"> Tarah Shropshire </span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">M</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author">Mike Litorus</span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">C</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author"> Catherine Manseau </span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">D</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author"> Domenic Houston </span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">B</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author"> Buster Wigton </span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">R</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author"> Rolland Webber </span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">C</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author"> Claire Mapes </span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">M</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author">Melita Faucher</span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">J</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author">Jeffery Lalor</span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">L</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author">Loren Gatlin</span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat.html">
+                                            <div class="list-item">
+                                                <div class="list-left">
+                                                    <span class="avatar">T</span>
+                                                </div>
+                                                <div class="list-body">
+                                                    <span class="message-author">Tarah Shropshire</span>
+                                                    <span class="message-time">12:28 AM</span>
+                                                    <div class="clearfix"></div>
+                                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="topnav-dropdown-footer">
+                                <a href="chat.html">See all messages</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </body>
+
+
+        <!-- blank-page24:04-->
+        </html>

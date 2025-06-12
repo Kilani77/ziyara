@@ -1,0 +1,227 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    /* Custom Styles */
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    a.position-relative:hover .img-overlay {
+        background: rgba(0,0,0,0.4);
+    }
+
+    a.position-relative:hover img {
+        transform: scale(1.05);
+    }
+
+    .icon-box {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .colorWadiRam {
+    }
+
+    .section-title {
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .rounded-3 {
+        border-radius: 0.75rem !important;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important;
+    }
+
+    .fab-back-button {
+        position: fixed;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-color: #FFFFFF;
+        color: limegreen;
+        border: none;
+        border-radius: 50%;
+        padding: 15px;
+        font-size: 20px;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+        .fab-back-button:hover {
+            background-color: black;
+        }
+
+</style>
+<body>
+    <a class="collapse navbar-collapse" id="navbarCollapse">
+
+        <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+    </a>
+    <a href="javascript:history.back()" class="fab-back-button" title="Go Back">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+
+
+    <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
+                <h1 class="mb-5">Dead Sea</h1>
+            </div>
+            <div class="row g-3">
+
+                <!-- Column 1 -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="row g-3">
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.1s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/deadSea2.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-6 wow zoomIn" data-wow-delay="0.3s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/deadSea5.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="col-6 wow zoomIn" data-wow-delay="0.5s">
+                            <a class="position-relative d-block overflow-hidden" href="">
+                                <img src="~/Home/img/dead10H.jpg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="col-lg-6 col-md-6 wow zoomIn" data-wow-delay="0.1s">
+                    <div class="d-flex flex-column h-100 justify-content-between">
+                        <!-- Image 1: Ma'in Hot Springs -->
+                        <a class="position-relative d-block overflow-hidden mb-3 flex-fill" style="min-height: 100%;" href="">
+                            <img class="w-100 h-100" src="~/Home/img/deadSea4.jpg" alt="" style="object-fit: cover;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dead Sea Section 1 -->
+    <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/dead8.jpg" alt="Dead Sea" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">The Dead Sea:</h3>
+                        <h5>Nature's Ultimate Healing Sanctuary</h5>
+                        Imagine floating effortlessly in mineral-rich waters, surrounded by golden desert landscapes, while your skin drinks in the earth's nourishing gifts. Welcome to the Dead Sea in Jordan—the world's most therapeutic natural spa and a place where wellness is written into the very fabric of the land.
+                    </p>
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Mineral-Rich Mud:</h3>
+                        <h5>Nature's Skin Elixir</h5>
+                        The Dead Sea's black mud is packed with magnesium, calcium, potassium, and bromide, known to detoxify and rejuvenate skin, soothe psoriasis and eczema, and relieve muscle tension. For centuries, from Cleopatra to modern wellness seekers, this natural remedy has been the secret to radiant skin and joint relief.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dead Sea Section 2 -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Buoyant Healing Waters</h3>
+                        <h5>Weightless Therapy</h5>
+                        With 10 times more minerals than ordinary seawater, the Dead Sea's ultra-salty water (33% salinity) makes floating effortless while easing joint and back pain, improving skin hydration, and reducing stress through magnesium absorption. It's nature's perfect therapy pool.
+                    </p>
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Therapeutic Sunbathing</h3>
+                        <h5>Gentle Healing Rays</h5>
+                        Sitting 430 meters below sea level, the Dead Sea's atmosphere filters harmful UV rays, allowing for longer, safer sun exposure—making it one of the world's best natural treatments for psoriasis and other skin conditions.
+                    </p>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/dead9.jpg" alt="Dead Sea Floating" style="object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Visit Dead Sea Section -->
+    <div class="container-xxl py-5" style="background-color: #fff;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100 rounded-3 overflow-hidden shadow-sm">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/dead6een.jpg" alt="Dead Sea Mud" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h2 class="text-primary mb-4" style="font-weight: 600;">Why You Must Experience the Dead Sea</h2>
+                    <div class="feature-list">
+                        <div class="d-flex mb-4">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Rejuvenate Your Skin</h5>
+                                <p class="mb-0">Let the mineral-rich mud and waters detoxify and heal your body naturally.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Float Effortlessly</h5>
+                                <p class="mb-0">Experience the weightless embrace of the saltiest water on Earth.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Breathe Deeply</h5>
+                                <p class="mb-0">Soak up the oxygen-rich air and gentle, therapeutic sunlight.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4">
+                        The Dead Sea isn't just a place—it's a transformative experience. Whether you seek relief from skin conditions, deep relaxation, or a natural wellness retreat, Jordan's Dead Sea offers nature's most powerful remedies.
+                    </p>
+                    <a class="btn btn-primary py-3 px-5" style="margin-top:20px" asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Dead Sea">Book now</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+   
+
+</body>

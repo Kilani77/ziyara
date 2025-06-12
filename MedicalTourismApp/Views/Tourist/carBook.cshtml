@@ -1,0 +1,573 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental Booking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #86B817;
+            --primary-dark: #6A940D;
+            --secondary-color: #2c3e50;
+            --light-gray: #f8f9fa;
+            --dark-gray: #6c757d;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7fafc;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            width: 100%;
+            padding: 20px 0;
+            box-sizing: border-box;
+        }
+
+        .booking-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+            h2::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100px;
+                height: 4px;
+                background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+                border-radius: 2px;
+            }
+
+        .car-profile {
+            display: flex;
+            align-items: center;
+            background-color: #f0f7e6;
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .car-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            margin: 0 auto;
+        }
+
+        .car-details {
+            margin-left: 1.2rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+            .car-details h3 {
+                margin: 0 0 0.25rem;
+                font-weight: 600;
+                color: var(--secondary-color);
+                font-size: 1.3rem;
+            }
+
+            .car-details p {
+                margin: 0;
+                color: var(--dark-gray);
+                font-size: 0.9rem;
+            }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+            .badge i {
+                margin-right: 0.3rem;
+                font-size: 0.9rem;
+            }
+
+        .info-box {
+            display: flex;
+            align-items: flex-start;
+            background-color: #f0f9ff;
+            border-radius: 8px;
+            padding: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+            .info-box i {
+                color: var(--primary-color);
+                margin-right: 0.8rem;
+                font-size: 1.1rem;
+                margin-top: 0.1rem;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 6px;
+                color: var(--secondary-color);
+                font-weight: 500;
+                font-size: 0.95rem;
+            }
+
+        .date-picker-wrapper {
+            position: relative;
+        }
+
+            .date-picker-wrapper input {
+                width: 100%;
+                padding: 12px 40px 12px 14px;
+                border: 2px solid #e9ecef;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                transition: all 0.3s ease;
+                box-sizing: border-box;
+            }
+
+                .date-picker-wrapper input:focus {
+                    border-color: var(--primary-color);
+                    outline: none;
+                    box-shadow: 0 0 0 3px rgba(134, 184, 23, 0.2);
+                }
+
+            .date-picker-wrapper .calendar-trigger {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--dark-gray);
+                font-size: 1rem;
+                cursor: pointer;
+                pointer-events: all;
+                z-index: 2;
+                background: transparent;
+                border: none;
+                padding: 0;
+            }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(134, 184, 23, 0.3);
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(134, 184, 23, 0.4);
+            }
+
+            .btn-primary:active {
+                transform: translateY(0);
+            }
+
+        .flatpickr-calendar {
+            border-radius: 8px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+            font-family: 'Poppins', sans-serif !important;
+            width: 100% !important;
+            max-width: 300px !important;
+        }
+
+        .flatpickr-weekdays {
+            background: var(--primary-color) !important;
+        }
+
+        span.flatpickr-weekday {
+            color: white !important;
+        }
+
+        .flatpickr-day.selected {
+            background: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        @@media (max-width: 768px) {
+            .booking-container
+
+        {
+            padding: 25px 20px;
+            margin: 10px auto;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .car-profile {
+            flex-direction: column;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .car-details {
+            margin-left: 0;
+            margin-top: 0.8rem;
+            text-align: center;
+        }
+
+        .date-picker-wrapper input {
+            padding: 10px 35px 10px 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+        }
+
+        }
+
+        @@media (max-width: 480px) {
+            .booking-container
+
+        {
+            padding: 20px 15px;
+            border-radius: 12px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            padding-bottom: 10px;
+        }
+
+            h2::after {
+                width: 80px;
+                height: 3px;
+            }
+
+        .info-box {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+            .info-box i {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+        }
+
+        .navbar {
+            background-color: #ffffff !important; /* Solid white background */
+            transition: background-color 0.5s ease;
+        }
+
+            .navbar.sticky-top {
+                background-color: #ffffff !important; /* Also enforce background when sticky */
+            }
+
+            .navbar.scrolled {
+                background-color: #ffffff !important; /* Force white even if JS adds 'scrolled' class */
+            }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #000000 !important;
+        }
+
+
+        .navbar-light .navbar-nav .nav-link {
+            font-family: 'Nunito', sans-serif;
+            position: relative;
+            margin-right: 25px;
+            padding: 20px 0;
+            color: #000000 !important;
+            font-size: 18px;
+            font-weight: 600;
+            outline: none;
+            transition: .5s;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0) !important;
+        }
+
+        .row {
+            padding-top: 60px !important;
+        }
+    </style>
+    <div class="container-fluid navbar-light p-0">
+        <nav class=" navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+            <a href="" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/greenLogo2-removebg.png" alt="Logo">Medical Trip</h1>
+
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+
+                        <a href="package.html" class="nav-item nav-link">Packages</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Travel Guides</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+                            
+                        </div>
+
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+                        <a class="nav-item nav-link" href="/Doctor/Dashboard">Dashboard</a>
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+
+                        <a href="package.html" class="nav-item nav-link">Packages</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Travel Guides</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                    else if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+
+
+
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+
+                        <a href="package.html" class="nav-item nav-link">Packages</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Travel Guides</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+
+
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                        <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                        <a href="package.html" class="nav-item nav-link">Packages</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
+                                <a href="team.html" class="dropdown-item">Travel Guides</a>
+                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="404.html" class="dropdown-item">404 Page</a>
+                            </div>
+                        </div>
+                        <a asp-action="contact" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                        <a class="nav-item nav-link " href="/Identity/Account/Login">Login</a>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav ms-auto py-0">
+                                <a href="/Identity/Account/Register" class="btn btn-primary rounded-pill py-2 px-4 center">Register</a>
+                            </div>
+                        </div>
+
+                    }
+                    <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                        <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                    </a>
+                </div>
+                
+
+            </div>
+        </nav>
+    </div>
+    
+</head>
+<body>
+	<div class="page-wrapper" style="margin-top:100px">
+        <div class="booking-container">
+            <h2><i class="fas fa-car" style="margin-right: 8px;"></i> Car Rental Booking</h2>
+
+            <div class="car-profile">
+                <div class="car-avatar">
+                    <i class="fas fa-car-side"></i>
+                </div>
+                <div class="car-details">
+                    <h3>Premium Rental Vehicle</h3>
+                    <p>Comfortable and reliable transportation</p>
+                    <span class="badge">
+                        <i class="fas fa-star"></i> Excellent Condition
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <div class="info-content">
+                    <strong>Important Note</strong>
+                    <p>Gray dates on the calendar indicate unavailable periods. Please select from the available dates shown in white.</p>
+                </div>
+            </div>
+
+            <form action="/Tourist/carBook" method="post" id="bookingForm">
+                <input type="hidden" name="Id" value="@Model.carId">
+                <input type="hidden" name="flow" value="@ViewBag.Flow" />
+                <div class="form-group">
+                    <label for="bookingDates">Select Rental Period</label>
+                    <div class="date-picker-wrapper">
+                        <input type="text" id="bookingDates" name="bookingDates" placeholder="Choose check-in & check-out dates" required>
+                        <button type="button" class="calendar-trigger">
+                            <i class="fas fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check-circle" style="margin-right: 6px;"></i> Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+   
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const dateInput = document.getElementById("bookingDates");
+            const calendarTrigger = document.querySelector(".calendar-trigger");
+
+            // Initialize flatpickr
+            const flatpickrInstance = flatpickr(dateInput, {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                disable: @Html.Raw(Json.Serialize(ViewBag.BookedDates)),
+                minDate: "today",
+                onOpen: function() {
+                    const calendar = document.querySelector('.flatpickr-calendar');
+                    if (calendar) {
+                        const rect = calendar.getBoundingClientRect();
+                        if (rect.bottom > window.innerHeight) {
+                            calendar.style.top = 'auto';
+                            calendar.style.bottom = '100%';
+                        }
+                    }
+                }
+            });
+
+            // Make calendar icon clickable
+            calendarTrigger.addEventListener("click", function() {
+                flatpickrInstance.open();
+            });
+
+            // Also open calendar when clicking the input field
+            dateInput.addEventListener("focus", function() {
+                flatpickrInstance.open();
+            });
+        });
+    </script>
+</body>
+</html>

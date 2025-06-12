@@ -1,0 +1,437 @@
+﻿@page
+@model MedicalTourismApp.Areas.Identity.Pages.Account.Forms.GuideModel
+@{
+    ViewData["Title"] = "Register Guide";
+}
+<style>
+    .navbar {
+        background-color: #ffffff !important;
+        transition: background-color 0.5s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+        z-index: 1000; /* stays on top */
+    }
+
+        .navbar.sticky-top, .navbar.scrolled {
+            background-color: #ffffff !important;
+            transition: background-color 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+            z-index: 1000; /* stays on top */
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: #000000 !important;
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        margin-right: 25px;
+        padding: 20px 0;
+        font-size: 18px;
+        font-weight: 600;
+        transition: .5s;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        padding-top: 60px !important;
+    }
+</style>
+<div class="container-fluid navbar-light p-0">
+    <nav class=" navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+        <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                }
+                
+                else if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                }
+                else
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                   
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+							<a href="/Identity/Account/Login" class="btn btn-primary rounded-pill py-2 px-4 center">Login</a>
+                        </div>
+                    </div>
+
+                }
+                <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                    <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                </a>
+            </div>
+
+
+        </div>
+    </nav>
+</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white py-4" style="background: linear-gradient(135deg, #86B817 0%, #9BD117 100%);">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+
+                            <i class="fas fa-map-marked-alt fa-2x"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h2 class="h3 mb-1">Guide Registration</h2>
+                            <p class="mb-0 opacity-75">Complete your professional profile to start receiving patients</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="color:black">City</label>
+                                    <input asp-for="Input.city" class="form-control form-control-lgG " placeholder="Enter city" />
+                                    <span asp-validation-for="Input.city" class="text-danger small"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label style="color:black">Location:</label>
+                                    <div class="input-group">
+                                        <input type="text" id="location-display" class="form-control" readonly placeholder="Click to select location" />
+                                        <input type="hidden" asp-for="Input.Location" id="location-input" />
+                                    </div>
+                                    <span asp-validation-for="Input.Location" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="color:black">Contact Number</label>
+                                    <input asp-for="Input.ContactNumber" class="form-control form-control-lgG" placeholder="+962 7X XXX XXXX" />
+                                    <span asp-validation-for="Input.ContactNumber" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="color:black">Languages</label>
+                                    <input asp-for="Input.language" class="form-control form-control-lgG" placeholder="English, Arabic, etc." />
+                                    <span asp-validation-for="Input.language" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="color:black">Support Area</label>
+                                    <select asp-for="Input.supportArea" class="form-select form-control-lgG">
+                                        <option value="">Select tourism area</option>
+                                        <option value="Dead Sea">Dead Sea</option>
+                                        <option value="Wadi Rum">Wadi Rum</option>
+                                        <option value="Al-Himmah Al-Ordonia">Al-Himmah Al-Ordonia</option>
+                                        <option value="Ma'in Hot Springs">Ma'in Hot Springs</option>
+                                        <option value="Afra Hot Springs">Afra Hot Springs</option>
+                                    </select>
+                                    <span asp-validation-for="Input.supportArea" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="color:black">Experience (Years)</label>
+                                    <input asp-for="Input.expirenece" class="form-control form-control-lgG" placeholder="Years of experience" />
+                                    <span asp-validation-for="Input.expirenece" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="color:black">Starting Price (USD)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="background-color: #86B817; color: white;">$</span>
+                                        <input asp-for="Input.StartingPrice" class="form-control form-control-lgG" placeholder="Strating Price" />
+                                    </div>
+                                    <span asp-validation-for="Input.StartingPrice" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-3 form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="Input.Availabile" id="availability" style="background-color: #86B817;">
+                                    <label class="form-check-label fw-bold" for="availability" style="color:black">Currently Available</label>
+                                </div>
+                            </div>
+                        </div>
+
+                      <!-- Image Upload Section -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Upload Trips Images</label>
+                            <div class="file-upload-wrapper">
+                                <input type="file" asp-for="Input.Images" multiple class="form-control form-control-lg" id="apartmentImages" accept="image/*" />
+                                <small class="form-text text-muted">Upload high-quality photos of your apartment (max 10 images)</small>
+                                <span asp-validation-for="Input.Images" class="text-danger small"></span>
+                            </div>
+                            <div id="imagePreview" class="d-flex flex-wrap gap-2 mt-3"></div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-lg text-white" style="background-color: #86B817;">
+                                <i class="fas fa-user-plus me-2"></i>Register Guide
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .form-control-lgG {
+            min-height: calc(1.5em + 1rem + 2px);
+            padding: .5rem 1rem;
+            font-size: 0.85rem 13.6px;
+            border-radius: .3rem;
+        }
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .footer {
+            display: none;
+        }
+        .form-control-lgG, .form-select {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+
+            .form-control-lgG:focus, .form-select:focus {
+                border-color: #86B817;
+                box-shadow: 0 0 0 0.25rem rgba(134, 184, 23, 0.25);
+            }
+
+        .file-upload-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+            .file-upload-wrapper:hover {
+                border-color: #86B817;
+            }
+
+        #imagePreview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+            #imagePreview img:hover {
+                border-color: #86B817;
+                transform: scale(1.05);
+            }
+
+        .form-check-input:checked {
+            background-color: #86B817;
+            border-color: #86B817;
+        }
+
+        .btn {
+            transition: all 0.3s;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+            .btn:hover {
+                background-color: #769e14 !important;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+        .card-header {
+            border-bottom: none;
+        }
+    </style>
+}
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mapModalLabel">Select Location</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="map" style="height: 400px; width: 100%;"></div>
+                <p id="selected-location" class="mt-2">Selected: <span id="location-address">None</span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel-button">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirm-location">Confirm Location</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&libraries=places&callback=initMap"></script>
+    <script>
+        // Optional: Preview images
+        document.querySelector('input[name="Input.Images"]').addEventListener('change', function (e) {
+            const files = e.target.files;
+            for (let file of files) {
+                console.log(file.name);
+            }
+        });
+    </script>
+    <script>
+        let map, marker, geocoder;
+        let selectedLatLng = null;
+        document.getElementById('location-display').addEventListener('click', () => {
+            $('#mapModal').modal('show');
+        });
+        function initMap() {
+            // Initialize map centered on Amman, Jordan
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 31.9539, lng: 35.9106 },
+                zoom: 12
+            });
+
+            geocoder = new google.maps.Geocoder();
+
+            // Add click listener to place marker
+            map.addListener('click', (event) => {
+                placeMarker(event.latLng);
+            });
+        }
+
+        function placeMarker(location) {
+            // Remove existing marker
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            // Place new marker
+            marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            selectedLatLng = location;
+
+            // Reverse geocode to get address
+            geocoder.geocode({ location: location }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    document.getElementById('location-address').textContent = results[0].formatted_address;
+                } else {
+                    document.getElementById('location-address').textContent = 'Address not found';
+                }
+            });
+        }
+
+        // Confirm location and update form
+        document.getElementById('confirm-location').addEventListener('click', () => {
+            if (selectedLatLng) {
+                const lat = selectedLatLng.lat();
+                const lng = selectedLatLng.lng();
+                const locationString = `${lat},${lng}`;
+                document.getElementById('location-input').value = locationString;
+                document.getElementById('location-display').value = document.getElementById('location-address').textContent;
+                $('#mapModal').modal('hide');
+            } else {
+                alert('Please select a location on the map.');
+            }
+        });
+
+        // Preview images
+        document.querySelector('input[name="Input.Images"]').addEventListener('change', function (e) {
+            const files = e.target.files;
+            for (let file of files) {
+                console.log(file.name);
+            }
+        });
+
+        // Initialize map when modal is shown
+        $('#mapModal').on('shown.bs.modal', function () {
+            initMap();
+        });
+        document.getElementById('cancel-button').addEventListener('click', () => {
+            $('#mapModal').modal('hide');
+        });
+        document.querySelector('.modal-header .close').addEventListener('click', () => {
+            $('#mapModal').modal('hide');
+        });
+    </script>
+        <script>
+        // Image preview functionality
+        document.getElementById('apartmentImages').addEventListener('change', function (e) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+
+            if (this.files.length > 10) {
+                alert('You can upload a maximum of 10 images');
+                this.value = '';
+                return;
+            }
+
+            for (let file of this.files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        preview.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+    </script>
+
+}

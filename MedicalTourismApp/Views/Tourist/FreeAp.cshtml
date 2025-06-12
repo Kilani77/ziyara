@@ -1,0 +1,367 @@
+﻿@model MedicalTourismApp.Controllers.TouristController.BookingViewModel1
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment | Medical Tourism</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #86B817;
+            --primary-light: #f0f7e6;
+            --primary-dark: #6A940D;
+            --secondary: #f8f9fa;
+            --text: #2d3748;
+            --text-light: #718096;
+            --error: #e53e3e;
+            --success: #38a169;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .booking-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .booking-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+            .booking-header h2 {
+                margin: 0;
+                font-weight: 700;
+                font-size: 1.75rem;
+            }
+
+            .booking-header p {
+                margin: 0.5rem 0 0;
+                opacity: 0.9;
+                font-size: 1rem;
+            }
+
+        .booking-content {
+            padding: 2rem;
+        }
+
+        .doctor-profile {
+            display: flex;
+            align-items: center;
+            background-color: var(--primary-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .doctor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+        }
+
+        .doctor-details {
+            margin-left: 1.5rem;
+        }
+
+            .doctor-details h3 {
+                margin: 0 0 0.25rem;
+                font-weight: 600;
+            }
+
+            .doctor-details p {
+                margin: 0;
+                color: var(--text-light);
+                font-size: 0.95rem;
+            }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: white;
+            color: var(--primary);
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+            .badge i {
+                margin-right: 0.4rem;
+            }
+
+        .booking-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+            .booking-card h4 {
+                margin: 0 0 1.25rem;
+                font-size: 1.25rem;
+                font-weight: 600;
+                color: var(--text);
+                display: flex;
+                align-items: center;
+            }
+
+                .booking-card h4 i {
+                    margin-right: 0.75rem;
+                    color: var(--primary);
+                }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--text);
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(134, 184, 23, 0.2);
+            }
+
+        .date-picker-wrapper {
+            position: relative;
+        }
+
+            .date-picker-wrapper i {
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-light);
+                pointer-events: none;
+            }
+
+        .helper-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        .btnS {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+            .btn:hover {
+                background-color: var(--primary-dark);
+                transform: translateY(-1px);
+            }
+
+            .btn i {
+                margin-right: 0.5rem;
+            }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-warning {
+            background-color: #fff5e6;
+            border-color: #ffe8cc;
+            color: #cc7a00;
+        }
+
+        .time-slots-container {
+            margin-top: 2rem;
+        }
+
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .time-slot {
+            display: block;
+            position: relative;
+        }
+
+            .time-slot input[type="radio"] {
+                position: absolute;
+                opacity: 0;
+            }
+
+        .slot-time {
+            display: block;
+            padding: 0.75rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .time-slot input[type="radio"]:checked + .slot-time {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 2px 5px rgba(134, 184, 23, 0.3);
+        }
+
+        .time-slot input[type="radio"]:not(:checked) + .slot-time:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        @@media (max-width: 768px) {
+            .booking-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .booking-content {
+                padding: 1.5rem;
+            }
+
+            .doctor-profile {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem 1rem;
+            }
+
+            .doctor-details {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+
+            .slots-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-container">
+        <div class="booking-header">
+            <h2>Book Appointment</h2>
+            <p>Schedule your consultation with our specialist</p>
+        </div>
+
+        <div class="booking-content">
+            <!-- Doctor Profile Section -->
+            <div class="doctor-profile">
+                <div class="doctor-avatar">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="doctor-details">
+                    <h3>Dr. @Model.FreeName</h3>
+                    <p>Specialized medical professional</p>
+                    <span class="badge">
+                        <i class="fas fa-certificate"></i> Board Certified
+                    </span>
+                </div>
+            </div>
+
+            <!-- Step 1: Select Date -->
+            <div class="booking-card">
+                <h4><i class="far fa-calendar-alt"></i> Select Appointment Date</h4>
+
+                <form method="get" asp-action="FreeAp" asp-controller="Tourist">
+                    <input type="hidden" name="FreeId" value="@Model.FreeId" />
+
+                    <div class="form-group">
+                        <label for="appointmentDate">Choose a date</label>
+                        <div class="date-picker-wrapper">
+                            <input type="date" id="appointmentDate" class="form-control" name="date"
+                                   min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                   value="@Model.SelectedDate?.ToString("yyyy-MM-dd")"
+                                   required />
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="helper-text">Select a date to check available time slots</div>
+                    </div>
+
+                    <button type="submit" class="btnS">
+                        <i class="fas fa-search"></i> Check Availability
+                    </button>
+                </form>
+            </div>
+
+            <!-- Step 2: Show Available Time Slots -->
+            @if (Model.AvailableSlots1 != null && Model.AvailableSlots1.Any())
+            {
+                <div class="booking-card time-slots-container">
+                    <h4><i class="far fa-clock"></i> Available Time Slots</h4>
+                    <p>For @Model.SelectedDate?.ToString("dddd, MMMM d, yyyy")</p>
+
+                    <form method="post" asp-action="FreeAp" asp-controller="Tourist">
+                        <input type="hidden" name="FreeId" value="@Model.FreeId" />
+                        <input type="hidden" name="date" value="@Model.SelectedDate?.ToString("yyyy-MM-dd")" />
+
+                        <div class="slots-grid">
+                            @foreach (var slot in Model.AvailableSlots1)
+                            {
+                                <label class="time-slot">
+                                    <input type="radio" name="startTime" value="@slot.StartTime" required />
+                                    <span class="slot-time">@slot.StartTime.ToString(@"hh\:mm") - @slot.EndTime.ToString(@"hh\:mm")</span>
+                                </label>
+                            }
+                        </div>
+
+                        <button type="submit" class="btn" style="margin-top: 1.5rem;">
+                            <i class="fas fa-calendar-check"></i> Confirm Appointment
+                        </button>
+                    </form>
+                </div>
+            }
+            else if (Model.SelectedDate.HasValue)
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-circle"></i> No available time slots for this date. Please select another date.
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

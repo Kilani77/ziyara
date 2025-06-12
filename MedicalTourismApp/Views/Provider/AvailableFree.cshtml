@@ -1,0 +1,277 @@
+﻿@model List<MedicalTourismApp.Controllers.AvailabilityViewModelfree>
+@{
+    ViewData["Title"] = "Freelancer Availability";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer Availability Scheduler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            border: none;
+        }
+
+        .day-card {
+            border-left: 4px solid #4b6cb7;
+            transition: all 0.3s ease;
+            height: auto;
+            position: relative;
+        }
+
+            .day-card.active {
+                border-left: 4px solid #1e7e34;
+                background-color: #f8fff9;
+            }
+
+            .day-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            }
+
+        .table-container {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .available {
+            background-color: #28a745;
+        }
+
+        .unavailable {
+            background-color: #dc3545;
+        }
+
+        .add-btn {
+            border-radius: 50px;
+        }
+
+        .availability-header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .day-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #4b6cb7;
+        }
+
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <!-- Alert Messages -->
+        <div id="alertContainer">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        </div>
+
+        <div class="row mb-5 ">
+            <div class="col-15">
+                <div class="card p-5">
+                    <div class="availability-header">
+                        <h2 class="mb-0"><i class="fas fa-calendar-alt me-2"></i> Weekly Availability Schedule</h2>
+                        <p class="mb-0 text-white-50">
+                            Choose the day and specify from when to when you will work.
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-action="AvailableFree" id="availabilityForm">
+                            <input type="hidden" name="doctorId" value="@ViewBag.DoctorId" />
+                            <div class="schedule-grid mb-4">
+                                @foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+                                {
+                                    string dayIconClass = "fa-calendar-day";
+                                    if (day == DayOfWeek.Monday) dayIconClass = "fa-calendar-check";
+                                    if (day == DayOfWeek.Saturday || day == DayOfWeek.Sunday) dayIconClass = "fa-calendar-minus";
+
+                                    <div class="day-card card p-3" data-day="@day">
+                                        <div class="text-center day-icon">
+                                            <i class="fas @dayIconClass"></i>
+                                        </div>
+                                        <input class="form-check-input" type="checkbox" id="available@(day)" name="available@(day)">
+
+                                        <h5 class="text-center mb-3">@day</h5>
+                                        <div class="form-check form-switch d-flex justify-content-between align-items-center mb-3">
+                                            <label class="form-check-label">Available this day</label>
+                                        </div>
+                                        <div class="time-inputs-@(day) time-inputs-container">
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                                        <input type="time" class="form-control time-input" name="startTime_@day" placeholder="Start Time" onclick="event.stopPropagation()">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                                        <input type="time" class="form-control time-input" name="endTime_@day" placeholder="End Time" onclick="event.stopPropagation()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                }
+                            </div>
+                            <div class="d-flex justify-content-end">
+
+                                <button type="button" class="btn btn-outline-secondary me-2" onclick="resetForm()">
+                                    <i class="fas fa-redo"></i> Reset
+                                </button>
+                                <button type="submit" class="btn btn-primary add-btn px-4">
+                                    <i class="fas fa-save me-2"></i> Save Schedule
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Schedule Display -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4"><i class="fas fa-list-alt me-2"></i> Current Availability</h3>
+
+                        <div class="table-container">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th width="7%">#</th>
+                                        <th width="25%">Day</th>
+                                        <th width="27%">Status</th>
+                                        <th width="41%">Hours</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int i = 1;
+                                    }
+                                    @foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+                                    {
+                                        // Manually filter the schedules for this day
+                                        List<MedicalTourismApp.Controllers.AvailabilityViewModelfree> scheduleForDay = new List<MedicalTourismApp.Controllers.AvailabilityViewModelfree>();
+                                        foreach (var item in Model)
+                                        {
+                                            if (item.Day == day)
+                                            {
+                                                scheduleForDay.Add(item);
+                                            }
+                                        }
+                                        bool hasSchedule = scheduleForDay.Count > 0;
+
+                                        <tr>
+                                            <td>@(i++)</td>
+                                            <td><strong>@day</strong></td>
+                                            <td>
+                                                @if (hasSchedule)
+                                                {
+                                                    <span class="status-dot available"></span>
+                                                    <p>Available</p>
+                                                }
+                                                else
+                                                {
+                                                    <span class="status-dot unavailable"></span>
+                                                    <p> Not Available</p>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (hasSchedule)
+                                                {
+                                                    foreach (var slot in scheduleForDay)
+                                                    {
+                                                        <span class="badge bg-light text-dark me-1 p-2">
+                                                            <i class="far fa-clock me-1"></i>
+                                                            @slot.Start.ToString(@"hh\:mm") - @slot.End.ToString(@"hh\:mm")
+                                                        </span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">No hours set</span>
+                                                }
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function resetForm() {
+            document.getElementById('availabilityForm').reset();
+            // Hide all time inputs and reset active states
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            days.forEach(day => {
+                document.querySelector(`[data-day="${day}"]`).classList.remove('active');
+            });
+        }
+         document.addEventListener('DOMContentLoaded', function() {
+            // Set up event handlers for day cards
+            const dayCards = document.querySelectorAll('.day-card');
+            dayCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const day = this.getAttribute('data-day');
+                    const checkbox = document.getElementById('available' + day);
+                    checkbox.checked = !checkbox.checked;
+                });
+            });
+
+            // Prevent event bubbling for time inputs
+            const timeInputs = document.querySelectorAll('.time-input');
+            timeInputs.forEach(input => {
+                input.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

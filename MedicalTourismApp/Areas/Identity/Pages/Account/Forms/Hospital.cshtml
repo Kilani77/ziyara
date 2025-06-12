@@ -1,0 +1,198 @@
+﻿@page
+@model MedicalTourismApp.Areas.Identity.Pages.Account.Forms.RegisterHospitalModel
+@{
+    ViewData["Title"] = "Register Hospital";
+}
+
+<h2>Register Your Hospital</h2>
+
+<form method="post" >
+    <div class="form-group">
+        <label>Hospital Name :</label>
+        <input asp-for="Input.Name" class="form-control" />
+        <span asp-validation-for="Input.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Location:</label>
+        <div class="input-group">
+            <input type="text" id="location-display" class="form-control" readonly placeholder="Click to select location" />
+            <input type="hidden" asp-for="Input.Location" id="location-input" />
+        </div>
+        <span asp-validation-for="Input.Location" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Contant Namber:</label>
+        <input asp-for="Input.ContactNumber" class="form-control" />
+        <span asp-validation-for="Input.ContactNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Email:</label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Website:</label>
+        <input asp-for="Input.Website" class="form-control" />
+        <span asp-validation-for="Input.Website" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Year Established:</label>
+        <input asp-for="Input.YearEstablished" class="form-control" />
+        <span asp-validation-for="Input.YearEstablished" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Number Of Beds:</label>
+        <input asp-for="Input.NumberOfBeds" class="form-control" />
+        <span asp-validation-for="Input.NumberOfBeds" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Specialties:</label>
+        <input asp-for="Input.Specialties" class="form-control" />
+        <span asp-validation-for="Input.Specialties" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Medical Staff Count:</label>
+        <input asp-for="Input.MedicalStaffCount" class="form-control" />
+        <span asp-validation-for="Input.MedicalStaffCount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Equipment:</label>
+        <input asp-for="Input.Equipment" class="form-control" />
+        <span asp-validation-for="Input.Equipment" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Starting Price:</label>
+        <input asp-for="Input.StartingPrice" class="form-control" />
+        <span asp-validation-for="Input.StartingPrice" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Emergency Available:</label>
+        <input asp-for="Input.EmergencyAvailable" type="checkbox" />
+        <span asp-validation-for="Input.EmergencyAvailable" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Open 24/7:</label>
+        <input asp-for="Input.Open24Hours" type="checkbox" />
+        <span asp-validation-for="Input.Open24Hours" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Languages Spoken:</label>
+        <input asp-for="Input.LanguagesSpoken" class="form-control" />
+        <span asp-validation-for="Input.EmergencyAvailable" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>License Documents:</label>
+        <input asp-for="Input.LicenseDocuments" type="file" class="form-control" />
+        <span asp-validation-for="Input.LicenseDocuments" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Images of The Hospital:</label>
+        <input asp-for="Input.Image" type="file" class="form-control" />
+        <span asp-validation-for="Input.Image" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Register</button>
+</form>
+<!-- Map Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mapModalLabel">Select Location</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="map" style="height: 400px; width: 100%;"></div>
+                <p id="selected-location" class="mt-2">Selected: <span id="location-address">None</span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel-button">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirm-location">Confirm Location</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <!-- Google Maps API with async, defer, and callback -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&libraries=places&callback=initMap"></script>
+    <script>
+        let map, marker, geocoder;
+        let selectedLatLng = null;
+
+        function initMap() {
+            // Initialize map centered on Amman, Jordan
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 31.9539, lng: 35.9106 },
+                zoom: 12
+            });
+
+            geocoder = new google.maps.Geocoder();
+
+            // Add click listener to place marker
+            map.addListener('click', (event) => {
+                placeMarker(event.latLng);
+            });
+        }
+
+        function placeMarker(location) {
+            // Remove existing marker
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            // Place new marker
+            marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            selectedLatLng = location;
+
+            // Reverse geocode to get address
+            geocoder.geocode({ location: location }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    document.getElementById('location-address').textContent = results[0].formatted_address;
+                } else {
+                    document.getElementById('location-address').textContent = 'Address not found';
+                }
+            });
+        }
+
+        // Confirm location and update form
+        document.getElementById('confirm-location').addEventListener('click', () => {
+            if (selectedLatLng) {
+                const lat = selectedLatLng.lat();
+                const lng = selectedLatLng.lng();
+                const locationString = `${lat},${lng}`;
+                document.getElementById('location-input').value = locationString;
+                document.getElementById('location-display').value = document.getElementById('location-address').textContent;
+                $('#mapModal').modal('hide');
+            } else {
+                alert('Please select a location on the map.');
+            }
+        });
+
+        // Open modal when clicking location-display
+        document.getElementById('location-display').addEventListener('click', () => {
+            $('#mapModal').modal('show');
+        });
+
+        // Cancel button to close modal
+        document.getElementById('cancel-button').addEventListener('click', () => {
+            console.log('Cancel button clicked');
+            $('#mapModal').modal('hide');
+        });
+
+        // Close button (×) in modal header
+        document.querySelector('.modal-header .close').addEventListener('click', () => {
+            console.log('Close button clicked');
+            $('#mapModal').modal('hide');
+        });
+    </script>
+}

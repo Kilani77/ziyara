@@ -1,0 +1,92 @@
+﻿@page
+@model MedicalTourismApp.Areas.Identity.Pages.Account.Forms.ClinicModel
+@{
+    ViewData["Title"] = "Register Hospital";
+}
+
+<h2>Register Your Hospital</h2>
+
+<form method="post" >
+    <div class="form-group">
+        <label>Clinic Name :</label>
+        <input asp-for="Input.Name" class="form-control" />
+        <span asp-validation-for="Input.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Location:</label>
+        <input asp-for="Input.Location" class="form-control" />
+        <span asp-validation-for="Input.Location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Contant Namber:</label>
+        <input asp-for="Input.ContactNumber" class="form-control" />
+        <span asp-validation-for="Input.ContactNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Email:</label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Website:</label>
+        <input asp-for="Input.Website" class="form-control" />
+        <span asp-validation-for="Input.Website" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Year Established:</label>
+        <input asp-for="Input.YearEstablished" class="form-control" />
+        <span asp-validation-for="Input.YearEstablished" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Specialties:</label>
+        <input asp-for="Input.Specialties" class="form-control" />
+        <span asp-validation-for="Input.Specialties" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Medical Staff Count:</label>
+        <input asp-for="Input.MedicalStaffCount" class="form-control" />
+        <span asp-validation-for="Input.MedicalStaffCount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Equipment:</label>
+        <input asp-for="Input.Equipment" class="form-control" />
+        <span asp-validation-for="Input.Equipment" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Starting Price:</label>
+        <input asp-for="Input.StartingPrice" class="form-control" />
+        <span asp-validation-for="Input.StartingPrice" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Emergency Available:</label>
+        <input asp-for="Input.EmergencyAvailable" type="checkbox" />
+        <span asp-validation-for="Input.EmergencyAvailable" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Open 24/7:</label>
+        <input asp-for="Input.Open24Hours" type="checkbox" />
+        <span asp-validation-for="Input.Open24Hours" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Languages Spoken:</label>
+        <input asp-for="Input.LanguagesSpoken" class="form-control" />
+        <span asp-validation-for="Input.EmergencyAvailable" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>License Documents:</label>
+        <input asp-for="Input.LicenseDocuments" type="file" class="form-control" />
+        <span asp-validation-for="Input.LicenseDocuments" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Images of The Clinic:</label>
+        <input asp-for="Input.Image" type="file" class="form-control"  />
+        <span asp-validation-for="Input.Image" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Register</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

@@ -1,0 +1,232 @@
+﻿@page
+@model MedicalTourismApp.Areas.Identity.Pages.Account.Forms.TouristModel
+@{
+    ViewData["Title"] = "Tourist Registration";
+}
+<style>
+    .navbar {
+        background-color: #ffffff !important;
+        transition: background-color 0.5s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+        z-index: 1000; /* stays on top */
+    }
+
+        .navbar.sticky-top, .navbar.scrolled {
+            background-color: #ffffff !important;
+            transition: background-color 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle depth */
+            z-index: 1000; /* stays on top */
+        }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: #000000 !important;
+        font-family: 'Nunito', sans-serif;
+        position: relative;
+        margin-right: 25px;
+        padding: 20px 0;
+        font-size: 18px;
+        font-weight: 600;
+        transition: .5s;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .row {
+        padding-top: 60px !important;
+    }
+</style>
+<div class="container-fluid navbar-light p-0">
+    <nav class=" navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 sticky-top shadow-sm">
+        <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><img class="fa fa-map-marker-alt me-3" src="~/Home/img/logoTest7Hedar-removebg-preview.png" alt="Logo">Ziyara</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+                    <a class="nav-item nav-link" href="/Admin/Dashboard">Admin</a>
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link  ">About</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                }
+             
+                else if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active Index">Home</a>
+
+
+
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 center">Logout</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                }
+                else
+                {
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link  Index">Home</a>
+                    <a asp-action="aboutus" asp-controller="Home" class="nav-item nav-link ">About</a>
+                    <a href="/Home/Index#Our Service" class="nav-item nav-link">Service</a>
+                    <a href="/Home/Index#Destination" class="nav-item nav-link" id="Destination">Destination</a>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="/Identity/Account/Login" class="btn btn-primary rounded-pill py-2 px-4 center">Login</a>
+                        </div>
+                    </div>
+
+                }
+                <a class="collapse navbar-collapse" id="navbarCollapse">
+
+                    <img src="~/Home/img/jordanflag1.gif" alt="Computer man" style="width:55px;height:35px;padding-left:5px ">
+                </a>
+            </div>
+
+
+        </div>
+    </nav>
+</div>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                <div class="card-header text-white py-4" style="background: linear-gradient(135deg, #86B817 0%, #9BD117 100%);">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-passport fa-2x"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h2 class="h3 mb-1">Tourist Registration</h2>
+                            <p class="mb-0 opacity-75">Complete your profile for a better experience</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <input asp-for="Input.Nationality" class="form-control" id="nationality" placeholder="Enter your country" />
+                                <label for="nationality">Nationality</label>
+                                <span asp-validation-for="Input.Nationality" class="text-danger small mt-1 d-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <input asp-for="Input.PassportNumber" class="form-control" id="passportNumber" placeholder="AB1234567" />
+                                <label for="passportNumber">Passport Number</label>
+                                <span asp-validation-for="Input.PassportNumber" class="text-danger small mt-1 d-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <input asp-for="Input.PreferredLanguage" class="form-control" id="preferredLanguage" placeholder="Enter preferred language" />
+                                <label for="preferredLanguage">Preferred Language</label>
+                                <span asp-validation-for="Input.PreferredLanguage" class="text-danger small mt-1 d-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-lg py-3 text-white fw-bold"
+                                    style="background: linear-gradient(135deg, #86B817 0%, #9BD117 100%);
+                                           border: none;
+                                           letter-spacing: 1px;">
+                                <i class="fas fa-user-check me-2"></i>COMPLETE REGISTRATION
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        :root {
+            --primary-color: #86B817;
+            --primary-light: #d1e7a3;
+            --primary-dark: #769e14;
+        }
+
+        .card {
+            border-radius: 16px;
+            overflow: hidden;
+            border: none;
+        }
+
+        .card-header {
+            border-bottom: none;
+        }
+
+        .form-floating > label {
+            color: #6c757d;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.25rem rgba(134, 184, 23, 0.15);
+            }
+
+        .btn {
+            transition: all 0.4s;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(134, 184, 23, 0.3);
+            }
+
+            .btn:active {
+                transform: translateY(-1px);
+            }
+
+        .footer {
+            display: none;
+        }
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

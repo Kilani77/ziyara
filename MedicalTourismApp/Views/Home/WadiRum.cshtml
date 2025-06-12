@@ -1,0 +1,230 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    /* Custom Styles */
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    a.position-relative:hover .img-overlay {
+        background: rgba(0,0,0,0.4);
+    }
+
+    a.position-relative:hover img {
+        transform: scale(1.05);
+    }
+
+    .icon-box {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .colorWadiRam {
+    }
+
+    .section-title {
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .rounded-3 {
+        border-radius: 0.75rem !important;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important;
+    }
+
+    .fab-back-button {
+        position: fixed;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        background-color: #FFFFFF;
+        color: limegreen;
+        border: none;
+        border-radius: 50%;
+        padding: 15px;
+        font-size: 20px;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+        .fab-back-button:hover {
+            background-color: black;
+        }
+
+</style>
+<body>
+    <a href="javascript:history.back()" class="fab-back-button" title="Go Back">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+
+
+<div class="container-xxl py-5 destination">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
+            <h1 class="mb-5">Wadi Rum</h1>
+        </div>
+        <div class="row g-3">
+
+            <!-- Column 1 -->
+            <div class="col-lg-6 col-md-6">
+                <div class="row g-3">
+                    <div class="col-12 wow zoomIn" data-wow-delay="0.1s">
+                        <a class="position-relative d-block overflow-hidden" >
+                            <img src="~/Home/img/ram4.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="col-6 wow zoomIn" data-wow-delay="0.3s">
+                        <a class="position-relative d-block overflow-hidden" >
+                            <img src="~/Home/img/ram7Raml.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="col-6 wow zoomIn" data-wow-delay="0.5s">
+                        <a class="position-relative d-block overflow-hidden" >
+                            <img src="~/Home/img/ramM.jpg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="col-lg-6 col-md-6 wow zoomIn" data-wow-delay="0.1s">
+                <div class="d-flex flex-column h-100 justify-content-between">
+                    <!-- Image 1: Ma'in Hot Springs -->
+                    <a class="position-relative d-block overflow-hidden mb-3 flex-fill" style="min-height: 100%;" >
+                        <img class="w-100 h-100" src="~/Home/img/ram.jpg" alt="" style="object-fit: cover;">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="container-xxl py-5 destination">
+    <div class="container">
+    <!-- About WadiRum-1 -->
+            
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/ram9.jpg" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    @* <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6> *@
+                    
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Wadi Rum:</h3>
+                        <h5>Where Sands Heal, Magic Lingers, and Stars Whisper</h5>
+                        Step into Wadi Rum, Jordan’s mesmerizing desert wilderness, where the golden sands are said to hold ancient secrets, the winds carry whispers of old Bedouin magic, and the night sky dazzles with a celestial dance unlike anywhere else on Earth. .</p>
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Therapeutic Sands:</h3> 
+                        <h5>
+                            Nature’s Healing Touch The warm
+                        </h5>
+                        rust-colored dunes of Wadi Rum are more than just breathtaking—they are believed to possess natural healing properties. Locals have long practiced the tradition of sand therapy, burying their bodies in the sun-soaked grains to soothe aching muscles and joints. The mineral-rich sands, combined with the desert’s dry heat, create a natural remedy for fatigue and stress. Imagine lying beneath the vast open sky, wrapped in the gentle embrace of the earth, as the desert works its restorative wonders.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+   
+    <!-- About End -->
+    <!-- About WadiRum-2 -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    @* <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6> *@
+                    
+                    <p class="mb-4">
+                        <h3 class="text-primary mb-4" style="font-weight: 600;">Desert Magic </h3>
+						<h5>A Land of Legends Wadi Rum is a place where myth and reality blur. </h5>Known as the Valley of the Moon, its towering sandstone cliffs and labyrinthine canyons have been shaped by time into surreal, otherworldly forms. The Bedouin people, guardians of this land for centuries, speak of djinn (spirits) roaming the rocks and hidden springs with mystical powers. As the sun sets, painting the desert in fiery hues, you’ll feel the undeniable pull of its ancient energy—a magic that lingers in the wind, the silence, and the shifting sands.
+                    </p>
+					<p class="mb-4">
+						
+                        <h2 class="text-primary mb-4" style="font-weight: 600;">A Celestial Wonderland </h2>
+						<h5>Sleeping Under a Million Stars When night falls,</h5> Wadi Rum transforms into one of the world’s greatest stargazing sanctuaries. Far from city lights, the sky explodes into a sea of stars, with the Milky Way stretching across the heavens like a shimmering river. Bedouin camps offer the chance to sleep under this cosmic spectacle, where constellations tell stories of old, and shooting stars grant silent wishes. Whether you’re camping in a traditional goat-hair tent or a luxurious bubble dome, the desert night will leave you spellbound.
+                    </p>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/ram3.jpg" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+    <!-- About WadiRum-2 -->
+    <!-- Why Visit Section -->
+    <div class="container-xxl py-5" style="background-color: #fff;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100 rounded-3 overflow-hidden shadow-sm">
+                        <img class="img-fluid position-absolute w-100 h-100" src="~/Home/img/ramSa27.jpg" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h2 class="text-primary mb-4" style="font-weight: 600;">Why You Must Visit Wadi Rum</h2>
+                    <div class="feature-list">
+                        <div class="d-flex mb-4">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Rejuvenate in the therapeutic sands</h5>
+                                <p class="mb-0">Letting nature heal your body and soul with mineral-rich desert therapy.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-weight: 600;">Discover the desert's hidden magic</h5>
+                                <p class="mb-0">Where every rock and dune has a tale to tell from ancient Bedouin legends.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="icon-box bg-primary rounded-circle me-4 flex-shrink-0">
+                                <i class="fas fa-arrow-right text-white"></i>
+                            </div>
+                            <div>
+                                <h5  style="font-weight: 600;">Lose yourself under a million stars</h5>
+                                <p class="mb-0">Experience one of the world's most spectacular night skies.</p>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary py-3 px-5" style="margin-top:20px" asp-action="GuideIndex" asp-controller="Tourist" asp-route-area="Wadi Rum">Book now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End Wadi Rum -->
+
+ 
+
+</body>

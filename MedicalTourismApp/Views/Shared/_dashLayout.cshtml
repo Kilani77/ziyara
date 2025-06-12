@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head >
+    <meta charset="utf-8">
+    <meta name="viewport">
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/dash/img/logoTest7Hedar-removebg-preview.png">
+    <title>Preclinic - Medical & Hospital - Bootstrap 4 Admin Template</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="~/dash/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/dash/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/dash/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/dash/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="~/dash/css/style.css">
+    @RenderSection("Styles", required: false)
+     
+</head>
+@RenderSection("Scripts", required: false)
+@Html.AntiForgeryToken()
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </section>
+        </div>
+
+
+
+    <script src="~/dash/js/jquery-3.2.1.min.js"></script>
+    <script src="~/dash/js/popper.min.js"></script>
+    <script src="~/dash/js/bootstrap.min.js"></script>
+    <script src="~/dash/js/jquery.slimscroll.js"></script>
+    <script src="~/dash/js/select2.min.js"></script>
+    <script src="~/dash/js/moment.min.js"></script>
+    <script src="~/dash/js/jquery-ui.min.html"></script>
+    <script src="~/dash/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/dash/js/app.js"></script>
+
+</body>
+
+</html>
